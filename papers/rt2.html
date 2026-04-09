@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT-2 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">RT-2</div>
+      <div class="topbar-links"><a href="../index.html">首页</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Foundational VLA</div>
+      <h1>RT-2：VLA 范式是怎么被立起来的</h1>
+      <p class="article-lead">RT-2 最重要的贡献不是某个单点指标，而是它证明了一个强命题：<strong>机器人动作也可以被当成“语言”来建模。</strong></p>
+      <div class="article-meta"><span>关键词：action tokenization / co-fine-tuning / web knowledge transfer</span></div>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>它到底解决了什么</h2>
+        <p>在 RT-2 之前，大家知道视觉语言模型很强，也知道机器人策略能从示范里学动作，但两者之间并没有一个足够自然的统一接口。</p>
+        <p>RT-2 的回答很大胆：既然语言模型本来就擅长生成 token，那就把机器人动作也编码成 token，让模型把动作当成另一种“文本”生成。</p>
+      </section>
+      <section class="article-section">
+        <h2>技术实现抓手</h2>
+        <ol>
+          <li>把连续机器人动作离散化为多个 action tokens。</li>
+          <li>把图像、语言指令、动作 token 放进同一序列建模框架。</li>
+          <li>在机器人轨迹数据和互联网视觉语言任务上共同微调，而不是只用机器人数据。</li>
+        </ol>
+        <div class="tech-box"><strong>关键直觉：</strong>如果动作和文本进入同一 token 空间，VLM 原有的语义知识就有机会迁移到机器人控制里。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么它影响这么大</h2>
+        <p>因为 RT-2 让 VLA 从“机器人策略学习的小分支”变成了“大模型具身化”的主线问题。后来的 `OpenVLA`、`Xiaomi-Robotics-0` 都在不同程度上继承这个统一建模视角。</p>
+      </section>
+      <section class="article-section">
+        <h2>局限也很明显</h2>
+        <p>动作离散化会带来精度损失；token 自回归输出在高频控制场景下也可能太慢。这正是后来大家开始研究连续动作头、扩散动作生成和低延时异步执行的原因。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

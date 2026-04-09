@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLA 论文精读综述</title>
+  <meta name="description" content="一份面向入门者的 VLA 学习型 blog：包含综述、低延时专题、UMI 深挖和多篇论文技术解读。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="eyebrow">VLA Learning Blog</div>
+      <h1>从 RT-2 到 Real-Time Humanoid VLA</h1>
+      <p class="hero-copy">
+        这不是一篇只给熟手看的“论文结论汇总”，而是一份给刚入门的人也能顺着读下去的
+        <strong>学习型博客</strong>。你可以先看总览，再进入单篇论文页面，
+        逐步理解 <strong>VLA 是什么、为什么会卡在延时、不同论文各自解决了哪一层问题</strong>。
+      </p>
+      <div class="hero-tags">
+        <span>VLA</span>
+        <span>Low Latency</span>
+        <span>Humanoid</span>
+        <span>Asynchronous Inference</span>
+        <span>World Model</span>
+      </div>
+      <div class="cta-row">
+        <a class="cta-button" href="topics/low-latency.html">先看低延时专题</a>
+        <a class="cta-button secondary" href="papers/umi.html">深挖 UMI</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section-heading">
+          <h2>怎么读这套内容</h2>
+          <p>如果你是小白，我建议不要一上来就啃最复杂的 humanoid 论文，而是按下面顺序看。</p>
+        </div>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <div class="kicker">Step 1</div>
+            <h3>先建立 VLA 基本概念</h3>
+            <p>先看 `RT-2`、`OpenVLA`、`Octo`，理解什么叫视觉、语言、动作统一建模，以及 action chunk、tokenization、预训练这些常见词。</p>
+          </article>
+          <article class="guide-card">
+            <div class="kicker">Step 2</div>
+            <h3>再看“为什么真实部署会卡”</h3>
+            <p>然后直接进入 <a class="topic-link" href="topics/low-latency.html">低延时专题</a>，搞清楚 latency 到底来自哪里，为什么推理快不等于反应快。</p>
+          </article>
+          <article class="guide-card">
+            <div class="kicker">Step 3</div>
+            <h3>最后看 whole-body 与系统化方案</h3>
+            <p>等你对异步推理、动作生成和 sim-real 有概念后，再读 `Psi0`、`Heracles`、`SMASH`，就会更容易看懂它们为什么必须分层。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>先抓住三条主线</h2>
+          <p>VLA 论文很多，但你可以先记住这三条线，后面的文章基本都是沿着它们展开。</p>
+        </div>
+        <div class="callout-grid">
+          <article class="callout">
+            <h3>主线一：把语义接到动作上</h3>
+            <p>`RT-2`、`OpenVLA` 解决的是“怎么让模型看懂图像、听懂语言、再输出动作”这个最初级但最关键的问题。</p>
+          </article>
+          <article class="callout">
+            <h3>主线二：让模型在真实时间里来得及反应</h3>
+            <p>`UMI`、`Psi0`、`Xiaomi-Robotics-0`、`VLASH`、`FASTER`、`Fast-WAM` 关心的是部署延时、动作衔接、状态错位和推理负担。</p>
+          </article>
+          <article class="callout">
+            <h3>主线三：从机械臂走向 humanoid whole-body</h3>
+            <p>`Psi0`、`Heracles`、`SMASH` 说明问题已经不只是抓取，而是语义理解、全身控制、恢复能力和低层执行要一起工作。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>学习入口</h2>
+          <p>下面这些页面都是内部可点击页面。首页讲脉络，子页讲“技术实现、创新点、局限和适用场景”。</p>
+        </div>
+        <div class="nav-grid">
+          <article class="nav-card">
+            <div class="kicker">专题</div>
+            <h3><a class="paper-link" href="topics/low-latency.html">低延时专题</a></h3>
+            <p>把 `UMI`、`Psi0`、`Xiaomi-Robotics-0`、`VLASH`、`FASTER`、`Fast-WAM` 放在一起，专门比较它们如何解决 latency。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">重点深挖</div>
+            <h3><a class="paper-link" href="papers/umi.html">Universal Manipulation Interface</a></h3>
+            <p>如果你对 Chi Cheng 的工作感兴趣，这篇会重点解释它为何不是“一个采数据工具”，而是一个完整的可部署策略接口设计。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">建议路线</div>
+            <h3><a class="paper-link" href="papers/rt2.html">从 RT-2 开始读</a></h3>
+            <p>先看 VLA 范式是怎么立起来的，再回头看为什么后来大家都在优化 action chunk、异步执行和控制闭环。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>重点论文深挖</h2>
+          <p>每篇都改成了可点击的单独页面，适合一篇篇按主题学习。</p>
+        </div>
+        <div class="paper-grid">
+          <article class="paper-card">
+            <div class="paper-meta">Foundation / Humanoid</div>
+            <h3><a class="paper-link" href="papers/psi0.html">Psi0</a></h3>
+            <p>关键词：三系统架构、分层控制、real-time chunking、humanoid loco-manipulation。</p>
+            <p>重点看它为什么不相信“一个统一模型”能直接搞定 whole-body control。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Recovery / Middleware</div>
+            <h3><a class="paper-link" href="papers/heracles.html">Heracles</a></h3>
+            <p>关键词：状态条件扩散中间层、残差轨迹、精准跟踪与生成恢复融合。</p>
+            <p>重点看它如何在不写显式状态机的情况下，实现隐式切换恢复模式。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Sim-Real / RL</div>
+            <h3><a class="paper-link" href="papers/rl-co.html">Beyond Imitation / RL-Co</a></h3>
+            <p>关键词：sim-real co-training、RL 后训练、real-world SFT regularization。</p>
+            <p>重点看它怎么把 RL 带进 VLA，又不把真实能力练没。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">World Model / Latency</div>
+            <h3><a class="paper-link" href="papers/fast-wam.html">Fast-WAM</a></h3>
+            <p>关键词：video co-training、直接动作生成、推理期裁剪未来 imagination。</p>
+            <p>重点看它如何把 world model 的训练收益留住，同时砍掉部署时延迟。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Real-time VLA</div>
+            <h3><a class="paper-link" href="papers/xiaomi-robotics-0.html">Xiaomi-Robotics-0</a></h3>
+            <p>关键词：MoT、DiT 动作头、Lambda-shape attention、异步 action chunk 拼接。</p>
+            <p>重点看它怎样兼顾“保住 VLM 语义能力”和“做出丝滑动作”。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Async Inference</div>
+            <h3><a class="paper-link" href="papers/vlash.html">VLASH</a></h3>
+            <p>关键词：future-state-aware、状态前滚、shared observation、异步控制稳定化。</p>
+            <p>重点看它怎样解决“模型预测时的状态”和“动作真正执行时的状态”不一致。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Flow Scheduling</div>
+            <h3><a class="paper-link" href="papers/faster.html">FASTER</a></h3>
+            <p>关键词：Horizon-Aware Schedule、TTFA、流式 client-server、近端动作优先。</p>
+            <p>重点看它如何证明低延时不只是模型大小问题，而是采样日程问题。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Whole-body Skill</div>
+            <h3><a class="paper-link" href="papers/smash.html">SMASH</a></h3>
+            <p>关键词：第一视角、humanoid 乒乓、全身协调、高动态交互。</p>
+            <p>重点看它为什么预示了 VLA 未来要面对的任务形态会越来越动态。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>背景论文与基础概念</h2>
+          <p>这几篇更适合拿来打地基。即使你最后更关注实时 humanoid，它们也值得先读。</p>
+        </div>
+        <div class="related-list">
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/rt2.html">RT-2</a></h3>
+            <p>看懂动作 token 化、co-fine-tuning，以及为什么 VLM 的 web knowledge 可以迁移到机器人动作里。</p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/octo.html">Octo</a></h3>
+            <p>看懂多机器人、多任务、多观测配置的“预训练基座”是怎么做出来的。</p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/openvla.html">OpenVLA</a></h3>
+            <p>看懂开源 VLA baseline 的标准 recipe，包括视觉编码、动作离散化和 LoRA 微调。</p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/diffusion-policy.html">Diffusion Policy</a></h3>
+            <p>很多后续动作生成论文的技术底座。如果你不懂扩散式动作建模，很多 VLA 论文会显得很跳。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>为什么我单独开了“低延时专题”</h2>
+          <p>因为现在 VLA 的真实瓶颈，已经不只是能不能输出动作，而是能不能在合适的时间输出对的动作。</p>
+        </div>
+        <div class="compare-grid">
+          <article class="compare-card">
+            <h3>UMI：先把时间轴对齐</h3>
+            <p>UMI 看到的问题是：训练时的人类示范几乎没有系统延时，但机器人部署时有相机延时、推理延时、执行延时。如果不补偿，动作天然错拍。</p>
+          </article>
+          <article class="compare-card">
+            <h3>VLASH：让模型面向未来状态预测</h3>
+            <p>VLASH 看到的问题是：异步推理时，模型开始想的时候和动作真正上身的时候，中间隔着一段时间，所以要把机器人状态往前滚。</p>
+          </article>
+          <article class="compare-card">
+            <h3>FASTER：先把最急的动作做出来</h3>
+            <p>FASTER 看到的问题是：近端动作和远端动作不该被同等对待。最靠近当前时刻的动作最重要，应该最先完成。</p>
+          </article>
+        </div>
+        <div class="cta-row">
+          <a class="cta-button" href="topics/low-latency.html">进入低延时专题</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>我对这波论文的判断</h2>
+          <p>如果把 2025-2026 的工作压缩成几句话，我最想让刚入门的人记住下面四点。</p>
+        </div>
+        <div class="insight-list">
+          <article>
+            <h3>1. 实时性已经变成一等公民问题</h3>
+            <p>低延时不再是部署工程师单独处理的“边角问题”，而是论文主贡献本身。</p>
+          </article>
+          <article>
+            <h3>2. 强语义能力和强动作能力并不会自动兼容</h3>
+            <p>很多论文都在处理同一个矛盾：机器人数据让模型更会动，但也可能让原本的视觉语言理解退化。</p>
+          </article>
+          <article>
+            <h3>3. Humanoid 几乎必然走向分层系统</h3>
+            <p>whole-body 控制涉及稳定性、动力学和接触约束，完全端到端在短期内很难成为主流。</p>
+          </article>
+          <article>
+            <h3>4. 数据闭环与控制闭环越来越重要</h3>
+            <p>越往后看，大家越在意 sim-real、恢复能力、时间对齐和真实世界数据，而不只是模型参数量。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>本文基于你的 PPT 摘要，并结合论文项目页、arXiv 摘要和公开技术介绍整理而成。对于 2026 年的最新工作，很多仍处于快速演化阶段，适合把这里当成“理解入口”，再继续追代码和复现。</p>
+    </footer>
+  </div>
+</body>
+</html>

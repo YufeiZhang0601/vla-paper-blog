@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heracles 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Heracles</div>
+      <div class="topbar-links"><a href="../index.html">首页</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Recovery Middleware</div>
+      <h1>Heracles：把“精准跟踪”和“生成恢复”夹在中间的一层扩散中间件</h1>
+      <p class="article-lead">Heracles 的精彩之处在于，它并没有在“tracker”与“generative model”之间二选一，而是把 generative model 放在两者之间做状态调制中间层。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>它在反驳什么</h2>
+        <p>纯 tracker 在正常状态下很强，但遇到严重扰动时会很僵硬；纯生成模型动作更自然，但又缺少严格跟踪能力。Heracles 认为这不是二选一问题，而是中间需要一个可根据当前状态调节的生成中间层。</p>
+      </section>
+      <section class="article-section">
+        <h2>核心结构</h2>
+        <p>Heracles 使用 <strong>state-conditioned diffusion middleware</strong> 来根据当前物理状态和原始参考动作，生成短时、物理可行的 keyframe trajectory。然后低层 tracker 再高频跟踪这条中间轨迹。</p>
+        <div class="tech-box"><strong>关键细节：</strong>它预测的是相对当前状态的残差轨迹，而不是绝对轨迹。这样在接近 nominal 状态时更容易逼近 identity map，在偏离很大时则能生成恢复轨迹。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么它能“隐式切换模式”</h2>
+        <p>当机器人状态接近参考轨迹时，中间层学到的是“几乎不改动”；当偏差很大时，中间层学到的是“生成新的恢复轨迹”。这就让精准跟踪与恢复模式不需要显式状态机切换。</p>
+      </section>
+      <section class="article-section">
+        <h2>我怎么看它的创新点</h2>
+        <p>Heracles 的关键创新不是“用了 diffusion”，而是 <strong>它把 diffusion 放在了最合适的系统位置</strong>。不是直接替代控制器，而是作为高层参考与低层物理执行之间的动态桥梁。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

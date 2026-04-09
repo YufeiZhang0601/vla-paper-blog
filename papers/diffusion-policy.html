@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diffusion Policy 速读</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Diffusion Policy</div>
+      <div class="topbar-links"><a href="../index.html">首页</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Action Generation Primer</div>
+      <h1>Diffusion Policy：为什么后来的很多动作生成论文都绕不开它</h1>
+      <p class="article-lead">如果你看到很多 VLA 论文都在提 DiT、flow matching、denoising，不理解扩散式动作生成就会很难跟上。Diffusion Policy 就是这条线的基础入门点。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>直观理解</h2>
+        <p>传统行为克隆常常直接回归一个动作，容易在多模态任务里“回归到平均值”。扩散策略则学习如何从噪声逐步还原出合理动作，因此更适合表示一对多、多种可行操作方式的场景。</p>
+      </section>
+      <section class="article-section">
+        <h2>为什么它后来影响了 VLA</h2>
+        <p>因为机器人动作本来就是连续的、常常多模态的。相比把动作完全离散成 token，扩散式或 flow-based 动作头往往更适合生成平滑连续的轨迹。</p>
+        <p>后来的 `Psi0`、`Heracles`、`Xiaomi-Robotics-0`、`FASTER` 本质上都继承了“动作生成不只是单点回归”的思路。</p>
+      </section>
+      <section class="article-section">
+        <h2>你需要先懂哪两个词</h2>
+        <ol>
+          <li><strong>Denoising：</strong>从噪声一步步还原动作。</li>
+          <li><strong>Action chunk：</strong>一次不只输出一个时刻的动作，而是输出一小段未来动作。</li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

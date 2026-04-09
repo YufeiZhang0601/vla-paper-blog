@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xiaomi-Robotics-0 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Xiaomi-Robotics-0</div>
+      <div class="topbar-links"><a href="../index.html">首页</a><a href="../topics/low-latency.html">低延时专题</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Real-time VLA</div>
+      <h1>Xiaomi-Robotics-0：它最有意思的地方，是把“动作连续性”和“环境反应性”拆开处理</h1>
+      <p class="article-lead">这篇论文不是只在讲一个更大的模型，而是在认真处理一个真实部署矛盾：<strong>如何让连续 action chunk 接得丝滑，同时又别因为看太多历史动作而忽视最新视觉输入。</strong></p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>架构为什么是 MoT + DiT</h2>
+        <p>VLM 负责“看懂和理解”，DiT 负责“生成连续动作”。VLM 的 KV cache 传给 DiT，相当于把高层语义上下文交给专门的动作生成器。这比用同一套 token 头硬输出连续控制更合适。</p>
+      </section>
+      <section class="article-section">
+        <h2>预训练阶段在解决什么</h2>
+        <p>机器人数据会让 VLM 原本的视觉语言能力退化，所以它先用 Choice Policy 等机制让 VLM 学会粗粒度动作候选，再冻结 VLM 训练 DiT 动作头，以尽量守住视觉语义能力。</p>
+      </section>
+      <section class="article-section">
+        <h2>后训练阶段真正的创新点</h2>
+        <p>异步执行时，下一段动作通常会条件化在上一段已承诺动作上。这样能保连续性，但容易产生“历史动作惯性”。</p>
+        <div class="tech-box"><strong>Lambda-shape attention：</strong>紧邻前缀的动作 token 可以回看历史动作，保证衔接平滑；更远的未来动作则被限制更多关注视觉与语言信号，保证反应性。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么这招很重要</h2>
+        <p>因为很多异步执行方法只解决“别断流”，却没解决“别迟钝”。Xiaomi-Robotics-0 的价值在于，它意识到连续性和反应性往往是互相拉扯的，需要显式在注意力层做平衡。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>低延时专题：VLA 为什么会慢？</title>
+  <meta name="description" content="面向初学者的 VLA 低延时专题，比较 UMI、Psi0、Xiaomi-Robotics-0、VLASH、FASTER、Fast-WAM 的实现思路。">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">VLA 低延时专题</div>
+      <div class="topbar-links">
+        <a href="../index.html">首页</a>
+        <a href="../papers/umi.html">UMI</a>
+        <a href="../papers/vlash.html">VLASH</a>
+        <a href="../papers/faster.html">FASTER</a>
+      </div>
+    </div>
+
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Latency Deep Dive</div>
+      <h1>低延时专题：VLA 为什么会慢，大家又分别怎么救？</h1>
+      <p class="article-lead">
+        很多刚入门的人会把“推理延时”简单理解成“模型太大，所以跑得慢”。
+        但读完这几篇论文后你会发现，真实机器人里的 latency 其实至少有三层：
+        <strong>观测延时</strong>、<strong>推理延时</strong>、<strong>执行延时</strong>。
+        不同论文解决的是不同层的问题，所以它们看起来都在讲实时性，实际上思路差别很大。
+      </p>
+      <div class="article-meta">
+        <span>核心论文：UMI / Psi0 / Xiaomi-Robotics-0 / VLASH / FASTER / Fast-WAM</span>
+        <span>适合对象：刚入门但想理解部署问题的人</span>
+      </div>
+    </header>
+
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>先把问题拆清楚</h2>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>1. 观测延时</h3>
+            <p>相机图像、机械臂状态、夹爪宽度往往不是同一时刻到达。模型看到的“当前状态”其实可能已经是过去的状态。</p>
+          </div>
+          <div class="detail-card">
+            <h3>2. 推理延时</h3>
+            <p>模型从拿到输入到给出动作需要时间。这个阶段机器人和环境可能仍在变化，所以动作一出来就已经有点过时。</p>
+          </div>
+          <div class="detail-card">
+            <h3>3. 执行延时</h3>
+            <p>即使模型立刻输出动作，控制器、底层驱动、夹爪闭合和机械结构本身也需要时间才真正到位。</p>
+          </div>
+          <div class="detail-card">
+            <h3>4. 反应延时不等于单次前向时间</h3>
+            <p>机器人真正“开始反应”的时间，往往取决于第一个可执行动作什么时候到达，而不只是模型 forward 用了多少毫秒。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>一句话记忆：</strong>
+          VLA 低延时问题不是“把模型做小”这么简单，而是“如何让正确的动作在正确的时间抵达机器人身体”。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>六篇论文，其实在做六种不同的事</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>论文</th>
+                <th>主要抓手</th>
+                <th>它认为延时的根因</th>
+                <th>核心理念</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>UMI</td>
+                <td>Latency matching</td>
+                <td>训练时无延时，部署时有多源延时，导致训练测试时间轴不一致</td>
+                <td>先把时间对齐，再谈泛化</td>
+              </tr>
+              <tr>
+                <td>Psi0</td>
+                <td>Real-time chunking</td>
+                <td>大模型前向慢，whole-body 控制不能停下来等</td>
+                <td>边执行上一段动作，边异步生成下一段动作</td>
+              </tr>
+              <tr>
+                <td>Xiaomi-Robotics-0</td>
+                <td>异步 chunk 拼接</td>
+                <td>连续 action chunk 之间不连贯会造成 jerk 和 OOD</td>
+                <td>保留前缀动作来平滑衔接，同时限制模型过度依赖历史动作</td>
+              </tr>
+              <tr>
+                <td>VLASH</td>
+                <td>Future-state-aware async</td>
+                <td>异步推理期间，机器人状态已经变了，预测动作会“打在过去的身体上”</td>
+                <td>把机器人状态前滚到动作真正开始执行的时刻</td>
+              </tr>
+              <tr>
+                <td>FASTER</td>
+                <td>Horizon-aware schedule</td>
+                <td>近端动作和远端动作共用同样采样日程，拖慢首个动作输出</td>
+                <td>先把最要紧的近端动作采样出来</td>
+              </tr>
+              <tr>
+                <td>Fast-WAM</td>
+                <td>Inference simplification</td>
+                <td>显式未来 imagination 太重，视频去噪拖累部署</td>
+                <td>把 world model 留在训练期，把未来视频生成砍出推理期</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>第一类：时间对齐派</h2>
+        <h3>代表：UMI</h3>
+        <p>UMI 的逻辑非常朴素，但非常重要。它发现人类拿着手持 gripper 做示范时，视频、IMU、夹爪宽度几乎是天然同步的；但机器人部署时，相机、机械臂状态、夹爪控制全都可能有不同延时。</p>
+        <p>如果你直接拿“零延时示范”训练出的策略去控制“有延时系统”，模型每次都会晚半拍，尤其是动态任务会非常抖。</p>
+        <div class="tech-box">
+          <strong>技术实现怎么做：</strong>
+          UMI 在推理时分别测量不同观测流的延时，把它们对齐到最慢那一路；然后再对动作侧做 execution latency compensation，把命令提前发送，确保动作在应该发生的时间真正发生。
+        </div>
+        <p>它的意义在于：很多人把机器人部署失败归因于模型不够强，但 UMI 说明，很多失败其实是“时序接口设计错误”。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>第二类：动作块异步衔接派</h2>
+        <h3>代表：Psi0、Xiaomi-Robotics-0</h3>
+        <p>这一派默认大模型不可能每个控制周期都实时从头算完，所以必须采用 action chunk。问题是，一段 chunk 执行到一半时，下一段还没算完怎么办？</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>Psi0 的思路</h3>
+            <p>训练期就引入 real-time chunking，让每次预测都依赖于“已经承诺会执行的前一段动作”。这样部署时可以边执行边推理，避免 chunk 边界出现停顿。</p>
+            <p>它更关注的是 humanoid 大模型在长时任务里的“不断流执行”。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Xiaomi 的思路</h3>
+            <p>Xiaomi 同样使用 action prefix 来做异步拼接，但进一步发现：如果后续动作一直盯着前缀动作，模型会产生惯性，忽视新的视觉输入。</p>
+            <p>于是它设计了 <strong>Lambda-shape attention</strong>，让靠近前缀的动作看历史，远离前缀的动作更多看当前视觉，从而兼顾连续性和反应性。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>一句话区分：</strong>
+          `Psi0` 更像“让 chunk 异步执行不断流”，`Xiaomi-Robotics-0` 更像“让 chunk 之间既平滑连接又别失去反应能力”。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>第三类：状态错位修正派</h2>
+        <h3>代表：VLASH</h3>
+        <p>VLASH 抓得非常准。它说异步推理最大的问题，不是“边执行边算”本身，而是模型开始预测时用的是状态 <code>s_t</code>，等新动作真正上身时，机器人已经到了 <code>s_{t+\Delta}</code>。</p>
+        <p>换句话说，动作并不是错的，它只是打在了错误的时间点上。</p>
+        <div class="tech-box">
+          <strong>技术实现怎么做：</strong>
+          利用上一段已经确定会执行的动作，把机器人状态向前滚动到执行时刻，再把这个 rolled-forward future state 和当前视觉一起喂给模型。训练时则用 temporal offset augmentation 强迫模型学会真的使用这个未来状态，而不是只看图像。
+        </div>
+        <p>这篇论文的高级之处在于，它没有靠加一个很重的新模块去修问题，而是重新定义了“在异步控制里，模型应该被条件化在哪个状态上”。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>第四类：采样调度优化派</h2>
+        <h3>代表：FASTER</h3>
+        <p>FASTER 的出发点和其他论文不太一样。它主要针对 flow-based VLA，发现大家默认整个 action chunk 的每一帧都要走一样多的 denoising 步数。</p>
+        <p>这听上去公平，实际上很浪费。因为最靠近当前时刻的动作通常最容易估计，也最急着要发给机器人。</p>
+        <div class="tech-box">
+          <strong>技术实现怎么做：</strong>
+          FASTER 引入 <strong>Horizon-Aware Schedule</strong>，给不同时间位置的动作分配不同 local timestep。最靠前的动作可以在一次采样后就先完成并发出，后面的动作继续慢慢精修。同时它还配了 streaming client-server，让已经完成的动作先发到机器人，不必等整段 chunk 全部完成。
+        </div>
+        <p>它特别值得初学者关注，因为它提醒我们：<strong>模型延时的一大块其实来自“什么时候允许先输出第一步动作”</strong>，而不是仅仅来自参数量。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>第五类：推理负担裁剪派</h2>
+        <h3>代表：Fast-WAM</h3>
+        <p>Fast-WAM 的问题意识是：世界模型之所以好，究竟是因为部署时显式想象未来视频，还是因为训练时学到了更强的世界表征？</p>
+        <p>它给出的答案是后者更重要。所以它把视频建模留在训练阶段，部署时不再显式生成未来视频，而是直接从 latent 表征生成动作。</p>
+        <div class="summary-box">
+          <strong>适用场景：</strong>
+          如果你的系统有非常重的 imagine-then-execute 流程，Fast-WAM 提供了一种思路：保住训练期的世界模型收益，但别把最贵的部分带进在线部署。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>到底该怎么比较这些方法？</h2>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>如果你最关心“接口是否对时”</h3>
+            <p>优先看 <a class="inline-link" href="../papers/umi.html">UMI</a>。它更像“系统接口设计”的第一课。</p>
+          </div>
+          <div class="detail-card">
+            <h3>如果你最关心“异步推理为什么会不稳定”</h3>
+            <p>优先看 <a class="inline-link" href="../papers/vlash.html">VLASH</a>。它直接点出了状态错位这个核心矛盾。</p>
+          </div>
+          <div class="detail-card">
+            <h3>如果你最关心“flow policy 怎么更快反应”</h3>
+            <p>优先看 <a class="inline-link" href="../papers/faster.html">FASTER</a>。它最适合回答“为什么首个动作总是出得太晚”。</p>
+          </div>
+          <div class="detail-card">
+            <h3>如果你最关心“whole-body 大模型怎么不断流”</h3>
+            <p>优先看 <a class="inline-link" href="../papers/psi0.html">Psi0</a> 和 <a class="inline-link" href="../papers/xiaomi-robotics-0.html">Xiaomi-Robotics-0</a>。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>最后给小白的一个判断框架</h2>
+        <ol>
+          <li>先问这篇论文认为 latency 出在“哪一层”。</li>
+          <li>再问它修的是“时间对齐”“状态条件”“采样调度”还是“推理负担”。</li>
+          <li>最后问它是否真的适合你的机器人系统，而不只是 benchmark 好看。</li>
+        </ol>
+        <div class="warning-box">
+          <strong>一个常见误区：</strong>
+          不要把所有“实时性论文”都理解成同一种加速工作。有人在对时，有人在修错位，有人在改采样，有人在砍掉不必要推理。它们常常是互补的，而不是彼此替代。
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

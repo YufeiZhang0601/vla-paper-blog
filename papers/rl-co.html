@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RL-Co 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Beyond Imitation / RL-Co</div>
+      <div class="topbar-links"><a href="../index.html">首页</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Sim-Real Co-training</div>
+      <h1>RL-Co：为什么 VLA 不能只停在 imitation learning</h1>
+      <p class="article-lead">RL-Co 的核心观点很直接：如果 VLA 只做 supervised fine-tuning，它依然容易在闭环执行中积累误差；要提升鲁棒性和泛化，后训练阶段应该进入强化学习。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>两阶段框架很简单，但很关键</h2>
+        <ol>
+          <li>先用真实和模拟示范混合做 SFT，给模型一个可用的 warm start。</li>
+          <li>再在模拟环境里做 RL 微调，同时加上真实数据的辅助监督损失，防止灾难性遗忘。</li>
+        </ol>
+      </section>
+      <section class="article-section">
+        <h2>为什么不能直接只做 RL</h2>
+        <p>因为 VLA 初始策略如果太差，RL 在复杂操作上常常学不动。SFT 初始化让策略先站到一个“能交互”的起点，后续 RL 才有意义。</p>
+      </section>
+      <section class="article-section">
+        <h2>为什么还要保留真实数据监督</h2>
+        <p>因为你在模拟里越练越强，不代表在真实机器人上越练越强。模拟优化会把策略往模拟动力学和视觉统计上拉，所以必须用真实数据损失把策略锚住。</p>
+        <div class="summary-box"><strong>核心直觉：</strong>RL-Co 不是把真实数据和模拟数据简单混合，而是让模拟负责“探索和优化”，让真实数据负责“校准和约束”。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么这篇论文值得重视</h2>
+        <p>它代表 VLA 训练范式开始变化：从 “pretrain + SFT” 走向 “pretrain + SFT + RL + sim-real anchoring”。这条路线对未来长时任务和复杂交互很重要。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

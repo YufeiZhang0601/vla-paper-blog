@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenVLA 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">OpenVLA</div>
+      <div class="topbar-links"><a href="../index.html">首页</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Open-Source Baseline</div>
+      <h1>OpenVLA：为什么它成了后来很多论文默认对比的开源基线</h1>
+      <p class="article-lead">OpenVLA 的历史意义在于，它把 VLA 从“会做 demo 的概念模型”推进到“社区可复现、可微调、可对比的工程 baseline”。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>核心结构</h2>
+        <p>OpenVLA 采用视觉编码器加 LLM 主干的结构：视觉侧融合 DINOv2 和 SigLIP 特征，语言与动作侧由 Llama 2 负责统一序列建模。</p>
+        <p>连续动作会被离散成 bins，再映射到模型词表中的保留 token。于是模型在形式上仍然是在做 next-token prediction，只不过这些 token 现在代表机器人动作。</p>
+      </section>
+      <section class="article-section">
+        <h2>为什么它重要</h2>
+        <p>因为它足够开放，大家终于可以围绕同一个基线讨论训练 recipe、微调方式、量化部署和后训练增强。这也是为什么 `RL-Co` 会专门在 OpenVLA 上做强化学习后训练。</p>
+      </section>
+      <section class="article-section">
+        <h2>它的局限</h2>
+        <p>动作离散化天然牺牲连续控制精度；单次序列生成在高频部署上也容易受限。这正是后来连续动作 DiT、flow matching 和异步执行方案流行起来的背景。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

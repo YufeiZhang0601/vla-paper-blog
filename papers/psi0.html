@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Psi0 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Psi0</div>
+      <div class="topbar-links"><a href="../index.html">首页</a><a href="../topics/low-latency.html">低延时专题</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Humanoid Foundation Model</div>
+      <h1>Psi0：为什么 humanoid VLA 往往要接受“三层系统”现实</h1>
+      <p class="article-lead">Psi0 很像在告诉大家：如果任务已经升级成 humanoid loco-manipulation，就别再幻想“一个端到端大模型”能同时把语义理解、关节级动作生成和稳定行走都处理得完美。</p>
+      <div class="article-meta"><span>关键词：Qwen3-VL / MM-DiT / AMO / RTC</span></div>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>三层系统分别做什么</h2>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>System-2：VLM backbone</h3>
+            <p>基于 Qwen3-VL-2B-Instruct，负责从第一视角视频中学习视觉语义与操作先验。</p>
+          </div>
+          <div class="detail-card">
+            <h3>System-1：动作专家</h3>
+            <p>使用 flow-based MM-DiT，专门从 VLM 隐特征中生成 whole-body action chunk。</p>
+          </div>
+          <div class="detail-card">
+            <h3>System-0：底层 tracking policy</h3>
+            <p>复用 RL controller AMO，把高层动作转成真实可执行的下肢关节控制。</p>
+          </div>
+        </div>
+      </section>
+      <section class="article-section">
+        <h2>为什么它不直接 co-train 人类视频和机器人数据</h2>
+        <p>Psi0 认为人类和 humanoid 在运动学、形态和控制约束上差异太大，简单把两类数据混在一起 end-to-end 学习并不高效。</p>
+        <p>所以它采用 staged training：先用高质量第一视角人类视频学 broad priors，再用 humanoid 数据训练动作专家，最后再少量任务内数据微调。</p>
+      </section>
+      <section class="article-section">
+        <h2>它怎么处理低延时</h2>
+        <p>Psi0 模型大于 2.5B 参数，单次前向约 160ms。对于 humanoid 长时任务，这个延时已经足够让系统显得迟钝。</p>
+        <div class="tech-box"><strong>关键手段：</strong>训练期引入 real-time chunking，让每次动作预测都条件化在已承诺执行的上一段 chunk 上，部署时边执行边异步推理下一段。</div>
+      </section>
+      <section class="article-section">
+        <h2>我认为它真正的创新点</h2>
+        <p>不是“模型更大”，而是承认 humanoid 是一个系统级问题，因此要通过职责拆分提升整体效率与稳定性。这比试图让单个网络包揽所有层次更现实。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

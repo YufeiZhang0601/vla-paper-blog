@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLASH 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">VLASH</div>
+      <div class="topbar-links"><a href="../index.html">首页</a><a href="../topics/low-latency.html">低延时专题</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Asynchronous Inference</div>
+      <h1>VLASH：异步推理真正的问题不是“边执行边算”，而是“算的时候身体已经变了”</h1>
+      <p class="article-lead">VLASH 是我很推荐新手认真读的一篇实时论文，因为它特别清楚地指出：异步推理的根因不是 stall 本身，而是 prediction interval 和 execution interval 错位。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>先看错误发生在哪里</h2>
+        <p>在 naive async 中，模型在时刻 <code>t</code> 用状态 <code>s_t</code> 预测动作，但等这段动作真正开始执行时，机器人已经在 <code>s_{t+\Delta}</code> 了。</p>
+        <div class="summary-box"><strong>所以问题不是“动作错”，而是“动作打在错误状态上”。</strong></div>
+      </section>
+      <section class="article-section">
+        <h2>VLASH 的关键想法</h2>
+        <p>既然执行开始前，机器人还会把上一段剩余动作执行完，那这些动作其实是已知的。于是我们可以利用这些已知动作把机器人状态向前滚动，得到动作真正执行时的 future state。</p>
+      </section>
+      <section class="article-section">
+        <h2>为什么只在测试时喂 future state 不够</h2>
+        <p>作者发现现有 VLA 往往太依赖视觉输入，未必真的会使用 state token。所以 VLASH 在训练时做 temporal-offset augmentation，把同一图像对应到不同 offset state 与 action，逼模型学会关注 state。</p>
+      </section>
+      <section class="article-section">
+        <h2>我为什么觉得它很高级</h2>
+        <p>它没有靠新增复杂模块硬修异步问题，而是从“条件变量应该是什么”这个角度重写了任务定义。对系统代价小，但抓到了核心矛盾。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

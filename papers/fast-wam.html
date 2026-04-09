@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fast-WAM 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">Fast-WAM</div>
+      <div class="topbar-links"><a href="../index.html">首页</a><a href="../topics/low-latency.html">低延时专题</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">World Model Efficiency</div>
+      <h1>Fast-WAM：世界模型真正有用的，也许不是测试时显式想象未来</h1>
+      <p class="article-lead">Fast-WAM 提出一个很聪明的问题：世界模型的收益，到底来自“推理时真的生成未来视频”，还是来自“训练时通过视频建模学到更强表征”？</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>它怎么回答这个问题</h2>
+        <p>Fast-WAM 保留训练时的视频共同训练，让共享视觉主干继续学习动作如何改变视觉世界；但在推理时不再显式生成未来视频，而是直接从当前 observation latent 生成动作。</p>
+      </section>
+      <section class="article-section">
+        <h2>技术实现重点</h2>
+        <p>它基于预训练视频 DiT backbone 加 action expert。在训练期同时做视频建模和动作预测，在部署期删除最贵的未来视频去噪流程，只做一次前向动作生成。</p>
+        <div class="tech-box"><strong>关键认识：</strong>训练期需要 world model，不代表部署期一定要显式 imagination。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么它和低延时专题相关</h2>
+        <p>因为它解决的不是“如何更好地对齐时序”，而是“如何砍掉本来就不该在在线部署里存在的重计算”。这是一种从系统结构上减负的思路。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

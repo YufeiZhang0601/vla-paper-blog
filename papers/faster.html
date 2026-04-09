@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FASTER 深挖</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">FASTER</div>
+      <div class="topbar-links"><a href="../index.html">首页</a><a href="../topics/low-latency.html">低延时专题</a></div>
+    </div>
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Flow Scheduling</div>
+      <h1>FASTER：近端动作为什么应该先被算出来</h1>
+      <p class="article-lead">FASTER 最有价值的地方，是它重新定义了“反应速度”应该怎么衡量，并指出 flow-based VLA 的关键瓶颈是首个动作迟迟不能先发出去。</p>
+    </header>
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>先理解 TTFA</h2>
+        <p>FASTER 引入了 <strong>Time to First Action</strong>。对机器人来说，真正重要的往往不是整段 chunk 何时完全生成，而是第一个有用动作何时能发到控制器上。</p>
+      </section>
+      <section class="article-section">
+        <h2>常规 flow sampling 为什么拖慢反应</h2>
+        <p>传统 flow-based VLA 对整段动作统一使用 constant schedule，意味着近端动作和远端动作都要等全部 denoising 走完，才能一起输出。</p>
+      </section>
+      <section class="article-section">
+        <h2>Horizon-Aware Schedule 的直觉</h2>
+        <p>越靠近当前时刻的动作，通常越容易预测，也越急着执行。所以 FASTER 给不同时间位置的动作分配不同 local timestep，让第一个动作能在一次采样后就被 dispatch。</p>
+        <div class="tech-box"><strong>延伸设计：</strong>一旦动作能逐步完成，系统就可以采用 streaming client-server，让已完成动作先进入机器人 action buffer，而不是等整段都完成。</div>
+      </section>
+      <section class="article-section">
+        <h2>为什么它和其他实时论文不一样</h2>
+        <p>`VLASH` 更像在修异步时的状态错位，`UMI` 在修时间对齐，`FASTER` 则是在修 flow policy 自身的采样流程。它不是修接口，而是在修“近端动作本来就不该被远端动作拖住”。</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
