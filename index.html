@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VLA 论文精读综述</title>
-  <meta name="description" content="一份面向入门者的 VLA 学习型 blog：包含综述、低延时专题、UMI 深挖和多篇论文技术解读。">
+  <meta name="description" content="一份面向入门者的 VLA 学习型 blog：包含综述、低延时专题、数据采集专栏、UMI 深挖和多篇论文技术解读。">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,12 +20,16 @@
       <div class="hero-tags">
         <span>VLA</span>
         <span>Low Latency</span>
+        <span>Data Collection</span>
         <span>Humanoid</span>
         <span>Asynchronous Inference</span>
         <span>World Model</span>
       </div>
       <div class="cta-row">
         <a class="cta-button" href="topics/low-latency.html">先看低延时专题</a>
+        <a class="cta-button secondary" href="topics/data-collection.html">再看数据采集专栏</a>
+      </div>
+      <div class="cta-row">
         <a class="cta-button secondary" href="papers/umi.html">深挖 UMI</a>
       </div>
     </header>
@@ -86,6 +90,11 @@
             <div class="kicker">专题</div>
             <h3><a class="paper-link" href="topics/low-latency.html">低延时专题</a></h3>
             <p>把 `UMI`、`Psi0`、`Xiaomi-Robotics-0`、`VLASH`、`FASTER`、`Fast-WAM` 放在一起，专门比较它们如何解决 latency。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">专题</div>
+            <h3><a class="paper-link" href="topics/data-collection.html">数据采集专栏</a></h3>
+            <p>沿着 `UMI` 往外扩，系统比较 ALOHA、Mobile ALOHA、DROID、BridgeData V2、Being-H0.5/UniCraftor 和 UMI 最新动态。</p>
           </article>
           <article class="nav-card">
             <div class="kicker">重点深挖</div>
@@ -184,6 +193,67 @@
 
       <section class="section">
         <div class="section-heading">
+          <h2>论文资源导航</h2>
+          <p>除了站内解读页，我也把大部分论文的官方资源补在这里了。你可以从博客直接跳到项目页、代码仓库或论文 PDF。</p>
+        </div>
+        <div class="related-list">
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/umi.html">UMI</a></h3>
+            <p><a class="inline-link" href="https://umi-gripper.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/real-stanford/universal_manipulation_interface" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/rt2.html">RT-2</a></h3>
+            <p><a class="inline-link" href="https://robotics-transformer2.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://robotics-transformer2.github.io/assets/rt2.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/octo.html">Octo</a></h3>
+            <p><a class="inline-link" href="https://octo-models.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/octo-models/octo" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://octo-models.github.io/paper.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/openvla.html">OpenVLA</a></h3>
+            <p><a class="inline-link" href="https://openvla.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/openvla/openvla" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://groups.csail.mit.edu/robotics-center/public_papers/Kim24.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/diffusion-policy.html">Diffusion Policy</a></h3>
+            <p><a class="inline-link" href="https://diffusion-policy.cs.columbia.edu/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/real-stanford/diffusion_policy" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://arxiv.org/pdf/2303.04137" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/psi0.html">Psi0</a></h3>
+            <p><a class="inline-link" href="https://psi-lab.ai/Psi0/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2603.12263" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/heracles.html">Heracles</a></h3>
+            <p><a class="inline-link" href="https://arxiv.org/abs/2603.27756" target="_blank" rel="noopener noreferrer">Paper</a> / <a class="inline-link" href="https://arxiv.org/pdf/2603.27756" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/rl-co.html">Beyond Imitation / RL-Co</a></h3>
+            <p><a class="inline-link" href="https://rl-co-training.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/RLinf/RLinf" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://arxiv.org/pdf/2602.12628" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/fast-wam.html">Fast-WAM</a></h3>
+            <p><a class="inline-link" href="https://yuantianyuan01.github.io/FastWAM/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/yuantianyuan01/FastWAM" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://arxiv.org/pdf/2603.16666" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/xiaomi-robotics-0.html">Xiaomi-Robotics-0</a></h3>
+            <p><a class="inline-link" href="https://xiaomi-robotics-0.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/XiaomiRobotics/Xiaomi-Robotics-0" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://xiaomi-robotics-0.github.io/assets/paper.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/vlash.html">VLASH</a></h3>
+            <p><a class="inline-link" href="https://github.com/mit-han-lab/vlash" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://arxiv.org/pdf/2512.01031" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/faster.html">FASTER</a></h3>
+            <p><a class="inline-link" href="https://innovator-zero.github.io/FASTER" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2603.19199" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3><a class="paper-link" href="papers/smash.html">SMASH</a></h3>
+            <p><a class="inline-link" href="https://mmlab.hk/Smash/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2604.01158" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
           <h2>为什么我单独开了“低延时专题”</h2>
           <p>因为现在 VLA 的真实瓶颈，已经不只是能不能输出动作，而是能不能在合适的时间输出对的动作。</p>
         </div>
@@ -227,6 +297,112 @@
           <article>
             <h3>4. 数据闭环与控制闭环越来越重要</h3>
             <p>越往后看，大家越在意 sim-real、恢复能力、时间对齐和真实世界数据，而不只是模型参数量。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>如果把研究重心放回第一性问题</h2>
+          <p>越往后读我越觉得，VLA 论文不能只盯着“实时推理”“模型结构”“参数规模”这些最显眼的层。更本质的问题是：什么样的数据和接口，才能真正训出一个更强、更稳、更可迁移的具身基础模型。</p>
+        </div>
+        <div class="insight-list">
+          <article>
+            <h3>1. 实时推理是重要约束，但未必是当前最该优先猛攻的研究中心</h3>
+            <p>实时性当然重要，因为机器人必须在正确时间输出正确动作。但在很多阶段，它更像是一个必须理解的系统边界条件：你要知道 latency 从哪里来、为什么会损伤控制闭环、异步推理为什么会造成状态错位，而不一定一开始就把主要精力放在极限加速上。</p>
+          </article>
+          <article>
+            <h3>2. 和硬件最有研究含金量的结合点，往往是接口设计而不只是算力加速</h3>
+            <p>如果说实时推理主要讨论“系统是否来得及反应”，那么 <a class="topic-link" href="papers/umi.html">`UMI`</a> 更像是在讨论“人类示范、观测、动作、设备和机器人部署”怎样被连成同一个可学习闭环。它真正有价值的地方，不只是低延时，而是让数据接口和执行接口彼此对得上。</p>
+          </article>
+          <article>
+            <h3>3. 更值得长期投入的主线，是如何训出一个更好的基础模型</h3>
+            <p>真正决定上限的，往往不是把 inference 再压快 20ms，而是基础模型是否已经学到稳定、可组合、可迁移的 embodied prior。只要这个 prior 还不够强，后面的部署优化很多时候就只是修边角。</p>
+          </article>
+          <article>
+            <h3>4. 训练表现常常只是数据质量的外显结果</h3>
+            <p>模型最后体现出的泛化、稳定性和恢复能力，本质上经常是在反映数据有没有覆盖关键状态、有没有正确时间对齐、有没有足够高质量的示范、有没有把失败和长尾边界也纳入分布。换句话说，训练不是不重要，而是它经常在放大数据本身已经包含的结构。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>这会把我看论文的角度改成什么</h2>
+          <p>如果接受上面的判断，那么之后再读具身论文，我最想追问的就不再只是“模型结构有没有更新”，而是下面这些更本质的问题。</p>
+        </div>
+        <div class="callout-grid">
+          <article class="callout">
+            <h3>这篇工作到底带来了什么新数据</h3>
+            <p>是新任务、新视角、新传感器，还是新的人机交互方式？如果没有新的数据来源和数据质量提升，很多结构改进的上限其实很快就会暴露。</p>
+          </article>
+          <article class="callout">
+            <h3>它有没有改善“数据和动作”的对齐关系</h3>
+            <p>具身不是只看图像语义，而是要看 observation、language、action、time 这四件事是不是被对齐了。`UMI` 值得重视，恰恰是因为它在这个问题上很本质。</p>
+          </article>
+          <article class="callout">
+            <h3>它是否让模型学到更可迁移的 embodied prior</h3>
+            <p>真正好的基础模型，不该只会某几个 benchmark 上的技能，而应该在新场景、新物体、新扰动下还能延续已有能力。这个能力更多取决于数据覆盖和任务组织方式，而不只是参数量。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>我现在更认同的一句话</h2>
+          <p>对于具身智能，论文观察的核心方向，也许可以被压缩成一句很朴素的话：<strong>如何得到更好的数据</strong>。</p>
+        </div>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>“更好的数据”不只是更多数据</h3>
+            <p>它包括更好的时间同步、更少的示范噪声、更覆盖长尾失败的样本、更贴近真实部署分布的任务设计，也包括更合理的数据筛选、重标注和组织方式。</p>
+          </article>
+          <article class="related-item">
+            <h3>“更好的数据”决定了什么问题值得做算法</h3>
+            <p>算法当然重要，但它更像是放大器。只有当数据里本来就含有值得学的结构时，算法创新才会真正产生持续收益。否则很多方法改进只是对已有数据分布的过拟合式包装。</p>
+          </article>
+          <article class="related-item">
+            <h3>“更好的数据”也会重新定义博客后续重点</h3>
+            <p>所以接下来如果我继续写这个 blog，我会更系统地追踪三类内容：高质量 teleoperation/示范数据怎么采、跨机器人和跨任务数据怎么统一、以及 foundation model 怎样从这些数据里学到真正稳定的动作先验。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>沿着这条线，最值得继续看的高质量论文</h2>
+          <p>如果把视角从“模型又换了什么结构”改成“怎样得到更好的具身数据、怎样训练更好的基础模型”，下面这些工作会比单纯追逐部署加速更值得反复看。</p>
+        </div>
+        <div class="paper-grid">
+          <article class="paper-card">
+            <div class="paper-meta">Interface / Data Collection</div>
+            <h3><a class="paper-link" href="papers/umi.html">UMI</a></h3>
+            <p>重点不是“采得快”，而是把人类示范变成机器人真的能学、真的能部署的数据接口。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">In-the-Wild Dataset</div>
+            <h3>DROID</h3>
+            <p>最值得看的点是它如何把多机构、564 个场景、86 个任务的数据组织成真正能提升鲁棒性的高质量训练资源。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Cross-Embodiment Dataset</div>
+            <h3>Open X-Embodiment</h3>
+            <p>如果你想理解“基础模型为什么需要跨机器人数据”，这几乎是绕不过去的起点。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Scaling Dataset</div>
+            <h3>BridgeData V2</h3>
+            <p>它很适合帮助建立一个直觉：当任务和环境多样性真正增加时，策略泛化是如何随数据规模一起上升的。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Generalist Policy</div>
+            <h3><a class="paper-link" href="papers/octo.html">Octo</a></h3>
+            <p>它的重要性不只在模型本身，更在于它展示了怎样把异构数据混合、筛选和标准化成可预训练的 mixture。</p>
+          </article>
+          <article class="paper-card">
+            <div class="paper-meta">Teleoperation System</div>
+            <h3>Mobile ALOHA</h3>
+            <p>它提醒我，teleoperation 系统的设计本身就会决定你最终能采到什么样的 whole-body 数据。</p>
           </article>
         </div>
       </section>

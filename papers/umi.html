@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Universal Manipulation Interface 深挖</title>
-  <meta name="description" content="Universal Manipulation Interface: In-The-Wild Robot Teaching Without In-The-Wild Robots 的中文深挖解读。">
+  <title>UMI 深挖：为什么它是一篇数据接口论文</title>
+  <meta name="description" content="深度解读 Universal Manipulation Interface：为什么它不是普通 teleop 工具，而是一篇关于数据接口、时间对齐与可部署策略学习的重要论文。">
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
       <div class="topbar-title">Paper Deep Dive</div>
       <div class="topbar-links">
         <a href="../index.html">首页</a>
+        <a href="../topics/data-collection.html">数据采集专栏</a>
         <a href="../topics/low-latency.html">低延时专题</a>
       </div>
     </div>
@@ -20,144 +21,251 @@
     <header class="article-hero">
       <a class="back-link" href="../index.html">返回首页</a>
       <div class="eyebrow">Chi Cheng / RSS 2024</div>
-      <h1>Universal Manipulation Interface：它真正厉害的不是“采数据方便”，而是把人类示范变成了可部署策略接口</h1>
+      <h1>UMI：为什么它不是普通 teleop 工具，而是一篇真正重要的数据接口论文</h1>
       <p class="article-lead">
-        这篇论文的标题很容易让人误会，以为它只是一个更顺手的 teleop 工具。
-        但如果认真读技术实现，你会发现 UMI 真正的创新在于：
-        <strong>它不是只在设计一个采集设备，而是在设计一个从人类示范到机器人部署都尽量一致的策略接口。</strong>
+        这篇论文最容易被低估的地方，是很多人会把它读成“一个更方便采数据的手持 gripper 系统”。
+        但如果认真看它的设计，你会发现 UMI 真正提出的是另一件事：
+        <strong>如何把自然的人类示范，变成对机器人训练和部署都真正有意义的数据接口。</strong>
       </p>
       <div class="article-meta">
-        <span>关键词：latency matching / relative trajectory / hardware-agnostic</span>
-        <span>一句话：把“野外人类示范”变成“机器人能真正复现的训练数据”</span>
+        <span>关键词：data interface / latency matching / relative trajectory / hardware-agnostic</span>
+        <span>一句话：它在回答“什么样的人类示范，才能被机器人真的学会并部署出来”</span>
       </div>
     </header>
 
     <div class="article-stack">
       <section class="article-section">
-        <h2>先理解它想解决什么痛点</h2>
-        <p>传统机器人模仿学习经常卡在一个很尴尬的位置：如果你用真实机器人做 teleop，示范质量够高，但收集慢、贵、操作门槛高；如果你直接用人类视频，数据多，但缺少可执行动作标签。</p>
-        <p>UMI 想要的不是“二选一”，而是中间那条路：<strong>让人类用接近自然的方式示范，同时把示范记录成机器人真的可以学的东西。</strong></p>
+        <h2>官方资源</h2>
+        <p><a class="inline-link" href="https://umi-gripper.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/real-stanford/universal_manipulation_interface" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+      </section>
+
+      <section class="article-section">
+        <h2>先给结论：为什么我觉得 UMI 值得反复看</h2>
+        <p>如果只用一句话概括，我会说：`UMI` 不是在解决“怎么更方便采数据”，而是在解决“怎么让数据真的可学、可迁移、可部署”。</p>
+        <p>这也是它为什么不应该只被放进“低延时论文”或“teleoperation 工具论文”里。它更深的一层贡献是：<strong>把具身学习里最容易被忽略的那部分工作显式化了，也就是观测、动作、时间和硬件之间的接口设计。</strong></p>
         <div class="summary-box">
-          <strong>它的根本问题是：</strong>
-          人类示范通常很自然，但不一定“机器人可部署”；机器人 teleop 可部署，但不够自然、也不够快。
+          <strong>我理解它的核心命题是：</strong>
+          人类示范天然丰富、自然、快速，但默认并不等于“机器人可部署数据”；而机器人 teleop 虽然可部署，却太慢、太贵、太受场景限制。UMI 要做的是把这两边真正接起来。
         </div>
       </section>
 
       <section class="article-section">
-        <h2>为什么 UMI 的硬件设计很关键</h2>
+        <h2>UMI 重新定义的问题，不是“怎么采”，而是“采出来的数据究竟是什么”</h2>
+        <p>很多论文默认把 demonstration 当作一个已经存在的东西，重点只放在 policy architecture 上。UMI 则在追问一个更前置的问题：<strong>示范里的 observation、pose、gripper state、时间戳和动作语义，是否足够干净、足够一致、足够接近机器人执行接口？</strong></p>
+        <p>一旦这个问题没处理好，后面再强的模型都可能只是学到一份时序错位、硬件耦合、坐标脆弱的数据表面。</p>
+        <div class="tech-box">
+          <strong>所以 UMI 最重要的贡献不是“更高效的人机交互”：</strong>
+          而是把“数据采集系统”升级成了“策略接口系统”。它关心的不是人怎么做动作，而是这些动作最终能否被机器人在另一套身体上、另一条时序链路里重现出来。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>为什么它的硬件设计值得深读</h2>
         <div class="detail-grid">
           <div class="detail-card">
             <h3>手持 gripper + wrist camera</h3>
-            <p>人拿着一个平行夹爪去做任务，而不是隔着 3D 鼠标远程操控机器人。这样动作更直接，示范速度也更快。</p>
+            <p>这不是一个为了“酷炫交互”做的外形设计，而是在尽量让人类示范和机器人末端执行器处于更接近的几何语义里。人不是在远程控制一个机器人，而是在直接拿着“像机器人末端执行器一样”的工具去操作世界。</p>
           </div>
           <div class="detail-card">
             <h3>Fisheye 镜头</h3>
-            <p>UMI 使用超广角视野，不只是为了拍更多东西，而是为了让“只靠腕部相机”也能看到足够上下文，减少对外部相机系统的依赖。</p>
+            <p>它的作用不是单纯扩大视野，而是让 wrist view 在移动中仍能保留足够任务上下文，从而降低对外部固定相机和复杂场地布置的依赖。</p>
           </div>
           <div class="detail-card">
             <h3>侧面镜子提供隐式 stereo</h3>
-            <p>这点非常巧妙。它没有直接上复杂双目系统，而是用镜子制造多个虚拟视角，让单个相机也能获得深度线索。</p>
+            <p>这点很关键，因为它展示了 UMI 的整体设计哲学：不是追求最豪华的传感器堆叠，而是用足够聪明的工程，让单个可携带系统就能提供对部署真正有帮助的深度线索。</p>
           </div>
           <div class="detail-card">
             <h3>GoPro IMU + ORB-SLAM3</h3>
-            <p>为了在快速运动时仍然恢复稳定的 6DoF 轨迹，UMI 把视觉和惯性信息一起用于追踪，从而能支持 tossing 这类动态动作。</p>
+            <p>这一点直接决定 UMI 能不能支持 tossing 这类动态任务。没有稳定的 6DoF 轨迹恢复，所谓“自然的人类示范”最后只会变成不够精确、无法复现的噪声数据。</p>
           </div>
         </div>
-        <p>这套硬件设计背后的思想非常明确：<strong>不要为了“理论上更准确”牺牲可携带性和可扩展性，而是要找到刚好足够支持可部署策略学习的观测设计。</strong></p>
+        <p>这套硬件背后的思想非常重要：<strong>不要为了更精密的传感器系统牺牲便携性和采集带宽，而是要找到刚好足够支持策略部署的观测配置。</strong> 从这个角度看，UMI 的硬件不是附属物，而是数据定义的一部分。</p>
       </section>
 
       <section class="article-section">
-        <h2>真正核心：UMI 设计的是“策略接口”而不是单纯的“数据格式”</h2>
-        <p>如果只看数据采集，你会觉得 UMI 只是记录图像、位姿、夹爪宽度。但论文真正厉害的地方，是它把训练输入和机器人部署接口尽量设计成同构。</p>
+        <h2>真正核心：UMI 设计的是“从示范到部署”的同构接口</h2>
+        <p>如果只看表面，UMI 记录的是图像、位姿、夹爪宽度和时间戳；但它真正厉害的地方在于，这些量并不是随便记下来，而是被组织成尽量贴近部署期策略输入输出的形式。</p>
         <div class="definition-grid">
           <div class="detail-card">
             <h3>观测接口</h3>
-            <p>策略输入是同步后的 RGB 图像、相对末端执行器位姿和夹爪宽度。也就是说，模型不是吃一堆依赖特定机器人坐标系的杂乱状态，而是吃更统一的“从 gripper 视角看到的任务状态”。</p>
+            <p>策略输入是同步后的 RGB 图像、相对末端执行器位姿和夹爪宽度。也就是说，模型尽量不去依赖某台机器人世界坐标系下的脆弱状态，而是依赖更统一、更贴近操作本身的任务表示。</p>
           </div>
           <div class="detail-card">
             <h3>动作接口</h3>
-            <p>策略输出不是绝对世界坐标动作，而是相对轨迹动作。这样可以减少对特定机器人底座位置、标定精度和坐标定义的依赖。</p>
+            <p>策略输出不是绝对世界坐标动作，而是相对轨迹动作。这个选择看起来朴素，实际上非常深：它直接降低了策略对基座位置、外参标定和具体坐标定义的依赖。</p>
+          </div>
+          <div class="detail-card">
+            <h3>部署接口</h3>
+            <p>UMI 没有假设训练时那套“理想同步世界”会在部署期自动成立，而是在推理阶段显式做 latency matching 和动作执行补偿。也就是说，它把部署问题提前写进了数据接口。</p>
           </div>
         </div>
         <div class="tech-box">
           <strong>为什么 relative trajectory 很重要：</strong>
-          绝对动作表示需要你严格知道“世界坐标系在哪里”，而真实部署里这件事往往脆弱且麻烦。相对轨迹表示把策略关注点从“我在世界中的绝对位置”转成“下一步相对当前该怎么动”，更容易跨平台迁移。
+          绝对动作表示要求你稳定知道“世界坐标系在哪里”，而这在真实系统里经常脆弱又麻烦。相对轨迹表示把问题改写成“下一步相对当前应该怎么动”，这让同一策略更容易跨平台迁移，也更接近人类操作时的局部控制直觉。
         </div>
       </section>
 
       <section class="article-section">
-        <h2>为什么这篇论文对低延时讨论特别重要</h2>
-        <p>UMI 很早就抓到了后来很多实时 VLA 论文才大规模讨论的问题：训练和部署的时间轴经常不一致。</p>
+        <h2>深层价值之一：它抓住了“时间轴失真”这个常被忽视的问题</h2>
+        <p>UMI 很重要的一点，是它很早就把一个后来在实时 VLA 里反复出现的问题说清楚了：训练时假设的时间轴，和部署时真实发生的时间轴，经常不是同一条线。</p>
         <div class="detail-grid">
           <div class="detail-card">
             <h3>Observation latency matching</h3>
-            <p>相机、机器人状态、夹爪宽度来自不同硬件链路，延时不同。UMI 会测量并对齐到同一个参考时间点，避免模型把不同时刻的信号当成同一时刻。</p>
+            <p>相机、机器人状态、夹爪宽度来自不同硬件链路，延时不同。UMI 在推理期显式测量并对齐它们，避免模型把本来属于不同时刻的信号误当成同一个“现在”。</p>
           </div>
           <div class="detail-card">
             <h3>Action latency matching</h3>
-            <p>机器人执行动作有实际延迟，因此命令需要提前发出，才能让真实动作在期望时间发生。这一点对 tossing、快速抓取这类动态任务尤为关键。</p>
+            <p>机器人执行动作存在不可忽略的延迟，因此命令要提前发出，真实动作才能在期望时间发生。对 tossing、快速抓取和高动态接触任务来说，这不是小修小补，而是成败分水岭。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Embodiment latency gap</h3>
+            <p>更深一层地看，UMI 还在处理“人类身体”和“机器人身体”之间的时间与动力学差异。它没有假装二者天然等价，而是用接口补偿去缩小这条缝。</p>
           </div>
         </div>
         <div class="summary-box">
           <strong>你可以把 UMI 理解成：</strong>
-          它在问“模型学到的动作，能不能在真实机器人身体上按训练时假设的时间点发生？”这个问题。
+          它在问“模型学到的动作，能不能在真实机器人身体上，按训练时所假设的观测和执行时序被重现出来？”
         </div>
-        <p>这其实和后来的 `VLASH`、`FASTER` 是一条技术脉络上的不同阶段：UMI 先解决接口级时间对齐，VLASH 解决异步推理时的状态错位，FASTER 解决 flow sampling 的首动作响应问题。</p>
+        <p>也正因为如此，UMI 和后来的 `VLASH`、`FASTER` 并不冲突。前者先把接口级的时间一致性问题讲明白，后两者则进一步处理异步推理下的状态错位和首动作响应问题。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>为什么说它是一篇数据论文，而不只是一个硬件系统</h2>
+        <p>很多人会被它的手持 gripper 吸引，但我觉得真正应该记住的是：UMI 通过硬件设计、轨迹恢复、时间对齐和动作表示，一起定义了什么叫“高质量具身示范数据”。</p>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>高质量不等于高分辨率</h3>
+            <p>UMI 告诉我们，数据质量首先取决于观测和动作能否对齐、时序能否可信、部署语义是否成立，而不是相机规格看起来有多豪华。</p>
+          </div>
+          <div class="detail-card">
+            <h3>高质量不等于更多帧数</h3>
+            <p>如果动作发生时间和观测发生时间是错开的，那再多样本也可能只是在放大错误接口。UMI 的 latency matching 本质上是在修这个问题。</p>
+          </div>
+          <div class="detail-card">
+            <h3>高质量也意味着高采集带宽</h3>
+            <p>项目页里展示，UMI 的示范速度远快于传统 SpaceMouse teleop，接近人手操作速度的一半。这意味着它不只是“数据更对”，也确实能让你更快地产生大量有效数据。</p>
+          </div>
+        </div>
+        <p>所以从数据中心视角看，UMI 的价值可以概括成一句话：<strong>它不是在给已有学习方法喂数据，而是在重新定义什么样的数据才配进入学习方法。</strong></p>
       </section>
 
       <section class="article-section">
         <h2>为什么它能做到 hardware-agnostic</h2>
-        <p>UMI 的“跨平台”不是魔法，而是靠一系列接口层设计堆出来的。</p>
+        <p>UMI 的“跨平台”不是魔法，而是靠一整套接口层设计逐步堆出来的。</p>
         <ol>
           <li>观测尽可能从 gripper 视角定义，而不是依赖外部相机世界坐标。</li>
           <li>动作用 relative EE trajectory 表示，而不是绑定某个机器人底座坐标。</li>
           <li>利用 recovered absolute pose 做 kinematic filtering，只保留对目标机器人可行的示范。</li>
           <li>训练时使用 Diffusion Policy 处理多模态动作分布，提高对不同操作风格的容忍度。</li>
         </ol>
-        <p>所以它不是说“同一策略无脑上所有机器人”，而是说通过接口设计让策略更少依赖具体硬件细节，从而更容易迁移。</p>
+        <p>所以它的意思不是“同一个 checkpoint 无脑上所有机器人”，而是“通过接口设计，让策略学习到的结构尽可能少依赖某一套具体硬件细节”。这对基础模型尤其重要，因为基础模型最怕学到的是平台私有噪声，而不是可迁移规律。</p>
       </section>
 
       <section class="article-section">
-        <h2>为什么 UMI 这么适合入门者认真看</h2>
-        <p>因为它会让你第一次意识到：机器人学习不是“把大模型扔上去就行”，而是一个由 <strong>传感器、时序同步、动作表示、部署补偿</strong> 共同组成的系统工程。</p>
+        <h2>从基础模型视角看，UMI 到底补上了哪块缺失</h2>
+        <p>如果把眼光放得更远一点，`UMI` 的意义并不止于当前几个 manipulation 任务。它更像是在回答一个基础模型时代迟早要面对的问题：<strong>机器人领域有没有可能像 NLP 和 CV 一样，先把数据接口标准化，再做大规模预训练和迁移？</strong></p>
+        <p>从这个角度看，UMI 的贡献至少有三层。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>它提升了示范数据的“可部署保真度”</h3>
+            <p>不是所有高质量人类动作都能变成高质量机器人训练样本。UMI 的意义在于把两者之间的鸿沟显式缩小。</p>
+          </div>
+          <div class="detail-card">
+            <h3>它提升了 portable data collection 的带宽</h3>
+            <p>如果一个系统真能在新家、餐厅、办公室里快速开始收集数据，那么数据分布的多样性就不再被实验室场地严格锁死。</p>
+          </div>
+          <div class="detail-card">
+            <h3>它让“换数据就换能力”变得更可信</h3>
+            <p>项目页反复强调只需更换训练数据就能解锁动态、双臂、精细和长时行为。这种说法之所以成立，前提正是接口足够稳，模型吃到的数据足够一致。</p>
+          </div>
+        </div>
         <div class="warning-box">
           <strong>常见误解：</strong>
-          很多人把 UMI 看成“让人类更容易做示范”。这只说对了一半。它更重要的是让这些示范在进入 policy learning 之后，仍然尽量保持对机器人部署有意义。
+          很多人把 UMI 看成“让人类更容易做示范”。这只说对了一半。更重要的是，它让这些示范在进入 policy learning 之后，仍然尽量保留对真实机器人部署有意义的结构。
         </div>
       </section>
 
       <section class="article-section">
-        <h2>它和后续 VLA 论文的关系</h2>
+        <h2>后来它分叉出了两条很重要的路线</h2>
+        <p>UMI 真正有意思的地方，在于它不是一篇只停留在 2024 的论文。后面的很多工作，其实都可以看成是在测试 UMI 这套接口思想能不能被推进到更难的 embodiment 上。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>分支一：DexUMI</h3>
+            <p>`DexUMI` 把 UMI 从平行夹爪推进到灵巧手。它通过可穿戴 exoskeleton 缩小人手和机器人手的运动学差距，再用 robot-hand inpainting 缩小视觉差距。这说明 UMI 的关键不是某个手持 gripper 形态，而是“如何定义一套跨 embodiment 的示范接口”。</p>
+            <p><a class="inline-link" href="https://dex-umi.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2505.21864" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </div>
+          <div class="detail-card">
+            <h3>分支二：Mobile UMI Family</h3>
+            <p>`UMI-on-Legs`、`HoMMI`、`HuMI` 则把 UMI 推向四足、移动操作和 humanoid whole-body manipulation。它们共同面对的是更大的 observation gap 和 action gap：人不只是移动手，还会走、看、转头、下蹲、改变重心，而这些都必须被新的控制接口接住。</p>
+            <p><a class="inline-link" href="../topics/data-collection.html">去看数据采集专栏里的系统解读</a></p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>所以我现在更愿意把 UMI 理解成：</strong>
+          一套仍在扩张的“数据接口家族”的起点，而不是一篇只属于机械臂时代的单点系统论文。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>沿着 UMI 往下读，哪些高质量论文最相关</h2>
         <div class="definition-grid">
           <div class="detail-card">
-            <h3>和 RT-2 / OpenVLA 的关系</h3>
-            <p>后者更关注大模型如何把视觉语言映射成动作，UMI 更关注“这些动作接口在真实部署里是否站得住”。</p>
+            <h3>DROID</h3>
+            <p>`DROID` 的核心价值在于把多机构、多场景、多任务的真实机器人数据做成一个大规模、高多样性的 in-the-wild 数据集。它更像是在回答“如何获得足够广的数据分布”；而 UMI 更像是在回答“如何让单条示范本身更像一条可部署的数据”。二者一个偏数据广度，一个偏接口保真度。</p>
           </div>
           <div class="detail-card">
-            <h3>和 VLASH 的关系</h3>
-            <p>UMI 解决多源延时与执行补偿，VLASH 解决异步推理时机器人状态前滚。二者不是竞争，而是层次不同。</p>
+            <h3>Open X-Embodiment</h3>
+            <p>`Open X-Embodiment` 证明了跨机器人聚合数据可以为 generalist policy 带来正迁移。但要让跨平台数据真的好用，前提之一就是单个数据源本身要有清晰接口语义。这个意义上，UMI 像是“高质量源数据怎么产生”的补充答案。</p>
           </div>
           <div class="detail-card">
-            <h3>和 Xiaomi / Psi0 的关系</h3>
-            <p>后者更多处理 action chunk 的异步拼接与大模型部署，UMI 更像在更底层解决“输入输出时序接口应如何定义”。</p>
+            <h3>BridgeData V2</h3>
+            <p>`BridgeData V2` 很适合用来理解数据规模、任务多样性与泛化之间的关系。它强调的是“多任务、多环境、多样本”带来的收益；UMI 则强调“同一条示范里，观测、动作和时间要先足够对”。一个偏规模化，一个偏第一性接口质量。</p>
           </div>
           <div class="detail-card">
-            <h3>和 Diffusion Policy 的关系</h3>
-            <p>UMI 的策略学习采用 Diffusion Policy，这也是为什么它天然适合处理多模态、非唯一的人类操作轨迹。</p>
+            <h3>Mobile ALOHA</h3>
+            <p>`Mobile ALOHA` 的重点是 whole-body teleoperation 和移动双臂长时任务的数据采集能力。它和 UMI 的共同点，是都在说明“数据采集系统本身就是研究贡献”；区别在于 Mobile ALOHA 更贴近机器人本体 teleop，UMI 更强调无机器人在场的人类示范转部署。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Octo</h3>
+            <p>`Octo` 代表的是“怎样把异构机器人数据混成一个可预训练的 generalist policy”。如果说 Octo 关心的是 mixture recipe，那么 UMI 关心的就是：未来能不能持续提供更干净、更可迁移、接口更稳定的数据源进入这种 mixture。</p>
+          </div>
+          <div class="detail-card">
+            <h3>VLASH / FASTER / Psi0</h3>
+            <p>这些工作更多聚焦部署阶段的异步推理、状态错位和首动作响应。UMI 与它们的关系不是谁替代谁，而是 UMI 更靠前，它先把“示范到部署”的接口地基打平。</p>
           </div>
         </div>
       </section>
 
       <section class="article-section">
-        <h2>如果只记住三句话</h2>
+        <h2>它也有边界，这些问题以后仍然要补</h2>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>它主要解决的是 manipulation，不是 whole-body intelligence</h3>
+            <p>UMI 非常强，但它的核心战场仍然是操作任务，而不是 humanoid 的全身平衡、接触切换和 locomotion。</p>
+          </div>
+          <div class="detail-card">
+            <h3>relative trajectory 不是所有任务的万能表示</h3>
+            <p>它对跨平台迁移很友好，但某些强依赖绝对姿态、全局约束或环境锚点的任务，仍可能需要更丰富的表示。</p>
+          </div>
+          <div class="detail-card">
+            <h3>从单系统高质量数据到大规模 foundation model，中间还有标准化鸿沟</h3>
+            <p>如果未来真的要把 UMI 这类数据大规模并入通用 VLA 预训练，还需要更一致的标注、筛选、混合和评测协议。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>如果只记住四句话</h2>
         <ol>
-          <li>UMI 的第一价值不是“便宜采数据”，而是“让人类示范更接近机器人可部署接口”。</li>
-          <li>它最深的技术点是 latency matching 和 relative trajectory，而不是那个手持 gripper 本身。</li>
-          <li>它代表了一种重要思想：机器人策略学习首先是接口设计问题，其次才是模型问题。</li>
+          <li>UMI 的第一价值不是“采数据更方便”，而是“让人类示范更接近机器人可部署接口”。</li>
+          <li>它最深的技术点不是手持 gripper 本身，而是 latency matching、relative trajectory 和整套接口同构设计。</li>
+          <li>它是一篇非常典型的数据论文，因为它重新定义了什么才算对训练真正有价值的数据。</li>
+          <li>如果未来具身基础模型要继续变强，像 UMI 这种把数据质量、时间对齐和硬件接口一起考虑的工作，只会越来越重要。</li>
         </ol>
         <div class="cta-row">
+          <a class="cta-button" href="../topics/data-collection.html">进入数据采集专栏</a>
           <a class="cta-button" href="../topics/low-latency.html">回到低延时专题</a>
-          <a class="cta-button secondary" href="vlash.html">继续读 VLASH</a>
+          <a class="cta-button secondary" href="../index.html">回到首页</a>
         </div>
       </section>
     </div>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据采集专栏：从 UMI 到 DexUMI 与 Mobile UMI</title>
+  <meta name="description" content="面向入门者的具身智能数据采集专栏：系统比较 UMI、DexUMI、ALOHA、Mobile ALOHA、DROID、BridgeData V2、Being-H0.5/UniCraftor 及 mobile UMI 方向的最新进展。">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">数据采集专栏</div>
+      <div class="topbar-links">
+        <a href="../index.html">首页</a>
+        <a href="../papers/umi.html">UMI</a>
+        <a href="low-latency.html">低延时专题</a>
+      </div>
+    </div>
+
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Data Collection Deep Dive</div>
+      <h1>数据采集专栏：从 UMI 到 DexUMI 与 Mobile UMI，最近大家到底在怎么采具身数据</h1>
+      <p class="article-lead">
+        如果把这两年的具身论文压缩成一句话，我会说：大家表面上都在谈模型，
+        但真正越来越像主战场的，是 <strong>数据采集系统、数据接口定义和数据生产流程</strong>。
+        这个专题想回答的不是“哪篇模型更强”，而是“最近这些代表性方案，到底在采什么、怎么采、为什么这样采”。 
+      </p>
+      <div class="article-meta">
+        <span>核心对象：UMI / DexUMI / UMI-on-Legs / HoMMI / HuMI / ALOHA / DROID / Being-H0.5</span>
+        <span>核心问题：什么样的数据采集方案，最可能支撑更强的 embodied foundation model</span>
+      </div>
+    </header>
+
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>快速资源</h2>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>UMI</h3>
+            <p><a class="inline-link" href="https://umi-gripper.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/real-stanford/universal_manipulation_interface" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>DexUMI</h3>
+            <p><a class="inline-link" href="https://dex-umi.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2505.21864" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>UMI-on-Legs</h3>
+            <p><a class="inline-link" href="https://umi-on-legs.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/real-stanford/umi-on-legs" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://hdflow-page.github.io/static/umi-on-legs.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>HoMMI</h3>
+            <p><a class="inline-link" href="https://hommi-robot.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://github.com/xxm19/hommi" target="_blank" rel="noopener noreferrer">Code</a> / <a class="inline-link" href="https://arxiv.org/pdf/2603.03243" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>HuMI</h3>
+            <p><a class="inline-link" href="https://humanoid-manipulation-interface.github.io/" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://humanoid-manipulation-interface.github.io/humi.pdf" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>ALOHA / Mobile ALOHA</h3>
+            <p><a class="inline-link" href="https://tonyzhaozh.github.io/aloha/" target="_blank" rel="noopener noreferrer">ALOHA Project</a> / <a class="inline-link" href="https://mobile-aloha.github.io/" target="_blank" rel="noopener noreferrer">Mobile ALOHA Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2401.02117" target="_blank" rel="noopener noreferrer">Mobile ALOHA PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>DROID / BridgeData V2</h3>
+            <p><a class="inline-link" href="https://droid-dataset.github.io/" target="_blank" rel="noopener noreferrer">DROID Project</a> / <a class="inline-link" href="https://rail-berkeley.github.io/bridgedata/" target="_blank" rel="noopener noreferrer">BridgeData V2 Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2403.12945" target="_blank" rel="noopener noreferrer">DROID PDF</a></p>
+          </article>
+          <article class="related-item">
+            <h3>Being-H0.5 / UniCraftor</h3>
+            <p><a class="inline-link" href="https://research.beingbeyond.com/being-h05" target="_blank" rel="noopener noreferrer">Project</a> / <a class="inline-link" href="https://arxiv.org/pdf/2601.12993" target="_blank" rel="noopener noreferrer">PDF</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>先给一个总判断</h2>
+        <p>我现在越来越不把“数据采集”理解成论文里的配套工程，而更把它看成具身智能里的基础设施设计。因为模型最终能学到什么，常常不由结构名字决定，而是由你能不能稳定采到 <strong>时间对齐、动作可执行、场景多样、接口一致</strong> 的数据决定。</p>
+        <div class="summary-box">
+          <strong>一句话记忆：</strong>
+          最近这些数采方案，本质上都在回答同一个问题：如何把人类操作、机器人控制和真实世界场景，压成一份模型真正学得动的数据。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>最近主流数采方案，其实分成三条路线</h2>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>路线一：机器人本体 teleoperation</h3>
+            <p>代表是 `ALOHA`、`ALOHA 2`、`Mobile ALOHA`。这一路线的优势是动作和机器人本体天然对齐，缺点是采集带宽、成本和场景灵活性容易受机器人硬件本身限制。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线二：分布式机器人数据管线</h3>
+            <p>代表是 `DROID` 和 `BridgeData V2`。它们的重点不是新型人机接口，而是用更标准化的硬件和更广的环境覆盖，把大量真实机器人演示组织成一个可训练的数据集。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线三：人类中心、硬件解耦的数据接口</h3>
+            <p>代表是 `UMI`、`DexUMI`，以及更近的 `Being-H0.5` 里的 `UniCraftor`。这条路线最有野心，因为它不满足于“直接 teleop 机器人”，而是想把人类自身的操作痕迹转写成跨机器人可迁移的数据语言。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>一张表先看清它们到底差在哪</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>方案</th>
+                <th>核心采集方式</th>
+                <th>最强优势</th>
+                <th>最关键限制</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>UMI</td>
+                <td>手持 gripper + wrist camera + 轨迹恢复</td>
+                <td>把人类示范转成跨机器人可部署接口</td>
+                <td>主要还是 manipulation 场景，且需要很强的接口设计</td>
+              </tr>
+              <tr>
+                <td>ALOHA / ALOHA 2</td>
+                <td>低成本双臂机器人 teleoperation</td>
+                <td>本体对齐直接、精细双臂任务很强</td>
+                <td>采集效率和场景移动性受机器人工作站限制</td>
+              </tr>
+              <tr>
+                <td>Mobile ALOHA</td>
+                <td>whole-body teleoperation + mobile base</td>
+                <td>把数据采集从桌面操作扩展到长时移动双臂任务</td>
+                <td>仍然重度依赖机器人本体和 teleop 配置</td>
+              </tr>
+              <tr>
+                <td>DROID</td>
+                <td>标准化机器人平台 + 分布式多人采集</td>
+                <td>场景、任务和采集者多样性非常强</td>
+                <td>本质上还是机器人原生数据，采集成本高于纯人类示范</td>
+              </tr>
+              <tr>
+                <td>BridgeData V2</td>
+                <td>VR teleop + 多环境任务组织</td>
+                <td>很适合理解数据规模和任务多样性如何提升泛化</td>
+                <td>控制频率和单机体设定决定了它更像可扩展基线</td>
+              </tr>
+              <tr>
+                <td>Being-H0.5 / UniCraftor</td>
+                <td>人类中心便携采集 + RGB-D + 校准 + 事件触发</td>
+                <td>强调同步信号、世界系一致性和跨 embodiment 统一语言</td>
+                <td>目前更像 2026 的新方向，仍需更多公开验证</td>
+              </tr>
+              <tr>
+                <td>DexUMI</td>
+                <td>人手 exoskeleton + robot-hand inpainting</td>
+                <td>把 UMI 推向灵巧手和接触丰富的多指操作</td>
+                <td>需要同时解决人手与机器人手的运动学和视觉差距</td>
+              </tr>
+              <tr>
+                <td>UMI-on-Legs / HoMMI / HuMI</td>
+                <td>UMI 扩展到移动底盘、四足和 humanoid whole-body</td>
+                <td>把 robot-free demonstrations 推进到 mobile/whole-body 任务</td>
+                <td>observation 和 action space 的 embodiment gap 更大</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>第一条路线：机器人本体 teleoperation 仍然非常重要</h2>
+        <h3>ALOHA / ALOHA 2</h3>
+        <p>`ALOHA` 的贡献不只是便宜，而是它证明了：低成本双臂 teleoperation 也可以支持精细、接触丰富、闭环视觉依赖很强的任务。`ALOHA 2` 则继续把这个方向工程化，增强 gripper、重力补偿、机架和相机系统，目的都是让数据采集更稳、更耐用、更适合规模化复用。</p>
+        <div class="tech-box">
+          <strong>为什么这条线还重要：</strong>
+          因为它采到的是最“机器人原生”的数据。动作直接发生在目标本体上，控制接口天然成立，所以非常适合做高精度、强接触、双臂协同类技能。
+        </div>
+        <h3>Mobile ALOHA</h3>
+        <p>`Mobile ALOHA` 进一步说明，具身数据采集不能只停留在桌面抓取。它把 whole-body teleoperation 带进移动双臂任务，覆盖开柜门、进电梯、厨房长时操作这类更像真实服务机器人的场景。它最值得记住的一点，是论文明确展示了 co-training with static ALOHA data 可以把移动任务成功率显著拉高。</p>
+        <div class="summary-box">
+          <strong>这一条路线的研究意义：</strong>
+          它在证明“机器人本体 teleop 仍然是高质量技能数据的金标准之一”，只是这条路很难单独解决规模和场景多样性的问题。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>第二条路线：把真实机器人数据做成可扩展的数据集</h2>
+        <h3>DROID</h3>
+        <p>`DROID` 代表的是另一种思路：不一定改变交互接口，而是把机器人平台、采集协议、场景覆盖和数据组织方式标准化。它的亮点不是一个新奇的控制器，而是 76k 条轨迹、564 个场景、86 个任务、13 个机构的分布式采集组织能力。</p>
+        <p>这类方案告诉我们，数据质量不只来自“单条示范很精致”，还来自“整体分布是不是够广、够真实、够多样”。</p>
+        <h3>BridgeData V2</h3>
+        <p>`BridgeData V2` 则更像一个特别好的研究型基座。它用 VR teleop 在 24 个环境里采了 60,096 条轨迹，覆盖 13 个技能，并且保留语言标注、多视角相机和 wrist camera。它很适合帮助建立一个最朴素但很重要的直觉：当任务和环境真正扩展时，策略泛化会随数据组织质量一起提升。</p>
+        <div class="warning-box">
+          <strong>这一路线的局限：</strong>
+          它很强，但采集还是绑定在机器人本体上，所以在带宽、成本、维护和部署场景灵活性上，天然会比人类中心接口更重。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>第三条路线：为什么 UMI 依然是最值得深挖的核心节点</h2>
+        <p>如果只让我挑一个数采方案深入读，我还是会首推 <a class="inline-link" href="../papers/umi.html">UMI</a>。原因很简单：它不是在优化某个 teleop 细节，而是在重新定义“什么样的人类示范才能转写成机器人可学数据”。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>它把数据采集和部署接口绑在一起</h3>
+            <p>UMI 最深的地方，是从一开始就考虑 latency matching、relative trajectory 和 deployment consistency，而不是先采再说。</p>
+          </div>
+          <div class="detail-card">
+            <h3>它显著提高了数据采集带宽</h3>
+            <p>项目页展示它的示范速度大约 111 次/小时，远快于传统 SpaceMouse teleop 的 35 次/小时，说明它不只是接口更对，也确实更快。</p>
+          </div>
+          <div class="detail-card">
+            <h3>它天然更适合跨机器人迁移</h3>
+            <p>因为它不是把动作死死绑在某一台机器人上，而是在尽量学习一种更接近操作语义本身的局部动作接口。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>我的理解：</strong>
+          ALOHA 很强，DROID 很强，但 UMI 更像是在问一个更靠前的问题：我们到底应该如何定义一条具身示范，才能让它成为基础模型时代真正可复用的训练样本。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>和 UMI 最像的新方向：Being-H0.5 里的 UniCraftor</h2>
+        <p>你提到的 `Being Beyond`，我查下来更接近 2026 的 <strong>`Being-H0.5: Scaling Human-Centric Robot Learning for Cross-Embodiment Generalization`</strong>。这篇工作里最值得放进数采专栏的，不只是模型，而是它提出的 `UniCraftor` 数据采集系统。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>和 UMI 的共同点</h3>
+            <p>两者都在走“人类中心、硬件解耦”的路线，都不满足于只做机器人本体 teleop，而是试图把人类交互痕迹转写成跨 embodiment 可迁移的训练信号。</p>
+          </div>
+          <div class="detail-card">
+            <h3>它比 UMI 更强调什么</h3>
+            <p>`UniCraftor` 特别强调 native RGB-D、稳定校准带来的 world-frame consistency，以及 contact / release 这类关键事件触发。这说明它想进一步把“高质量数据”定义成几何、时间和交互事件都可被精准恢复。</p>
+          </div>
+          <div class="detail-card">
+            <h3>为什么值得持续观察</h3>
+            <p>如果 UMI 解决的是可部署接口，那么 UniCraftor 想走得更远：它想把跨 embodiment 预训练所需的统一动作语言和同步数据采集一并做掉。这条线很可能会对下一代 generalist policy 产生更大影响。</p>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>需要保持审慎：</strong>
+          `Being-H0.5` 和 `UniCraftor` 很新，目前更像 2026 年值得重点追踪的方向。它的想法很强，但还需要更多公开复现和更广泛社区验证。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>DexUMI：UMI 往灵巧手方向长出的第一条重要分支</h2>
+        <p>`DexUMI` 很值得深挖，因为它说明 UMI 的思想并不只适用于平行夹爪 manipulation。一旦你把目标从平行夹爪扩展到多指灵巧手，问题会突然变难很多：人手和机器人手在自由度、几何结构、接触方式和视觉外观上都不再接近。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>硬件上：用 exoskeleton 缩小运动学差距</h3>
+            <p>DexUMI 不再只是让人拿着“像 gripper 的工具”，而是直接让人戴上面向目标机器人手设计的可穿戴 exoskeleton。这样示范时就能保留人手的直接触觉反馈，同时把动作约束到更接近目标灵巧手可实现的轨迹空间里。</p>
+          </div>
+          <div class="detail-card">
+            <h3>视觉上：用 robot-hand inpainting 缩小外观差距</h3>
+            <p>DexUMI 很聪明的一点，是承认“人手长得和机器人手就是不一样”。于是它在训练数据里把人手和 exoskeleton 替换成高保真 robot-hand inpainting，让策略在视觉上看到的东西更接近部署时真实机器人会看到的东西。</p>
+          </div>
+          <div class="detail-card">
+            <h3>表示上：relative trajectory 继续成立</h3>
+            <p>和 UMI 一样，DexUMI 依然受益于 relative action 表示。项目页里甚至专门展示了 finger action 采用相对轨迹比绝对轨迹更稳定，这说明 UMI 的接口思想在灵巧手上并没有失效，反而更重要。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>我对 DexUMI 的判断：</strong>
+          它不是简单的“灵巧手版 UMI”，而是在回答 UMI 原始设想能否跨过最难的一道坎：当人类操作者和目标机器人在手部结构上严重不一致时，数据接口还能不能成立。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>Mobile UMI 不是一篇论文，而是一整个方向</h2>
+        <p>如果说 DexUMI 是把 UMI 从平行夹爪推向灵巧手，那么另一条更大的外延，就是把 UMI 从固定底座 manipulation 推向 <strong>mobile manipulation 与 whole-body manipulation</strong>。这一方向我更愿意叫它 `mobile UMI family`，因为它其实包含了多篇互补的工作。</p>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>UMI-on-Legs</h3>
+            <p>这篇的核心不是重新定义数据接口，而是证明 UMI 采到的 manipulation policy 可以通过 manipulation-centric whole-body controller 被“插”到四足移动平台上。它很重要，因为它首次让 UMI 风格数据和 whole-body controller 形成 plug-and-play 接口。</p>
+          </div>
+          <div class="detail-card">
+            <h3>HoMMI</h3>
+            <p>`HoMMI` 更进一步。它意识到移动操作不只是手怎么动，还包括人要怎么找路、怎么看、怎么协调头部和双手。所以它给 UMI 增加了 egocentric sensing，专门去捕捉 mobile manipulation 所需的 global context、active perception 和 hand-eye coordination。</p>
+          </div>
+          <div class="detail-card">
+            <h3>HuMI</h3>
+            <p>`HuMI` 则把 robot-free demonstration 进一步推进到 humanoid 的 whole-body manipulation：包括 walking、kneeling、squatting、tossing 和双臂任务。它最重要的意义在于说明 portable robot-free collection 不再只服务机械臂，而是开始服务 whole-body humanoid skill acquisition。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>为什么 mobile UMI 方向比看上去更难</h2>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>观测差距更大</h3>
+            <p>固定底座操作主要靠 wrist view 和局部任务状态，但 mobile manipulation 需要全局上下文、导航线索、主动观察和多身体部位协同。HoMMI 会强调 head-mounted egocentric sensing，正是因为 wrist-only 根本不够。</p>
+          </div>
+          <div class="detail-card">
+            <h3>动作差距更大</h3>
+            <p>人类在示范时不只是移动夹爪，还会转头、挪步、下蹲、前倾、改变重心。到了移动平台、四足、humanoid 上，这些动作该怎么映射，已经远不是原始 UMI 那种相对末端轨迹接口就能完全覆盖的。</p>
+          </div>
+          <div class="detail-card">
+            <h3>控制器必须补上更多“下半身智能”</h3>
+            <p>`UMI-on-Legs` 和 `HuMI` 都说明，数据接口只是上半场。真正落地 whole-body/mobile 系统时，还必须有强 whole-body controller 把高层手眼轨迹转成稳定、可执行的全身动作。</p>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>这也是为什么我不把 mobile UMI 看成“UMI 的自然小改版”：</strong>
+          它其实是在把 UMI 的核心命题从“人类示范如何转成机器人操作数据”升级成“人类 whole-body 行为如何转成不同机器人身体上的可执行技能”。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>UMI 最近的动态：这条线正在往三个方向长</h2>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>1. 从单模态到多模态</h3>
+            <p>`TacUMI` 这类 2026 新工作已经开始把 tactile、force-torque 和 pose tracker 接入 UMI 风格接口，重点针对 cable mounting 这类 contact-rich 任务。这说明大家开始意识到，仅有视觉和位姿并不足以覆盖更复杂的接触操作。</p>
+          </div>
+          <div class="detail-card">
+            <h3>2. 从平行夹爪到 dexterous / mobile / whole-body</h3>
+            <p>`DexUMI`、`UMI-on-Legs`、`HoMMI`、`HuMI` 说明 UMI 不再是一个单点系统，而是在长成一个家族。这个家族正在分别解决灵巧手、移动操作、active perception 和 humanoid whole-body 的新 embodiment gap。</p>
+          </div>
+          <div class="detail-card">
+            <h3>3. 从论文系统到数据生产线</h3>
+            <p>`FastUMI-100K` 和 `FastUMI Pro` 代表的是规模化方向。前者开始把 UMI 风格数据做成更大规模的数据集，后者则更像工业化数采背包，把 UMI 从实验室方法推进到标准化数据生产设备。</p>
+          </div>
+          <div class="detail-card">
+            <h3>4. 从单一接口到更大的跨 embodiment 语言</h3>
+            <p>不管是 UMI 的后续扩展，还是 Being-H0.5 里的 unified action language，都在说明同一件事：未来真正重要的，不只是“采到更多数据”，而是“采到能进入统一动作语言的数据”。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>我对这条线的判断：</strong>
+          UMI 已经不只是 RSS 2024 的一篇系统论文，它越来越像一个数据接口家族的起点。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>如果按研究价值排序，我会怎么读这些方案</h2>
+        <ol>
+          <li>先读 <a class="inline-link" href="../papers/umi.html">UMI</a>，因为它最能建立“数据接口”这层直觉。</li>
+          <li>再看 `DROID` 和 `BridgeData V2`，理解真实机器人数据怎样被做成规模化数据集。</li>
+          <li>接着看 `ALOHA / Mobile ALOHA`，理解机器人本体 teleop 为什么仍然是高质量技能数据的重要来源。</li>
+          <li>然后重点看 `DexUMI` 和 `UMI-on-Legs / HoMMI / HuMI`，因为它们最能告诉你 UMI 这套接口思想能否跨过 dexterous 和 mobile/whole-body 这两道最大的坎。</li>
+          <li>最后持续跟踪 `Being-H0.5 / UniCraftor`、`TacUMI`、`FastUMI` 这类更近的新方向，看这条线会不会真的把数据采集推进到 foundation-model 级基础设施。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>如果只记住四句话</h2>
+        <ol>
+          <li>具身智能的数据采集，不再只是“录示范”，而是在设计训练接口。</li>
+          <li>ALOHA、DROID、BridgeData V2 解决的是高质量机器人原生数据怎么来；UMI、DexUMI、HoMMI、HuMI、UniCraftor 解决的是人类示范怎么转成跨机器人可复用数据。</li>
+          <li>UMI 仍然是这条线里最关键的节点，因为它最早把数据质量、时间对齐和部署一致性绑在一起讨论。</li>
+          <li>DexUMI 和 mobile UMI family 最值得深挖，因为它们直接测试了 UMI 思想能不能跨过灵巧手和 whole-body/mobile 这两类 hardest embodiment gaps。</li>
+          <li>最近的新变化很明确：更多模态、更大规模、更统一动作语言，会成为下一代数采系统的主方向。</li>
+        </ol>
+        <div class="cta-row">
+          <a class="cta-button" href="../papers/umi.html">去看 UMI 深挖</a>
+          <a class="cta-button secondary" href="../index.html">回到首页</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
