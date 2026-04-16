@@ -73,6 +73,56 @@
       </section>
 
       <section class="article-section">
+        <h2>UMI 开源数据导航：我核实到目前能直接拿到什么</h2>
+        <p>如果只谈论文，`UMI` 这条线已经很热；但如果只谈<strong>真正能下载、能复现、能训练</strong>的数据，情况其实比很多人想象得更复杂。更准确的做法，是把它们分成三类看：<strong>原版官方上游数据</strong>、<strong>规模化 UMI-style 数据</strong>、以及<strong>带新模态的新一代 handheld 扩展</strong>。</p>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>1. 原版 UMI 官方数据：example_demo_session</h3>
+            <p>Stanford 官方原始示例会话，包含多段 GoPro MP4，最适合第一次跑通 `UMI` 的完整数据后处理链：视频、SLAM、位姿恢复，再到训练用 `Zarr`。如果你想理解什么叫“UMI 数据是被构造出来的”，而不是“直接拿视频喂模型”，这就是起点。</p>
+            <p><a class="inline-link" href="https://real.stanford.edu/umi/data/example_demo_session/" target="_blank" rel="noopener noreferrer">数据目录</a> / <a class="inline-link" href="https://github.com/real-stanford/universal_manipulation_interface" target="_blank" rel="noopener noreferrer">代码</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">相关文章：UMI RSS 2024</a></p>
+          </article>
+          <article class="related-item">
+            <h3>2. 原版 UMI 官方训练集：cup_in_the_wild</h3>
+            <p>这是最标准的官方训练数据入口。Stanford 数据目录里能直接看到 `cup_in_the_wild.zarr.zip`，大小约 16GB。它仍然是理解 `UMI` 典型 observation / action 组织方式最好的单任务基准，也最接近“传统 UMI”本体。</p>
+            <p><a class="inline-link" href="https://real.stanford.edu/umi/data/zarr_datasets/cup_in_the_wild.zarr.zip" target="_blank" rel="noopener noreferrer">直接下载</a> / <a class="inline-link" href="https://huggingface.co/datasets/lerobot/umi_cup_in_the_wild" target="_blank" rel="noopener noreferrer">LeRobot 转换版</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">相关文章：UMI RSS 2024</a></p>
+          </article>
+          <article class="related-item">
+            <h3>3. UMI Robot Dataset Community</h3>
+            <p>这不是一个单独数据集，而是当前最有用的社区索引和格式说明页。它把 `UMI-like` 数据共享原则、`Zarr` 结构、episode 组织方式和 replay buffer 读取方法都写得很清楚。对于任何想自己做 handheld / robot-free 数据的人，这个页面几乎就是最实用的参考模板。</p>
+            <p><a class="inline-link" href="https://umi-data.github.io/" target="_blank" rel="noopener noreferrer">社区索引</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">相关文章：UMI RSS 2024</a></p>
+          </article>
+          <article class="related-item">
+            <h3>4. FastUMI-Data</h3>
+            <p>`FastUMI` 是目前最成熟的大规模 `UMI-style` 数据之一。论文和 Hugging Face 页面都指向：<strong>超过 1 万条真实演示、覆盖 22 个任务</strong>，总量约 2.37TB。它不是 Stanford 原版 UMI，但非常适合作为“UMI 思路放大后如何形成规模化数据生产线”的代表。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/IPEC-COMMUNITY/FastUMI-Data" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://github.com/YdingTeam/FastUMI_Data" target="_blank" rel="noopener noreferrer">代码</a> / <a class="inline-link" href="https://arxiv.org/abs/2409.19499" target="_blank" rel="noopener noreferrer">相关文章：FastUMI</a></p>
+          </article>
+          <article class="related-item">
+            <h3>5. FastUMI-100K</h3>
+            <p>`FastUMI-100K` 更进一步，它不只是“更大的 FastUMI”，而是开始明显朝 foundation-model 量级推进。论文写的是 <strong>100K+ trajectories、54 个任务、约 600 小时交互数据</strong>；当前 Hugging Face 仓库已经公开，页面显示约 1.4TB。对关心“手持无本体数据能否真正做大”的人，这条线现在必须跟。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/IPEC-COMMUNITY/FastUMI_100k_lerobot" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://huggingface.co/papers/2510.08022" target="_blank" rel="noopener noreferrer">相关文章：FastUMI-100K</a></p>
+          </article>
+          <article class="related-item">
+            <h3>6. exUMI</h3>
+            <p>`exUMI` 是目前最值得一起看的 tactile 扩展。它把原版 UMI 的视觉接口升级成了 <strong>vision + tactile + 更稳 proprioception</strong> 的 portable system。上游 Hugging Face 仓库 `silicx/exUMI` 已公开，页面总量约 134GB，按任务提供 `zarr.zip` 和原始视频。它的重要性在于：这已经不是单纯“再多收一些 UMI 数据”，而是在改写 UMI 的模态边界。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/silicx/exUMI" target="_blank" rel="noopener noreferrer">上游数据</a> / <a class="inline-link" href="https://silicx.github.io/exUMI/" target="_blank" rel="noopener noreferrer">项目页</a> / <a class="inline-link" href="https://arxiv.org/abs/2509.14688" target="_blank" rel="noopener noreferrer">相关文章：exUMI</a></p>
+          </article>
+          <article class="related-item">
+            <h3>7. Touch in the Wild / ManiWAV / MV-UMI</h3>
+            <p>这三条我会放进“强相关 UMI-like”组一起看。`Touch in the Wild` 用 portable visuo-tactile gripper 走向精细接触操作；`ManiWAV` 把 contact audio 并进 handheld 数据接口；`MV-UMI` 则给 wrist-only UMI 加上第三人称视角，减少长时任务中的上下文缺失。它们共同说明：UMI 现在已经不只是一个系统名，而在逐渐变成一整套可扩展的数据接口家族。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/binghaohuang-robot/touch_in_the_wild-dataset" target="_blank" rel="noopener noreferrer">Touch in the Wild</a> / <a class="inline-link" href="https://real.stanford.edu/maniwav/data/bagel_in_wild/replay_buffer.zarr.zip" target="_blank" rel="noopener noreferrer">ManiWAV</a> / <a class="inline-link" href="https://huggingface.co/datasets/omarrayyann/mv-umi" target="_blank" rel="noopener noreferrer">MV-UMI</a></p>
+          </article>
+        </div>
+        <div class="summary-box">
+          <strong>如果你只想记一个判断：</strong>
+          `UMI` 公开数据现在已经可以分层理解了。最核心的还是 Stanford 原版官方上游数据；最适合做规模化整理的是 `FastUMI` 系列；而最能代表“下一代手持无本体接口在往哪里长”的，是 `exUMI`、`Touch in the Wild`、`ManiWAV` 和 `MV-UMI` 这些新模态和新视角扩展。
+        </div>
+        <div class="warning-box">
+          <strong>但不要把“上游数据”和“镜像版”混成一回事：</strong>
+          `lerobot/umi_cup_in_the_wild`、`DaivdYuan/exumi-*-lerobot` 这类条目非常适合直接进入训练工具链，但它们本质上是转换版。真正做数据调研时，更应该把 Stanford 官方 `Zarr`、FastUMI 官方数据页和 exUMI 上游 `zarr.zip` 仓库当成主入口。
+        </div>
+      </section>
+
+      <section class="article-section">
         <h2>先给一个总判断</h2>
         <p>我现在越来越不把“数据采集”理解成论文里的配套工程，而更把它看成具身智能里的基础设施设计。因为模型最终能学到什么，常常不由结构名字决定，而是由你能不能稳定采到 <strong>时间对齐、动作可执行、场景多样、接口一致</strong> 的数据决定。</p>
         <div class="summary-box">
@@ -327,6 +377,10 @@
         <div class="summary-box">
           <strong>我对这条线的判断：</strong>
           UMI 已经不只是 RSS 2024 的一篇系统论文，它越来越像一个数据接口家族的起点。
+        </div>
+        <div class="warning-box">
+          <strong>但数据开源节奏并不一致：</strong>
+          `MV-UMI`、`exUMI`、`Touch in the Wild` 这类更贴近 handheld 接口扩展的工作，已经开始有公开数据；但 `DexUMI`、`UMI-on-Legs`、`HoMMI`、`HuMI`、`UMI-FT` 这些更偏灵巧手、移动平台和 whole-body 的分支，目前我主要能确认有公开论文、项目页或代码，而没有找到像 `UMI cup_in_the_wild`、`FastUMI-Data` 或 `exUMI` 那样稳定清晰的公共数据下载入口。所以如果你的目标是“今天就下载来用”，最现实的入口仍然是上面列出来的这些 handheld / UMI-like 数据。
         </div>
       </section>
 

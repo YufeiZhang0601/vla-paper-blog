@@ -40,6 +40,61 @@
       </section>
 
       <section class="article-section">
+        <h2>我核实到的 UMI 开源数据入口</h2>
+        <p>这次我把范围从“原版 Stanford UMI”扩到了整个 <strong>`UMI / UMI-like / handheld robot-free demonstration`</strong> 家族，并且优先核实两件事：<strong>现在能不能真正下载</strong>，以及<strong>它到底是原始上游数据，还是别人做的格式转换版</strong>。这样整理之后会更清楚：真正值得优先收的，主要分成三层。</p>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>1. 原版 UMI 官方数据：example_demo_session</h3>
+            <p>这是 Stanford 官方放出来的原始示例会话，目录里能看到多段 GoPro MP4。它最适合用来跑通 `UMI` 的全链路：原始视频、SLAM、末端轨迹恢复，再到训练用的 `dataset.zarr.zip`。如果你想理解 UMI 不是“拿视频直接训”，而是一整套数据后处理系统，这个入口必须先看。</p>
+            <p><a class="inline-link" href="https://real.stanford.edu/umi/data/example_demo_session/" target="_blank" rel="noopener noreferrer">数据目录</a> / <a class="inline-link" href="https://github.com/real-stanford/universal_manipulation_interface" target="_blank" rel="noopener noreferrer">官方代码</a> / <a class="inline-link" href="https://umi-gripper.github.io/umi.pdf" target="_blank" rel="noopener noreferrer">相关文章：UMI RSS 2024</a></p>
+          </article>
+          <article class="related-item">
+            <h3>2. 原版 UMI 官方训练集：cup_in_the_wild.zarr.zip</h3>
+            <p>这是目前最标准、最像“传统 UMI 正式训练集”的公开数据。Stanford 目录里能直接看到它，大小约 16GB。它对应最经典的 cup arrangement 任务，也是最适合理解 `UMI Zarr` 字段组织、episode 拼接方式和 cross-environment generalization 直觉的起点。</p>
+            <p><a class="inline-link" href="https://real.stanford.edu/umi/data/zarr_datasets/cup_in_the_wild.zarr.zip" target="_blank" rel="noopener noreferrer">直接下载</a> / <a class="inline-link" href="https://real.stanford.edu/umi/data/zarr_datasets/" target="_blank" rel="noopener noreferrer">数据目录</a> / <a class="inline-link" href="https://huggingface.co/datasets/lerobot/umi_cup_in_the_wild" target="_blank" rel="noopener noreferrer">LeRobot 转换版</a></p>
+          </article>
+          <article class="related-item">
+            <h3>3. FastUMI-Data</h3>
+            <p>这是目前最成熟的大规模 `UMI-style` 公开数据之一。论文和数据页都明确指向：<strong>超过 1 万条真实演示、覆盖 22 个日常任务</strong>，Hugging Face 页面显示总量约 2.37TB。它延续的是 UMI 的 handheld、硬件解耦、跨平台复用路线，但规模已经明显更大。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/IPEC-COMMUNITY/FastUMI-Data" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://github.com/YdingTeam/FastUMI_Data" target="_blank" rel="noopener noreferrer">代码</a> / <a class="inline-link" href="https://arxiv.org/abs/2409.19499" target="_blank" rel="noopener noreferrer">相关文章：FastUMI</a></p>
+          </article>
+          <article class="related-item">
+            <h3>4. FastUMI_100k_lerobot</h3>
+            <p>如果你关心“这条线有没有真正往 foundation-model 量级走”，那就要看 `FastUMI-100K`。论文写的是 <strong>100K+ trajectories、54 个任务、约 600 小时交互数据</strong>，当前 Hugging Face 仓库已经公开，页面显示总量约 1.4TB。它的重要性不只是更大，而是开始把 UMI-style 数据做成多任务、多文本标注、多模态训练资产。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/IPEC-COMMUNITY/FastUMI_100k_lerobot" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://huggingface.co/papers/2510.08022" target="_blank" rel="noopener noreferrer">相关文章：FastUMI-100K</a></p>
+          </article>
+          <article class="related-item">
+            <h3>5. exUMI 上游数据：silicx/exUMI</h3>
+            <p>`exUMI` 是我这次最想补进去的一条。它不是普通的“又一个 UMI 变体”，而是把原版 UMI 扩展成 <strong>vision + tactile + 更稳 proprioception</strong> 的便携采集系统。上游 Hugging Face 仓库公开了按任务组织的 `TASK_NAME.zarr.zip` 和原始 2K 视频目录，页面总量约 134GB。数据结构里最关键的新字段是 `tactile_combined`，说明它已经从纯视觉手持接口走向了 visuo-tactile 接口。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/silicx/exUMI" target="_blank" rel="noopener noreferrer">上游数据</a> / <a class="inline-link" href="https://silicx.github.io/exUMI/" target="_blank" rel="noopener noreferrer">项目页</a> / <a class="inline-link" href="https://arxiv.org/abs/2509.14688" target="_blank" rel="noopener noreferrer">相关文章：exUMI</a></p>
+          </article>
+          <article class="related-item">
+            <h3>6. Touch in the Wild</h3>
+            <p>这条我会放进“强相关 UMI-like”而不是“原版 UMI”。它用的是 portable visuo-tactile gripper，Hugging Face 页面写的是 <strong>576GB</strong>，项目页给出的规模是 <strong>2.6M visuo-tactile pairs、2700+ demos、43 tasks、12 environments</strong>。如果你想看 handheld 数据如何进一步走向精细接触操作，这个数据集非常值得一起看。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/binghaohuang-robot/touch_in_the_wild-dataset" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer">项目页</a> / <a class="inline-link" href="https://arxiv.org/abs/2507.15062" target="_blank" rel="noopener noreferrer">相关文章：Touch in the Wild</a></p>
+          </article>
+          <article class="related-item">
+            <h3>7. ManiWAV</h3>
+            <p>`ManiWAV` 可以理解成 audio 版的 UMI-like 扩展。它把 contact microphone 引入到 portable handheld 数据接口里，主打的是 contact-rich manipulation。当前我核实到公开可下载的是 `bagel_in_wild` 的 `replay_buffer.zarr.zip`，大小约 4.4GB。它不是大而全的数据仓，但很能代表“UMI 家族正在把哪些新模态并进来”。</p>
+            <p><a class="inline-link" href="https://real.stanford.edu/maniwav/data/bagel_in_wild/replay_buffer.zarr.zip" target="_blank" rel="noopener noreferrer">直接下载</a> / <a class="inline-link" href="https://mani-wav.github.io/" target="_blank" rel="noopener noreferrer">项目页</a> / <a class="inline-link" href="https://arxiv.org/abs/2406.19464" target="_blank" rel="noopener noreferrer">相关文章：ManiWAV</a></p>
+          </article>
+          <article class="related-item">
+            <h3>8. MV-UMI</h3>
+            <p>`MV-UMI` 的关键不是换了个新 gripper，而是给 handheld UMI 系统补上了 <strong>third-person processed view</strong>。它用多视角来减少 wrist-only 视角在长时任务里的信息缺口，同时尽量不引入训练部署分布偏差。当前 Hugging Face 官方数据页公开，页面显示总量约 58.6GB。</p>
+            <p><a class="inline-link" href="https://huggingface.co/datasets/omarrayyann/mv-umi" target="_blank" rel="noopener noreferrer">数据集</a> / <a class="inline-link" href="https://mv-umi.github.io/" target="_blank" rel="noopener noreferrer">项目页</a> / <a class="inline-link" href="https://arxiv.org/abs/2509.18757" target="_blank" rel="noopener noreferrer">相关文章：MV-UMI</a></p>
+          </article>
+        </div>
+        <div class="summary-box">
+          <strong>现在更准确的结论应该是：</strong>
+          `UMI` 公开数据已经不只是“Stanford 官方样例 + 一个 cup 数据集”这么简单，而是开始长成一个可以分层理解的家族：<strong>原版 UMI 官方上游数据、FastUMI 这类大规模 UMI-style 数据、以及 exUMI / Touch in the Wild / ManiWAV / MV-UMI 这些带新模态和新观察视角的强相关扩展。</strong>
+        </div>
+        <div class="warning-box">
+          <strong>但还是要分清“上游原始数据”和“格式转换版”：</strong>
+          像 `lerobot/umi_cup_in_the_wild`、`DaivdYuan/exumi-*-lerobot` 这类条目很适合直接拿来训练，但它们本质上是为了工具链兼容做的镜像或转换。真正想研究 `UMI` 接口本身，还是应该优先保留 Stanford 官方 `Zarr`、FastUMI 官方 HDF5 / LeRobot 仓库，以及 exUMI 上游 `zarr.zip` 这类原始发布入口。
+        </div>
+      </section>
+
+      <section class="article-section">
         <h2>先给结论：为什么我觉得 UMI 值得反复看</h2>
         <p>如果只用一句话概括，我会说：`UMI` 不是在解决“怎么更方便采数据”，而是在解决“怎么让数据真的可学、可迁移、可部署”。</p>
         <p>这也是它为什么不应该只被放进“低延时论文”或“teleoperation 工具论文”里。它更深的一层贡献是：<strong>把具身学习里最容易被忽略的那部分工作显式化了，也就是观测、动作、时间和硬件之间的接口设计。</strong></p>
@@ -80,6 +135,103 @@
           </div>
         </div>
         <p>这套硬件背后的思想非常重要：<strong>不要为了更精密的传感器系统牺牲便携性和采集带宽，而是要找到刚好足够支持策略部署的观测配置。</strong> 从这个角度看，UMI 的硬件不是附属物，而是数据定义的一部分。</p>
+      </section>
+
+      <section class="article-section">
+        <h2>如果你想自己复现 UMI 到机械臂：先看清夹爪这件事</h2>
+        <p>很多人第一次读 `UMI` 或 `FastUMI`，都会下意识去找“机器人端夹爪电机怎么选、扭矩怎么算、他们论文里用了什么电机”。但如果你认真核对官方仓库和论文，会发现一个很关键的事实：<strong>原版 UMI 和 FastUMI 的研究重点都不是自研机器人端夹爪驱动</strong>。</p>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>原版 UMI</h3>
+            <p>手持端是 trigger-activated 的 3D 打印平行夹爪，重点是 GoPro 视角、ArUco / gripper width 和 SLAM 轨迹恢复。机器人部署端在官方 repo 的 real-world deployment 里，明确写的是配置 `WSG50` 工业电爪，而不是自己设计一套电机与传动。</p>
+          </div>
+          <div class="detail-card">
+            <h3>FastUMI</h3>
+            <p>FastUMI 论文反而明确批评了原版 UMI 对 `WSG-50` 这类特定工业夹爪的耦合太强。它的改法不是重新发明夹爪电机，而是做 <strong>plug-in fingertip + adjustable camera mount</strong>，去适配多种现成 gripper，文中明确举的例子包括 `xArm gripper` 和 `Robotiq 2F-85`。</p>
+          </div>
+          <div class="detail-card">
+            <h3>为什么你没看到电机选型</h3>
+            <p>因为对这两篇论文来说，机器人端夹爪更像“现成执行器”，而不是研究对象。它们真正关心的是：夹爪几何是否能和 handheld 对齐、gripper width 能否连续控制、相机视角是否一致、部署时延迟是否可补偿。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>所以如果你的目标是“复现论文路线”：</strong>
+          最接近原始精神的做法不是先自己造一个电驱夹爪，而是<strong>先用现成工业电爪把 UMI-compatible fingertip、GoPro 视角和 width 接口做对</strong>。只有当预算、重量或可定制性逼着你走自制路线时，才值得认真做电机和传动选型。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>为什么很多人会选 DYNAMIXEL 做自制 UMI 夹爪</h2>
+        <p>如果你们决定自己做一个 `UMI-compatible` 的电驱平行夹爪，而不是直接买 `WSG50`、`Robotiq 2F-85` 这类工业夹爪，那么 `DYNAMIXEL` 往往会成为第一批候选。原因不是它“最强”，而是它在科研原型里非常省事。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>它是 all-in-one 智能舵机</h3>
+            <p>`DYNAMIXEL` 把电机、减速箱、编码器、驱动板和通信接口都集成在一起。对做原型的人来说，这意味着你不用再单独配驱动器、编码器读取板和一堆低层闭环控制逻辑，接上电源和串口就能跑。</p>
+          </div>
+          <div class="detail-card">
+            <h3>位置控制和多圈控制很方便</h3>
+            <p>相比只能转 180 度的普通舵机，`DYNAMIXEL X` 系列更适合做夹爪，因为它支持更像执行器而不是玩具舵机的控制方式：位置、速度、电流等模式更完整，也更容易做连续 gripper width 控制。</p>
+          </div>
+          <div class="detail-card">
+            <h3>反馈丰富</h3>
+            <p>它通常能直接读到位置、电流、温度、电压、负载等状态。这对夹爪很有价值，因为你可以做简单的电流限幅、接触检测、过热保护，甚至用电流近似估计夹持状态。</p>
+          </div>
+          <div class="detail-card">
+            <h3>科研生态成熟</h3>
+            <p>`DYNAMIXEL` 在机器人实验室里太常见了，所以软件包、Python 接口、ROS 支持和社区经验都比较多。对要尽快把夹爪做出来的人来说，这种“文档和案例多”的优势非常现实。</p>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>但它也有很典型的缺点：</strong>
+          `stall torque` 很好看，不等于你可以长期按 stall 附近使用；一旦持续高负载，发热、降速和寿命问题会很快出现。所以做夹爪选型时，最好把连续工作扭矩只按标称堵转扭矩的 <strong>20% 到 30%</strong> 来保守估计。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>夹爪电机怎么选：先算夹持力，再换算扭矩</h2>
+        <p>真正靠谱的夹爪选型，不是先打开商城看哪个电机“Nm 最大”，而是先算你要夹什么东西、需要多大法向力，再根据传动结构换算到电机侧扭矩。</p>
+        <div class="tech-box">
+          <strong>最基础的摩擦夹持模型：</strong>
+          如果双指平行夹爪靠摩擦抓物体，满足条件近似可以写成 `2μN >= S·m·(g+a)`。这里 `μ` 是摩擦系数，`N` 是单个手指的法向力，`m` 是物体质量，`a` 是动态加速度，`S` 是安全系数。也就是说，先算出需要多少法向力，再去决定夹爪总驱动力。
+        </div>
+        <p>一旦夹持力算出来，接下来就取决于你的传动方案。</p>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>皮带 / 齿轮 / 齿条方案</h3>
+            <p>如果你用的是带轮半径为 `r` 的拉动结构，电机扭矩可以粗略写成 `τ ≈ F·r/η`。它的优点是开口大、速度快、结构更像 `UMI` 这种需要连续快速开合的夹爪；缺点是抗回驱和刚性通常不如丝杠。</p>
+          </div>
+          <div class="detail-card">
+            <h3>丝杠方案</h3>
+            <p>如果你用丝杠，电机扭矩近似是 `τ ≈ F·lead/(2πη)`。它通常对电机扭矩要求更低，但在大行程、快速释放和结构紧凑性上不一定最优，所以不一定最像 UMI 那种 80mm 级 continuous-width handheld 夹爪。</p>
+          </div>
+          <div class="detail-card">
+            <h3>工程上怎么保守</h3>
+            <p>对大多数 `UMI household manipulation` 任务，第一版工程设计把目标放在 <strong>15 到 30N 夹持力、80 到 85mm 有效开口、0.3 到 0.5 N·m 连续可用扭矩</strong>，通常就已经够用了。真正决定结果的，往往不是“扭矩够不够写进 PPT”，而是热余量、结构摩擦和开合速度够不够稳。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>如果用 DYNAMIXEL，我会怎么分三档来选</h2>
+        <p>如果你们做的是一个 `UMI-compatible` 自制平行夹爪，而目标任务仍然是杯子、瓶子、抽屉、桌面 household manipulation 这种范围，那么下面这个分档会比较实用。</p>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>第一档：XL430-W250-T</h3>
+            <p>这是我最推荐作为 baseline 的型号，因为公开的 <a class="inline-link" href="https://actuated-umi.github.io/" target="_blank" rel="noopener noreferrer">Actuated UMI Gripper</a> 就是围绕它做的。它尺寸约 `28.5 × 46.5 × 34 mm`，重量约 `57 g`，堵转扭矩约 `1.4 到 1.5 N·m`。如果你们第一版目标是做一个轻中型 UMI 电驱夹爪，`XL430` 往往是最平衡的选择。</p>
+          </div>
+          <div class="detail-card">
+            <h3>第二档：XC330-M288-T</h3>
+            <p>它更小更轻，尺寸约 `20 × 34 × 26 mm`，重量约 `23 g`，堵转扭矩大约 `1.1 N·m`。它适合做非常轻的小夹爪，但如果你们要的是 `80mm` 级大开口、较长指尖或者更激进的动态动作，它通常不是最稳的第一选择。</p>
+          </div>
+          <div class="detail-card">
+            <h3>第三档：XM430-W210-T</h3>
+            <p>如果你们已经明确知道要抓更重物体、指尖更长、或者担心 `XL430` 的热余量不够，那么 `XM430` 会更稳。它尺寸与 `XL430` 接近，但更重，重量约 `82 g`，堵转扭矩约 `3.0 N·m`。代价也很直接：更重、更贵、对末端惯量和供电要求更高。</p>
+          </div>
+        </div>
+        <div class="summary-box">
+          <strong>如果只给一句建议：</strong>
+          想快速做出第一版，就直接参考 `Actuated UMI Gripper` 的路线，优先从 `XL430-W250-T + 线轨 + 平带/同步带` 这类成熟结构开始；而不是一开始就自己发明新夹爪、新驱动板和新传动。
+        </div>
       </section>
 
       <section class="article-section">
@@ -204,6 +356,7 @@
           <strong>所以我现在更愿意把 UMI 理解成：</strong>
           一套仍在扩张的“数据接口家族”的起点，而不是一篇只属于机械臂时代的单点系统论文。
         </div>
+        <p>但如果你把问题进一步追成“那这些分支的数据现在也都开源了吗？”，答案仍然要分层看。`MV-UMI`、`exUMI`、`Touch in the Wild` 这类更贴近手持接口扩展的工作，已经开始有公开数据；但 `DexUMI`、`UMI-on-Legs`、`HoMMI`、`HuMI`、`UMI-FT` 这些更偏灵巧手、移动底盘和 whole-body 的方向，目前我仍然主要能核到公开项目页、代码或论文，而<strong>没有像 `cup_in_the_wild`、`FastUMI-Data` 或 `exUMI` 上游仓那样稳定清晰的公共数据下载入口</strong>。也就是说，手持 UMI 这条线的数据生态确实在变大，但往更复杂 embodiment 走时，数据公开节奏仍然明显更慢。</p>
       </section>
 
       <section class="article-section">
