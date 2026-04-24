@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据采集全景：国内外所有在做具身数采的玩家，谁在做什么</title>
+  <meta name="description" content="面向入门者的具身智能数据采集产业全景：把国外学术、国外产业界、国内整机厂和国内设备厂全部拉进同一张图，覆盖 UMI 家族、ALOHA、DROID、Open X-Embodiment、π0、Figure Go-Big、AgiBot World、戴盟 Sparky、简智 Gen DAS、穹彻 CoMiner、千寻、银河通用、灵初、傅利叶 ActionNet、RoboMIND、白虎-VTouch、帕西尼 Super EID 等主要方案。">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">数据采集全景篇</div>
+      <div class="topbar-links">
+        <a href="../index.html">首页</a>
+        <a href="data-collection.html">UMI 数据采集专栏</a>
+        <a href="low-latency.html">低延时专题</a>
+      </div>
+    </div>
+
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Data Collection Landscape</div>
+      <h1>数据采集全景：国内外所有在做具身数据采集的玩家，到底各自在采什么</h1>
+      <p class="article-lead">
+        这一篇是对<a class="inline-link" href="data-collection.html">UMI 数据采集专栏</a>的外围补全。原来那篇把重心放在 UMI 家族本身，
+        但真正要理解今天的具身数据市场，还得把<strong>国外学术、国外产业界、国内整机厂和国内设备厂</strong>全部拉进同一张图。
+        这篇文章就是这张图的第一版：不止 UMI 原型机，还有像简智机器人的 <strong>Gen DAS</strong>、戴盟的 <strong>Sparky 外骨骼方案</strong>、
+        千寻智能 20 万小时级别的数据、Physical Intelligence 训 π0 用的 10,000+ 小时数据、Figure 的 <strong>Project Go-Big</strong>，
+        以及像帕西尼 Super EID 工厂这种年产近 2 亿条的数据产线。
+      </p>
+      <div class="article-meta">
+        <span>核心对象：UMI 家族 / ALOHA 家族 / DROID / Open X / π0 / AgiBot World / Daimon / Gen DAS / Noematrix / 千寻 / 银河通用 / 灵初 / Fourier / RoboMIND / 白虎-VTouch / PaXini</span>
+        <span>核心问题：在"数据即基础设施"的阶段，谁在定义采集标准，谁在做规模化生产</span>
+      </div>
+    </header>
+
+    <div class="article-stack">
+      <section class="article-section">
+        <h2>先给一个总判断</h2>
+        <p>去年我还觉得数据采集是工程问题，今年再看，它越来越像<strong>产业基础设施</strong>。能不能训出一个好模型，
+        很多时候已经不由谁拿到更大的 GPU 决定，而由<strong>谁拥有采集标准、谁拥有年产级数据产线、谁拥有跨本体的动作语言</strong>决定。</p>
+        <div class="summary-box">
+          <strong>一句话记忆：</strong>
+          现在全世界做具身数据采集的玩家，本质上都在回答同一个问题——
+          <strong>如何把人类操作、机器人控制和真实世界场景，压成一份模型真正学得动的数据</strong>，并且把这件事<strong>规模化、标准化、可复用</strong>。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>按技术路线，整个生态可以分成五条路</h2>
+        <p>这五条路线几乎可以覆盖所有在做具身数采的玩家。一家公司往往同时走其中 2–3 条。</p>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>路线一：便携手持夹爪 / 腕戴式（UMI 系）</h3>
+            <p>代表：`UMI`、`Fast-UMI`、`Dobb·E / The Stick`、`穹彻 RoboPocket`、`自变量` 手持方案。优势是"无需机器人"就能采，边际成本极低。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线二：外骨骼 / 数据手套（人手映射）</h3>
+            <p>代表：`DexUMI`、`AirExo`、`戴盟 Sparky 外骨骼`、`简智 Gen DAS Dex`、`灵初 Psi-SynEngine`、`灵心巧手 UMI-Dex`、`BeingBeyond U1`、`Manus / HaptX / Dexmo`。核心是把<strong>人手自由度和触觉</strong>高保真投射给机器人。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线三：主从遥操作（Leader-Follower / VR / 动捕）</h3>
+            <p>代表：`ALOHA / Mobile ALOHA`、`GELLO`、`SO-100 / SO-101`、`U-Arm（SJTU）`、`松灵 Cobot Magic`、`OpenWBT`、`OpenTeach`、`Tesla 动捕服`、`HumanPlus / H2O`。是目前采真机原生数据最主流的方式。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线四：无本体 / 头戴 / 背包式数采（Egocentric + UMI 一体化）</h3>
+            <p>代表：`觅蜂 MEgo 系列（Gripper + View + Engine）`、`鹿明 FastUMI Pro / Ego / Go`、`Ego4D / Ego-Exo4D`、`Meta Project Aria`、`Figure Project Go-Big`、`Skild AI`。把互联网规模人类视频 + 第一人称+夹爪融合，做成"随走随采"的消费级数据产线。</p>
+          </div>
+          <div class="detail-card">
+            <h3>路线五：仿真合成 + 真机微调</h3>
+            <p>代表：`NVIDIA Isaac GR00T / GR00T-Mimic`、`RoboTwin 2.0`、`银河通用 星坊金字塔`、`逐际 DreamActor`。专门解决"人类采不出来、机器人采不起"的长尾分布。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>一张速查表：按技术路线看代表玩家与数据规模</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>路线</th>
+                <th>代表方案</th>
+                <th>规模代表</th>
+                <th>最强优势</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>手持便携夹爪</td>
+                <td>UMI / Fast-UMI / Dobb·E / 穹彻 RoboPocket</td>
+                <td>FastUMI-100K 600h，HoNY 13h / 22 家</td>
+                <td>可在"无机器人"的家庭和野外无限扩展</td>
+              </tr>
+              <tr>
+                <td>外骨骼 / 数据手套</td>
+                <td>DexUMI / AirExo / 戴盟 Sparky / 简智 Gen DAS / 灵初</td>
+                <td>灵初 10 万+ 小时、Gen DAS 23DoF/210g</td>
+                <td>保留人手触觉与自由度，直接迁移给灵巧手</td>
+              </tr>
+              <tr>
+                <td>主从遥操作</td>
+                <td>ALOHA / GELLO / SO-100 / Cobot Magic</td>
+                <td>RoboMIND 10.7 万条、BridgeData V2 60k</td>
+                <td>与机器人本体天然对齐，是技能数据的金标准</td>
+              </tr>
+              <tr>
+                <td>VR 遥操作</td>
+                <td>Open Teach / AnyTeleop / OpenWBT / 宇树 avp_teleoperate</td>
+                <td>覆盖几乎所有主流人形</td>
+                <td>低成本、可全身，进入门槛只要一台 Quest 3</td>
+              </tr>
+              <tr>
+                <td>动捕 / 纯人类视频</td>
+                <td>HumanPlus / H2O / Figure Go-Big / Ego-Exo4D / Aria</td>
+                <td>Ego-Exo4D 1,286h、Figure 10 万套公寓</td>
+                <td>互联网级规模，不需要任何机器人硬件</td>
+              </tr>
+              <tr>
+                <td>仿真 + 合成</td>
+                <td>NVIDIA GR00T-Mimic / RoboTwin 2.0 / 银河通用 / 逐际</td>
+                <td>GR00T-Mimic 78 万条 / 11h 生成</td>
+                <td>解决长尾、边界、失败分布问题</td>
+              </tr>
+              <tr>
+                <td>工业级真机产线</td>
+                <td>PaXini Super EID / 智元 >4000㎡ / Tesla "Optimus 雇员"</td>
+                <td>帕西尼年产近 2 亿条</td>
+                <td>真正把数据做成可持续生产的工业化产品</td>
+              </tr>
+              <tr>
+                <td>已披露"万小时级"真机</td>
+                <td>π0 / 千寻 / 灵初 Psi-SynEngine / 觅蜂 MEgo / 鹿明 FastUMI / Figure Go-Big / Skild AI</td>
+                <td>觅蜂 2026 年目标 1000 万h、鹿明目标 100 万h、千寻目标 100 万h；π0 10,000h+</td>
+                <td>接近训练 foundation policy 所需体量</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>国外阵营（一）：学术 / 开源</h2>
+        <h3>UMI 家族（Stanford Shuran Song 组的体系）</h3>
+        <p>这一条我在<a class="inline-link" href="data-collection.html">UMI 数据采集专栏</a>里已经讲透。这里只强调一点：UMI、Fast-UMI、DexUMI、UMI-on-Legs、HoMMI、HuMI、exUMI、Touch-in-the-Wild、ManiWAV、MV-UMI 合起来，已经是目前唯一一套<strong>公开、可复现、可规模化</strong>的便携数据接口家族，事实上的行业标准。</p>
+
+        <h3>ALOHA 家族（Tony Zhao / Chelsea Finn 组）</h3>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>ALOHA / Mobile ALOHA</h3>
+            <p>双臂主从遥操作 + 移动底盘，14 DoF，商业版 $20k–$32k。是**主从数据采集最流行的范式**，论文里反复验证"50 条演示 + 静态 ALOHA 数据 co-training 就能把成功率拉高 90%"。</p>
+          </article>
+          <article class="related-item">
+            <h3>HumanPlus (CoRL 2024 Best Paper Finalist)</h3>
+            <p>单目 RGB 实时 shadowing 一台 33 DoF humanoid，结合 40 小时人类动捕做 sim pretrain。关键意义是把"穿越身体结构差距"这件事做到了<strong>只靠一台 RGB 相机</strong>。</p>
+          </article>
+          <article class="related-item">
+            <h3>OmniH2O / H2O（CMU）</h3>
+            <p>全身遥操作框架，可 zero-shot 走、跳、踢、打拳，是目前动态 whole-body 数据采集的代表。</p>
+          </article>
+        </div>
+
+        <h3>低成本 DIY 阵营：真正让学生也能采的那一层</h3>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>GELLO（UC Berkeley）</h3>
+            <p>$300 的 3D 打印"小机械臂当摇杆"，用 Dynamixel 舵机做 50–200Hz 关节映射，已适配 Franka / UR5 / xArm。</p>
+          </article>
+          <article class="related-item">
+            <h3>U-Arm（上海交通大学 MINT Lab）</h3>
+            <p>GELLO 的国产低成本版，<strong>BOM 仅 $50.5（6-DoF）/ $56.8（7-DoF）</strong>。3 种主臂构型适配 xArm6 / Dobot CR5 / ARX R5 等<strong>市面 95% 机械臂</strong>。工程上用改装舵机（去齿轮保编码器）+ 冗余自由度标定滤波，实验显示比 Joycon 采集效率高 39%。（<a class="inline-link" href="https://arxiv.org/abs/2509.02437" target="_blank" rel="noopener noreferrer">arXiv 2509.02437</a> / <a class="inline-link" href="https://github.com/MINT-SJTU/LeRobot-Anything-U-Arm" target="_blank" rel="noopener noreferrer">GitHub</a> / <a class="inline-link" href="https://huggingface.co/papers/2509.02437" target="_blank" rel="noopener noreferrer">Hugging Face Paper</a> / <a class="inline-link" href="https://www.qbitai.com/2025/10/342796.html" target="_blank" rel="noopener noreferrer">量子位报道</a>）</p>
+          </article>
+          <article class="related-item">
+            <h3>AirExo / AirExo-2</h3>
+            <p>每只手臂约 $300 的纯机械外骨骼，可在**没有机器人的野外**采数据再映射到机器人。"3 分钟真机 + 大量野外" ≈ "20+ 分钟真机 teleop"。</p>
+          </article>
+          <article class="related-item">
+            <h3>SO-ARM100 / SO-101（LeRobot 生态）</h3>
+            <p>Hugging Face LeRobot 主推的开源主从双臂，入门 <$500。目前国内大量实验室和个人走的就是这条路。</p>
+          </article>
+          <article class="related-item">
+            <h3>Dobb·E / The Stick（NYU + Meta）</h3>
+            <p>$25 延长杆 + iPhone 组装的"捡拾杆"，在 22 个纽约家庭采集了 13 小时、150 万帧、216 个环境的 **HoNY 数据集**；109 个家庭任务 81% 成功率。它是"零成本家庭采集"的教科书样本。</p>
+          </article>
+          <article class="related-item">
+            <h3>RoboTurk / Open Teach / AnyTeleop</h3>
+            <p>三条路线：手机当 6DoF 控制器的众包（Stanford）、Meta Quest 3 MR 透视遥操作、纯视觉统一多臂多手多仿真。覆盖 38+ 灵巧任务。</p>
+          </article>
+        </div>
+
+        <h3>大规模开源真机数据集</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr><th>数据集</th><th>机构</th><th>规模</th><th>硬件特征</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Open X-Embodiment / RT-X</td><td>Google DeepMind + 33 高校</td><td>100 万+ 轨迹，22 种机器人，500 技能</td><td>跨本体</td></tr>
+              <tr><td>DROID</td><td>Stanford + 多校联合</td><td>76,000 条 / 350 小时 / 564 场景 / 86 任务</td><td>Franka Panda，50 人全球分布式采集</td></tr>
+              <tr><td>BridgeData V2</td><td>UC Berkeley</td><td>60,096 条 / 24 环境 / 13 技能</td><td>WidowX 250 + VR</td></tr>
+              <tr><td>RH20T</td><td>上海交大</td><td>11 万条接触丰富轨迹 / 147 任务 / 40M 帧</td><td>7 个平台 + 力 / 触 / 声</td></tr>
+              <tr><td>Ego-Exo4D</td><td>Meta</td><td>1,286 小时视频，740 人 13 城</td><td>第一 + 第三人称，带 3D 手姿</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>国外阵营（二）：产业界</h2>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>Physical Intelligence — π0 / π0.5</h3>
+            <p>跨 8 种机器人平台、<strong>10,000+ 小时</strong>自采真机数据，加上 Open X 和互联网视频，训出第一个开源的 generalist policy（`openpi`）。这是"万小时级"最早公开披露的工业界样本。</p>
+          </article>
+          <article class="related-item">
+            <h3>Toyota Research Institute — Large Behavior Models</h3>
+            <p>近 1,700 小时真机数据 + 1,800 次真机 rollout + 47,000 次仿真 rollout，发表 Diffusion Policy。LBM 的重点是"用一个大模型吃下所有任务"。</p>
+          </article>
+          <article class="related-item">
+            <h3>Tesla Optimus — 雇人当采集员</h3>
+            <p>雇"数据采集操作员"穿动捕服 + VR 头显，时薪最高 $48，每天 7 小时以上走预设路线，身高硬性限制 5'7"–5'11"（与机器人对齐）。截至 2024 年中已在工厂部署 Optimus 做电芯分拣。</p>
+          </article>
+          <article class="related-item">
+            <h3>Figure AI — Project Go-Big / Helix Lab</h3>
+            <p>和 Brookfield 合作，利用其全球 <strong>10 万+ 套公寓</strong>做 egocentric 人类视频采集。Helix VLA 纯靠"人类视频"训练即可迁移到 Figure 03 机器人，不依赖任何机器人演示。</p>
+          </article>
+          <article class="related-item">
+            <h3>Sanctuary AI — Phoenix Gen 8</h3>
+            <p>64 DoF（20 在手），采集方案以"高质量数据采集 + 遥操作闭环"为核心产品迭代。</p>
+          </article>
+          <article class="related-item">
+            <h3>Skild AI</h3>
+            <p>走<strong>"互联网视频 + 仿真 + 极少真机"</strong>极致路线，号称用比同行多 1000× 的数据点，新任务 <1 小时真机微调。</p>
+          </article>
+          <article class="related-item">
+            <h3>Covariant — RFM-1 / Dexterity</h3>
+            <p>全球仓库自动化真实作业数据，训练 Robotics Foundation Model。代表"工厂即数据源"的另一种商业模式。</p>
+          </article>
+          <article class="related-item">
+            <h3>NVIDIA Isaac GR00T（合成数据路线）</h3>
+            <p>`GR00T-Mimic` 11 小时内生成 <strong>78 万条轨迹</strong>（≈9 个月人类演示），GR00T-Gen / Cosmos / Isaac Lab / Isaac-Teleop 是目前最完整的合成 + 遥操一体工具链。</p>
+          </article>
+          <article class="related-item">
+            <h3>动捕手套工具链：Manus / HaptX / Dexmo</h3>
+            <p>Xsens Gloves by Manus（€3,990，9 DoF/指，ROS 2 SDK）、HaptX G1（微流体触觉 + 40 磅力反馈）、Dexmo（320g 外骨骼）。几乎所有人形厂都在用它们做手部动捕。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>国内阵营（一）：便携 / 可穿戴设备厂商</h2>
+        <p>这是我最想在这篇全景里讲清楚的一层。国内最有意思的，其实是<strong>一批专门做"数据采集设备"的公司</strong>——他们不一定做整机，但他们在定义整个行业怎么采。</p>
+
+        <div class="related-list">
+          <article class="related-item">
+            <h3>戴盟机器人（Daimon Robotics）— Sparky 1 + DM-Tac</h3>
+            <p>Sparky 1 人形配套**外骨骼遥操作方案**：图像头盔 + 6/7 DoF 外骨骼双臂 + 五指数据手套，动作映射误差 &lt;5%。触觉侧 <strong>DM-Tac W / DM-Tac F</strong> 视觉触觉传感器：W 系列每平方厘米 &gt;4 万感测单元、120Hz、300 万次寿命；F 系列用于指尖。<br>
+            <em>注：关于"Daimon-Infinity 一万小时数据集"这个说法，公开资料里我没找到官方发布页，目前戴盟对外主打的是 Sparky + DM-Tac + 外骨骼这套方案。</em></p>
+          </article>
+
+          <article class="related-item">
+            <h3>简智机器人 — Gen DAS Dex（即 Gen DAS Fingers）</h3>
+            <p>外骨骼式数据手套，<strong>23 自由度覆盖整只人手</strong>，自研磁编码器 0.02° 精度、指尖毫米级；指尖磁触觉（0.05N / 1mm 分辨率）+ 150° 广角摄像头；与 Ego 头戴设备 <strong>1ms 级协同</strong>（SUB-G 无线）；整机 <strong>210g</strong>、续航 3 小时、支持语音控制 + 流式上传；号称整体采集效率"提升 2 个数量级"。这是目前国内最轻、DoF 最高的手部采集方案之一。</p>
+          </article>
+
+          <article class="related-item">
+            <h3>穹彻智能（Noematrix）— CoMiner / RoboPocket</h3>
+            <p>非夕孵化。<strong>CoMiner 伴随式数采套件</strong>：模块化关节、兼容多本体、遥操作 + 野外两种模式、单机单日产能 &gt;1000 条。<strong>RoboPocket 口袋机采</strong>：用手机 RGB + LiDAR 替代专业采集设备，把"定点采集"升级成"随时随地"，首月签数百套。配套 <strong>Noematrix Toolchain</strong> 做采集—管理—训练—部署全流程。</p>
+          </article>
+
+          <article class="related-item">
+            <h3>帕西尼感知（PaXini）— Super EID Factory</h3>
+            <p>多维触觉灵巧手 GMH18 / DexH 系列，自研 <strong>ITPU 触觉处理单元</strong>，灵巧手搭载千余颗多维触觉传感单元，15 种触觉感知。天津建了 <strong>Super EID Factory</strong>：近 12000 ㎡、150 个标准化采集单元，号称<strong>年产近 2 亿条</strong>全模态数据。这是目前国内工业化数据产线里规模最夸张的一家。</p>
+          </article>
+
+          <article class="related-item">
+            <h3>灵初智能（<a class="inline-link" href="https://www.psibot.ai/" target="_blank" rel="noopener noreferrer">PsiBot</a>）— Psi-SynEngine</h3>
+            <p>自研<strong>外骨骼手套 + 裸手操作</strong>双通道采集，触觉数据成本仅为机器人的 1/10。累计数据 <strong>10 万+ 小时</strong>（真机 5,417h + 人类 95,472h），覆盖 294 场景 / 4,821 任务 / 1,382 物体，已开源 1,000 小时。</p>
+            <p><strong>Psi-SynEngine（2025-12-11 发布）</strong>是灵初对这一整套能力的产品化命名——"<strong>全球首个灵巧手真实世界具身数采引擎</strong>"。核心硬件是 <strong>62+ 自由度</strong>便携式外骨骼触觉手套，可精确捕捉人手 21 关节自由度和全手触觉，并同步记录头戴 / 手部视角的视觉、动作、语言。配套 <strong>Psi-SynNet-v0</strong> 多模态数据集，目标百万小时量级。完成 20 亿融资。（<a class="inline-link" href="https://www.pingwest.com/a/309782" target="_blank" rel="noopener noreferrer">品玩详解</a> / <a class="inline-link" href="https://finance.sina.com.cn/tech/roll/2025-12-11/doc-inhakruk9760634.shtml" target="_blank" rel="noopener noreferrer">新浪科技</a> / <a class="inline-link" href="https://www.psibot.ai/%E7%81%B5%E5%88%9D%E6%99%BA%E8%83%BD%E5%B7%B2%E5%AE%8C%E6%88%9020%E4%BA%BF%E8%9E%8D%E8%B5%84%EF%BC%8C%E8%8E%B7%E5%9B%BD%E5%AE%B6%E9%98%9F%E8%B5%84%E6%9C%AC%E9%87%8D%E7%A3%85%E6%8A%95/" target="_blank" rel="noopener noreferrer">官方通稿</a>）</p>
+          </article>
+
+          <article class="related-item">
+            <h3>觅蜂科技（<em>智元孵化</em>）— MEgo 系列</h3>
+            <p>2026-04 发布的"<strong>无本体数采全家桶</strong>"，由智元 Agibot 内部孵化，定位是具身智能行业的"<strong>卖铲人 / 数据基础设施服务商</strong>"（CEO 姚卯青）。产品矩阵：</p>
+            <ul>
+              <li><strong>MEgo Gripper</strong>：采集夹爪</li>
+              <li><strong>MEgo View</strong>：头戴式采集设备，超 300° 全景感知</li>
+              <li><strong>MEgo Engine</strong>：一站式数据治理平台</li>
+            </ul>
+            <p>性能：毫米级捕捉、<strong>亚毫秒级同步</strong>；场景覆盖工厂 / 商超 / 物流 / 家庭。产能目标尤其激进：<strong>2026 年千万小时级年产能、铺设一万台采集终端；2030 年百亿小时级</strong>。走的是轻资产（加盟 + 众包 + 代工）路线。（<a class="inline-link" href="https://news.qq.com/rain/a/20260416A05EAW00" target="_blank" rel="noopener noreferrer">QQ 新闻首发</a> / <a class="inline-link" href="https://wap.eastmoney.com/a/202604163707358597.html" target="_blank" rel="noopener noreferrer">东方财富</a> / <a class="inline-link" href="https://www.tmtpost.com/7957537.html" target="_blank" rel="noopener noreferrer">钛媒体：智元内部研判</a> / <a class="inline-link" href="https://www.stcn.com/article/detail/3764171.html" target="_blank" rel="noopener noreferrer">证券时报姚卯青专访</a>）</p>
+          </article>
+
+          <article class="related-item">
+            <h3>鹿明机器人 — FastUMI "全家桶"</h3>
+            <p>深圳鹿明机器人科技，AWE 2026 发布 <strong>FastUMI 全家桶</strong>——目前国内 UMI 系最完整的<strong>商业化量产产品线</strong>。官网：<a class="inline-link" href="https://fastumi.com/" target="_blank" rel="noopener noreferrer">fastumi.com</a>。产品矩阵：</p>
+            <ul>
+              <li><strong>FastUMI Pro</strong>：全球首款<strong>量产</strong>全功能无本体数采硬件，适配 90% 机械臂，单次采集 10 秒级</li>
+              <li><strong>FastUMI Ego</strong>：全球首款<strong>即插即用、无需建图</strong>的第一人称数采方案，3mm 空间定位精度</li>
+              <li><strong>FastUMI Go</strong>：全球首款<strong>背包形态</strong>的 UMI 数采设备，支持随操作者移动</li>
+              <li><strong>FastUMI Touch</strong>：为 UMI 适配的 6 轴协作机械臂</li>
+            </ul>
+            <p>数据规模：已交付 <strong>100 万条</strong>高质量操作数据，覆盖 10 大场景、40+ 任务，数据有效率 95%+。2026 年规划全国投放 1 万台背包版 / 百万小时级。同步上线了"<strong>FastUMI Pro 数据超市</strong>"——标准化、明码标价的数据商品。（<a class="inline-link" href="https://www.sohu.com/a/996654549_122083223" target="_blank" rel="noopener noreferrer">全家桶首发</a> / <a class="inline-link" href="https://news.qq.com/rain/a/20260314A06Y3F00" target="_blank" rel="noopener noreferrer">腾讯新闻深度解读</a> / <a class="inline-link" href="https://m.36kr.com/p/3680210722254473" target="_blank" rel="noopener noreferrer">36 氪：1 万个背包</a> / <a class="inline-link" href="https://zhuanlan.zhihu.com/p/2012529941657442300" target="_blank" rel="noopener noreferrer">FastUMI Pro 数据超市</a> / <a class="inline-link" href="https://huggingface.co/datasets/IPEC-COMMUNITY/FastUMI_100k_lerobot" target="_blank" rel="noopener noreferrer">FastUMI-100K HF 数据集</a> / <a class="inline-link" href="https://arxiv.org/abs/2409.19499" target="_blank" rel="noopener noreferrer">FastUMI 论文</a>）</p>
+          </article>
+
+          <article class="related-item">
+            <h3>灵心巧手（<a class="inline-link" href="https://linkerbot.cn" target="_blank" rel="noopener noreferrer">LinkerBot</a>）— UMI-Dex</h3>
+            <p>深圳坂田团队，2026-03-25 发布<strong>业内首个开源</strong>灵巧操作全链路数据采集方案 <strong>UMI-Dex</strong>。核心设计："<strong>同构末端 + 多模态对齐 + 原生触觉</strong>"——采集器的结构和传动关系与其自研 <strong>LinkerHand L6 / L20</strong> 灵巧手几乎完全一致，关节角度可直接用于训练。已积累 <strong>200T+ 手部数据</strong>。（<a class="inline-link" href="https://www.wenweipo.com/a/202603/26/AP69c544d2e4b0b49ad1b41480.html" target="_blank" rel="noopener noreferrer">香港文匯網首发</a> / <a class="inline-link" href="https://www.sohu.com/a/1001636046_121384256" target="_blank" rel="noopener noreferrer">搜狐深度</a> / <a class="inline-link" href="http://www.sz-qb.com/PC/content/202604/02/content_82907.html" target="_blank" rel="noopener noreferrer">深圳侨报技术细节</a> / <a class="inline-link" href="https://linkerbot.cn/product?page=L20" target="_blank" rel="noopener noreferrer">LinkerHand L20 硬件</a>）</p>
+          </article>
+
+          <article class="related-item">
+            <h3>BeingBeyond（智在无界）— Being-H 家族 + UniCraftor + U1</h3>
+            <p>这是一家我一开始漏了但必须单独拎出来讲的公司。他们是目前<strong>国内唯一一家把"人类视频预训练 + 灵巧手采集 + Real DexUMI 硬件"整条链路自己从头做一遍</strong>的团队（<a class="inline-link" href="https://beingbeyond.com/en/" target="_blank" rel="noopener noreferrer">官网</a> / <a class="inline-link" href="https://research.beingbeyond.com/" target="_blank" rel="noopener noreferrer">Research 站</a> / <a class="inline-link" href="https://github.com/BeingBeyond" target="_blank" rel="noopener noreferrer">GitHub</a>）。</p>
+            <ul>
+              <li><strong><a class="inline-link" href="https://beingbeyond.github.io/Being-H0/" target="_blank" rel="noopener noreferrer">Being-H0</a>（2025）</strong>：首个用<strong>大规模人类视频预训练</strong>的灵巧手操作 VLA。</li>
+              <li><strong><a class="inline-link" href="https://research.beingbeyond.com/being-h05" target="_blank" rel="noopener noreferrer">Being-H0.5</a>（2026）</strong>：跨本体 VLA，配套 <strong>UniHand-2.0 数据集（35,000+ 小时）</strong>（<a class="inline-link" href="https://research.beingbeyond.com/projects/being-h05/being-h05.pdf" target="_blank" rel="noopener noreferrer">PDF</a> / <a class="inline-link" href="https://arxiv.org/html/2601.12993v1" target="_blank" rel="noopener noreferrer">arXiv</a> / <a class="inline-link" href="https://github.com/BeingBeyond/Being-H" target="_blank" rel="noopener noreferrer">Code</a>）。</li>
+              <li><strong>UniCraftor</strong>：便携式数据采集系统，强调 RGB-D、世界系一致性校准与关键事件触发。是 Being-H0.5 的数据基础设施。</li>
+              <li><strong><a class="inline-link" href="https://beingbeyond.com/en/news.html" target="_blank" rel="noopener noreferrer">U1（Real DexUMI, 2026-03）</a></strong>：<strong>全球首款 Real DexUMI</strong>。680g，11 关节（6 主动 + 5 被动），承重 5kg，指腹集成触觉，动态追踪<strong>最大误差 &lt;1mm / 平均 &lt;0.1mm</strong>。创新点是"同构掌心遥操手套"——手套置于手心即可操作，不需要穿戴校准。（<a class="inline-link" href="https://m.leiphone.com/category/ai/Ex5ZcB1L4MjABZ64.html" target="_blank" rel="noopener noreferrer">雷峰网</a> / <a class="inline-link" href="https://finance.sina.com.cn/tech/roll/2026-03-18/doc-inhrkwsq1551746.shtml" target="_blank" rel="noopener noreferrer">新浪科技</a> / <a class="inline-link" href="https://x.com/beingbeyond_/status/2033735636189167673" target="_blank" rel="noopener noreferrer">官方 X</a>）</li>
+            </ul>
+            <p><strong>和 Stanford DexUMI、简智 Gen DAS 的关键差别：</strong>Stanford <a class="inline-link" href="https://dex-umi.github.io/" target="_blank" rel="noopener noreferrer">DexUMI</a> 是"人手戴 exoskeleton + video inpainting 抹掉人手"；简智 Gen DAS 是"23 DoF 人手外骨骼 + 头显协同"；BeingBeyond U1 则走<strong>"采集端和部署端共用同一套灵巧手末端本体"</strong>，从硬件层直接消掉 embodiment gap——这也是它敢自称 <em>Real</em> DexUMI 的原因。更详细的技术讨论我放在了 <a class="inline-link" href="data-collection.html#beingbeyond-section">UMI 数据采集专栏的 Being-H0.5 与 U1 章节</a>。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>国内阵营（二）：整机厂 + 万小时级自建数据</h2>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>智元机器人 — AgiBot World</h3>
+            <p><strong>全球首个百万级真机开源数据集</strong>，对标 Open X 规模 ×10、场景 ×100。80+ 日常技能，覆盖家居 / 餐饮 / 工业 / 商超 / 办公 5 大场景，&gt;4000 ㎡采集基地、3000+ 物品。本体：8 摄像头 + 6 DoF 灵巧手 + 32 DoF 全身 + 六维力 + 视触觉。同步开源仿真数据 + 基座模型 + 工具链。</p>
+          </article>
+          <article class="related-item">
+            <h3>千寻智能（Spirit AI）</h3>
+            <p>自研可穿戴采集设备已迭代到<strong>第 5 代</strong>，成本为传统方式 1/10。累计 <strong>20 万+ 小时</strong>真实交互数据，2026 年目标 <strong>100 万小时</strong>。小墨机器人已在宁德时代产线量产插接电池（成功率 &gt;99%）。30 天融资 30 亿元（雷军、马云、华为、京东）。</p>
+          </article>
+          <article class="related-item">
+            <h3>银河通用（Galbot）</h3>
+            <p>"<strong>星坊数据金字塔</strong>"：合成仿真为主 + 真机微调为辅。合成场景从 10 万次（58% 成功率）→ 10 亿次（87%）。Galbot G1 技能基于百万级合成场景 + Open6DOR 2500 任务测试。开源 <strong>OpenWBT</strong>——全球首款全开源、多机型、跨虚实的人形全身遥操作系统。</p>
+          </article>
+          <article class="related-item">
+            <h3>星动纪元（Robotera）— ERA-42</h3>
+            <p>端到端大模型 ERA-42，新任务 &lt;2 小时采集即可学会。采集流程：数据手套 + VR 全身遥操作 → 清洗标注 → 仿真校验 → 真机部署 → 闭环。</p>
+          </article>
+          <article class="related-item">
+            <h3>逐际动力（LimX Dynamics）— DreamActor</h3>
+            <p>采集思路很不一样：用手机拍多视角现实环境 → 三维重建 + 物理参数 → 仿真预训练 → 真机后训练。走的是"重仿真 + 轻真机"的路子。</p>
+          </article>
+          <article class="related-item">
+            <h3>宇树（Unitree）</h3>
+            <p>开源 G1 / H1 / H1-2 的 **XR 遥操作平台**（Quest 3 / Vision Pro / Pico）：`xr_teleoperate` / `avp_teleoperate` 项目；开源 G1 真机数据集 + LAFAN1 动捕重定位数据 + `unitree_IL_lerobot` 模仿学习框架。是国内开源最彻底的人形厂之一。</p>
+          </article>
+          <article class="related-item">
+            <h3>傅利叶智能 — Fourier ActionNet</h3>
+            <p>2025 年 3 月开源：<strong>首批 3 万+ 条</strong>高质量真机数据，含多 DoF 灵巧手专项数据；VLM 自动标注 + 人工复核。同步开源<strong>全球首个全流程工具链</strong>：DP、ACT、iDP3 训练框架，覆盖 GRx 全系列。</p>
+          </article>
+          <article class="related-item">
+            <h3>自变量机器人（X Square Robot）</h3>
+            <p>量子 1 号 / 量子 2 号 + 五指灵巧手，WALL-A 端到端大模型，采集方案以"多模态遥操作 + 数据采集一体化"为核心。字节、红杉投资。</p>
+          </article>
+          <article class="related-item">
+            <h3>智平方（AI² Robotics）— AlphaBot 2</h3>
+            <p>34+ DoF 轮式人形，Alpha Brain / GOVLA 技术；已在汽车、半导体、生物科技产线落地，月交付百台。2026 年 2 月 10 亿+ B 轮，估值 100 亿+。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>国内阵营（三）：国家队与平台级数据集</h2>
+        <div class="related-list">
+          <article class="related-item">
+            <h3>国地中心（北京）— RoboMIND / 天工 / 开物</h3>
+            <p><strong>RoboMIND</strong>：10.7 万条真机轨迹 / 479 任务 / 96 类物体，跨 4 本体（Franka、UR5e、天工人形、AgileX Cobot Magic）；含 5,000 条失败演示、Isaac Sim 数字孪生。<strong>RoboMIND 2.0</strong>（RSS 2025）扩到 31 万+ 双臂轨迹 + 触觉增强 + 移动操作。"开物"平台规划未来 200 万条轨迹 / 20+ 本体。<strong>X-Humanoid 工具链</strong>：RoboMIND → LeRobotDataset V2.1 自动转换。</p>
+          </article>
+          <article class="related-item">
+            <h3>国地中心（上海）— 青龙 / 白虎-VTouch</h3>
+            <p><strong>白虎-VTouch</strong>：全球最大规模<strong>跨本体视触觉多模态数据集</strong>，&gt;60,000 分钟（首批 6,000 分钟已上 OpenLoong），覆盖轮臂、双足（青龙）、手持终端多种本体；380+ 任务 / 100+ 原子技能 / 500+ 物品。</p>
+          </article>
+          <article class="related-item">
+            <h3>松灵 AgileX — Cobot Magic</h3>
+            <p>双臂 + Tracer 差速底盘 + 六维力，是 <strong>Mobile ALOHA 国产平替</strong>。为 RoboMIND 贡献 10,269 条轨迹；RoboTwin Benchmark 基于该本体。</p>
+          </article>
+          <article class="related-item">
+            <h3>擎朗智能 — 服务机器人场景数据</h3>
+            <p>15 年运营积累 <strong>10 万+ 机器人</strong>部署数据，日均数亿条环境数据、千万级人机交互记录，目前正把服务机器人场景数据转化为具身智能训练数据。代表另一种"场景即数据源"的思路。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>特别澄清：你原话里两条线索的真实状况</h2>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>"简智机器人 Gen DAS Fingers"</h3>
+            <p>官方产品名实际上是 <strong>Gen DAS Dex</strong>，不是单独的"Fingers"。它是一套<strong>外骨骼手套 + Ego 头显</strong>的协同采集套件：23 DoF 覆盖整只人手、210g、0.02° 关节精度、指尖毫米级、1ms 同步、续航 3h、支持流式上传。这是国内目前最对标 DexUMI 的商业化方案。</p>
+          </div>
+          <div class="detail-card">
+            <h3>"戴盟机器人 Daimon-Infinity 一万小时数据集"</h3>
+            <p>公开资料中我<strong>没有找到</strong>以"Daimon-Infinity"为名的正式发布页面。戴盟目前公开主打的是 <strong>Sparky 1 外骨骼采集方案</strong>（图像头盔 + 外骨骼双臂 + 五指数据手套）+ <strong>DM-Tac W/F</strong> 视触觉传感器。如果这是内部最新项目，建议直接问戴盟或留意其 2026 年的产品更新。</p>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>一个判断：</strong>
+          国内这批"数据采集设备厂"（戴盟、简智、穹彻、帕西尼、灵初）是这两年新出现的一层生态位。他们的共同思路是
+          <strong>"我不做整机，我做机器人吃的饲料"</strong>——这在 VLA foundation model 时代可能是非常重要的一层。
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>五个关键趋势</h2>
+        <div class="insight-list">
+          <article>
+            <h3>1. "去机器人化采集"成为共识</h3>
+            <p>UMI、Dobb·E、AirExo、Figure Go-Big、穹彻 RoboPocket、简智 Gen DAS、<strong>鹿明 FastUMI 全家桶、觅蜂 MEgo 无本体数采、灵心巧手 UMI-Dex</strong>都在绕开昂贵本体，把人类直接变成数据源。"无本体数采"已经从学术术语变成了消费级产品名。</p>
+          </article>
+          <article>
+            <h3>2. 数据规模正从"千小时"→"万小时"→"百万小时" → "千万小时"跃迁</h3>
+            <p>π0 10,000h、灵初 Psi-SynEngine 10 万 h、鹿明 FastUMI 已交付 100 万条、千寻目标 100 万 h、<strong>觅蜂 MEgo 2026 目标 1000 万小时 / 2030 百亿小时</strong>、帕西尼年产 2 亿条。数据曲线的斜率，比过去两年的任何模型改进都陡。</p>
+          </article>
+          <article>
+            <h3>3. 触觉正在成为新战场</h3>
+            <p>戴盟 DM-Tac、帕西尼 ITPU、DexUMI、exUMI、国地白虎-VTouch 都在抢"触觉数据标准"的定义权。纯视觉的时代正在过去。</p>
+          </article>
+          <article>
+            <h3>4. 合成数据不是备选，是必选</h3>
+            <p>银河通用、NVIDIA GR00T、RoboTwin、逐际都在做"仿真打底 + 真机微调"。真机数据贵、长尾稀、失败不可采——这三件事决定了仿真必须到场。</p>
+          </article>
+          <article>
+            <h3>5. 开源工具链决定生态控制权</h3>
+            <p>LeRobot、OpenWBT、X-Humanoid Toolchain、Fourier ActionNet、Noematrix Toolchain、<strong>灵心巧手 UMI-Dex（业内首个开源灵巧采集）、SJTU U-Arm（$50 BOM 的 GELLO 国产版）</strong>——这些工具链背后都是同一个问题：<strong>谁定义采集标准，谁就定义下一代 foundation model 的数据语言</strong>。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="article-section">
+        <h2>如果只记住三句话</h2>
+        <ol>
+          <li>今天的具身数据市场，不再只是 UMI vs ALOHA vs DROID 这种学术对比，而是<strong>"设备厂 / 整机厂 / 国家队 / 工厂数据源"</strong>四层并存。</li>
+          <li>国内最值得单独看的，是简智 Gen DAS、戴盟 Sparky、穹彻 CoMiner、帕西尼 Super EID、<strong>鹿明 FastUMI 全家桶、觅蜂 MEgo、灵心巧手 UMI-Dex、BeingBeyond U1</strong>这一批<strong>"专做饲料"</strong>的公司，以及智元 AgiBot World、千寻、灵初 Psi-SynEngine 这些已经跑到万小时级别的<strong>"自建数据"</strong>公司。</li>
+          <li>UMI 仍然是学术侧最值得深挖的节点，但下一轮竞争的赢家，很可能来自<strong>"谁有能力把采集做成年产数千万到亿条的工业产品线"</strong>。</li>
+        </ol>
+      </section>
+
+      <section class="article-section">
+        <h2>附录：国内主要无本体数采厂商的商务联系与采购渠道</h2>
+        <p>
+          对"我现在就想买 / 想合作"这个需求最直接的清单。下面 8 家都是前文提到的国内专精数采玩家，<strong>点击任意链接即可直接跳转官网、发送邮件或定位到报道页</strong>。
+          每家都核实到了目前能公开拿到的所有联系信息；<em>斜体</em>部分标注"未找到公开渠道"的，说明该公司目前确实没有对外官网或商务邮箱，只能通过媒体 / 展会 / 行业圈接触。
+        </p>
+
+        <div class="definition-grid">
+
+          <div class="detail-card">
+            <h3>戴盟机器人 Daimon Robotics <em>（DM-Tac 视触传感 + Sparky / DM-EXton 采集）</em></h3>
+            <p><strong>官网</strong>：<a class="inline-link" href="https://www.dmrobot.com/" target="_blank" rel="noopener noreferrer">dmrobot.com</a> · <a class="inline-link" href="https://www.dmrobot.com/en/" target="_blank" rel="noopener noreferrer">English</a></p>
+            <p><strong>商务咨询</strong>：<a class="inline-link" href="mailto:info@dmrobot.com">info@dmrobot.com</a>（电话 +86 755-83087156）</p>
+            <p><strong>联系页</strong>：<a class="inline-link" href="https://www.dmrobot.com/contact/" target="_blank" rel="noopener noreferrer">dmrobot.com/contact</a></p>
+            <p><strong>产品入口</strong>：<a class="inline-link" href="https://www.dmrobot.com/en/products/p3/dm-exton.html" target="_blank" rel="noopener noreferrer">DM-EXton2 遥操采集系统</a> · <a class="inline-link" href="https://www.dmrobot.com/en/product/p1/dm-tac-x.html" target="_blank" rel="noopener noreferrer">DM-Tac X 视触传感器</a></p>
+            <p><strong>地址</strong>：深圳市宝安区海纳百川总部大厦 A 座 13 层</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>鹿明机器人 Lumos Robotics <em>（FastUMI Pro / Ego / Go / Touch 全家桶）</em></h3>
+            <p><strong>公司官网</strong>：<a class="inline-link" href="https://www.lumosbot.tech/" target="_blank" rel="noopener noreferrer">lumosbot.tech</a></p>
+            <p><strong>产品官网</strong>：<a class="inline-link" href="https://fastumi.com/" target="_blank" rel="noopener noreferrer">fastumi.com</a></p>
+            <p><strong>商务邮箱</strong>：<a class="inline-link" href="mailto:bd@lumosbot.tech">bd@lumosbot.tech</a> · <a class="inline-link" href="mailto:wanglijuan@lumosbot.tech">wanglijuan@lumosbot.tech</a></p>
+            <p><strong>数据商品入口</strong>：<a class="inline-link" href="https://zhuanlan.zhihu.com/p/2012529941657442300" target="_blank" rel="noopener noreferrer">FastUMI Pro 数据超市上线公告</a></p>
+            <p><strong>地址</strong>：深圳市宝安区湾区产业投资大厦 805</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>灵心巧手 LinkerBot <em>（UMI-Dex 开源灵巧采集 + LinkerHand L6/L20 灵巧手）</em></h3>
+            <p><strong>官网</strong>：<a class="inline-link" href="https://linkerbot.cn/" target="_blank" rel="noopener noreferrer">linkerbot.cn</a> · <a class="inline-link" href="https://eng.linkerbot.cn/" target="_blank" rel="noopener noreferrer">English</a></p>
+            <p><strong>商务邮箱</strong>：<a class="inline-link" href="mailto:business@linkerbot.cn">business@linkerbot.cn</a>（官网公开）· <a class="inline-link" href="mailto:xutiantian@linkerbot.cn">xutiantian@linkerbot.cn</a>（对接人）</p>
+            <p><strong>电话</strong>：010-53607783 / +86 131-2661-8227</p>
+            <p><strong>产品入口</strong>：<a class="inline-link" href="https://linkerbot.cn/product" target="_blank" rel="noopener noreferrer">产品中心</a> · <a class="inline-link" href="https://linkerbot.cn/product?page=L20" target="_blank" rel="noopener noreferrer">LinkerHand L20</a> · <a class="inline-link" href="https://linkerbot.cn/h5/data/download" target="_blank" rel="noopener noreferrer">SDK / 产品手册下载</a></p>
+            <p><strong>地址</strong>：北京市海淀区中嘉大厦二层 206 / 209 号</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>灵生科技 LivSyn Robotics <em>（LivUMI，万元级无本体采集 + L0 / L1 人形机器人）</em></h3>
+            <p><strong>官网</strong>：<a class="inline-link" href="https://www.livsynrobotics.com/" target="_blank" rel="noopener noreferrer">livsynrobotics.com</a>（主站，官网首页主 CTA 就是"探索 LivUMI"） · <a class="inline-link" href="http://www.lingrobotics.com/" target="_blank" rel="noopener noreferrer">lingrobotics.com</a>（镜像站）</p>
+            <p><strong>LivUMI 入口</strong>：<a class="inline-link" href="https://www.livsynrobotics.com/" target="_blank" rel="noopener noreferrer">首页 → 探索 LivUMI</a>（"具身智能数据基础设施提供商"）</p>
+            <p><strong>商务邮箱</strong>：<a class="inline-link" href="mailto:contact@lingsheng.ai">contact@lingsheng.ai</a></p>
+            <p><strong>产品报道</strong>：<a class="inline-link" href="https://www.163.com/dy/article/KPTSI9JV05198UNI.html" target="_blank" rel="noopener noreferrer">国金证券：LivUMI 万元级数采方案</a> · <a class="inline-link" href="https://www.worldrobotconference.com/list_339/422.html" target="_blank" rel="noopener noreferrer">WRC 2025 展商信息</a></p>
+            <p><strong>定位</strong>：除了 LivUMI 数采方案外，还自研 <strong>L0 / L1 人形机器人 + S0 具身模型</strong>，覆盖教育科研、文旅表演、巡检导览、无人零售、物流仓储、智能制造等场景——属于"自己造本体 + 自己造数采工具"的双线玩家。</p>
+            <p><strong>地址</strong>：北京市海淀区东升大厦 AB 座 1009 号</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>觅蜂科技 Mifeng Technology <em>（MEgo Gripper / View / Engine，智元孵化）</em></h3>
+            <p><strong>独立官网</strong>：<em>尚未披露</em>（公司 2026-02 刚注册成立）</p>
+            <p><strong>商务邮箱</strong>：<em>未找到公开商务邮箱</em></p>
+            <p><strong>工商信息</strong>：<a class="inline-link" href="https://www.aiqicha.com/company_detail_63636607657887" target="_blank" rel="noopener noreferrer">爱企查 - 上海觅蜂具身智能科技有限公司</a>（法定代表人：姚卯青）</p>
+            <p><strong>产品发布报道</strong>：<a class="inline-link" href="https://news.qq.com/rain/a/20260416A05EAW00" target="_blank" rel="noopener noreferrer">QQ 新闻发布稿</a> · <a class="inline-link" href="https://www.stcn.com/article/detail/3764171.html" target="_blank" rel="noopener noreferrer">证券时报姚卯青专访</a> · <a class="inline-link" href="https://www.tmtpost.com/7957537.html" target="_blank" rel="noopener noreferrer">钛媒体：智元内部研判</a></p>
+            <p><strong>地址</strong>：上海市浦东新区秀浦路 2388 号 10 幢 3 层</p>
+            <p><strong>建议联络方式</strong>：通过<a class="inline-link" href="https://www.agibot.com/" target="_blank" rel="noopener noreferrer">智元机器人官方渠道</a>（孵化母公司）转接，或通过行业展会 BD 对接。</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>简智机器人 Jianzhi Robotics <em>（Gen DAS / Gen DAS Ego / Gen DAS Dex）</em></h3>
+            <p><strong>独立官网</strong>：<em>尚未披露</em></p>
+            <p><strong>商务邮箱</strong>：<em>未找到公开商务邮箱</em></p>
+            <p><strong>公司信息</strong>：<a class="inline-link" href="https://www.f6s.com/company/jianzhi-robotics-jian-zhi-ji-qi-ren" target="_blank" rel="noopener noreferrer">F6S: Jianzhi Robotics</a></p>
+            <p><strong>产品报道</strong>：<a class="inline-link" href="https://www.pingwest.com/a/313057" target="_blank" rel="noopener noreferrer">品玩：订单破万 / Gen DAS Ego 发布</a> · <a class="inline-link" href="https://zhuanlan.zhihu.com/p/1984971368647923688" target="_blank" rel="noopener noreferrer">知乎：数据难题可规模化解法</a></p>
+            <p><strong>地址</strong>：北京市海淀区中关村智造大街 C 座 1 层 109-1</p>
+            <p><strong>建议联络方式</strong>：通过报道中署名的品玩 / 艾邦机器人 BD，或中关村智造大街办公前台。</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>品智通 PinZhiTong <em>（北京品智通科技有限公司，人机协同"影子模式"采集）</em></h3>
+            <p><strong>独立官网</strong>：<em>尚未披露</em>（新成立公司）</p>
+            <p><strong>商务邮箱</strong>：<em>未找到公开商务邮箱</em></p>
+            <p><strong>公司信息 / 成立报道</strong>：<a class="inline-link" href="https://www.sohu.com/a/1012160330_120988576" target="_blank" rel="noopener noreferrer">搜狐：品茗科技等成立新公司</a> · <a class="inline-link" href="https://finance.sina.com.cn/jjxw/2026-04-20/doc-inhvcmee0640600.shtml" target="_blank" rel="noopener noreferrer">新浪财经：含 AI 及机器人业务</a></p>
+            <p><strong>技术定位</strong>：通过"影子模式"在员工真实作业时同步采集交互数据，把数据采集变成作业副产品。</p>
+            <p><strong>建议联络方式</strong>：通过母公司<a class="inline-link" href="https://www.pinming.com/" target="_blank" rel="noopener noreferrer">品茗科技</a>官网商务入口转接。</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>BeingBeyond 智在无界 <em>（U1 全球首款 Real DexUMI + Being-H 家族 + Being-Dex D1）</em></h3>
+            <p><strong>官网</strong>：<a class="inline-link" href="https://beingbeyond.com/" target="_blank" rel="noopener noreferrer">beingbeyond.com</a> · <a class="inline-link" href="https://beingbeyond.com/en/" target="_blank" rel="noopener noreferrer">English</a></p>
+            <p><strong>U1 产品页</strong>：<a class="inline-link" href="https://beingbeyond.com/solutions/U1" target="_blank" rel="noopener noreferrer">beingbeyond.com/solutions/U1</a></p>
+            <p><strong>商务合作页</strong>：<a class="inline-link" href="https://beingbeyond.com/en/contact.html" target="_blank" rel="noopener noreferrer">Business Cooperation</a></p>
+            <p><strong>商务邮箱</strong>：<a class="inline-link" href="mailto:marketing@beingbeyond.com">marketing@beingbeyond.com</a> · <a class="inline-link" href="mailto:sales@beingbeyond.com">sales@beingbeyond.com</a>（销售）</p>
+            <p><strong>研究主页</strong>：<a class="inline-link" href="https://research.beingbeyond.com/being-h05" target="_blank" rel="noopener noreferrer">Being-H0.5 / UniCraftor</a> · <a class="inline-link" href="https://beingbeyond.github.io/Being-H0/" target="_blank" rel="noopener noreferrer">Being-H0</a></p>
+            <p><strong>地址</strong>：北京市海淀区鼎好 DH3 A 座 702 室</p>
+          </div>
+
+        </div>
+
+        <div class="warning-box" style="margin-top:20px;">
+          <strong>一点采购建议：</strong>
+          上述 8 家目前基本都处于"早期产品 + 高度定制"阶段，<strong>官网直接下单的路径非常有限</strong>。更现实的流程是：
+          <ol style="margin-top:8px;">
+            <li>先去各家的产品页和发布报道（以上链接）核对自己需要的硬件 / 数据形态；</li>
+            <li>通过商务邮箱发邮件说清"本体型号 / 数据量 / 任务场景 / 采集时长"四项；</li>
+            <li>对没有公开邮箱的觅蜂 / 简智 / 品智通，通过母公司或行业展会（WAIC、WRC、AWE、IROS China）BD 接入是目前最稳的路径。</li>
+          </ol>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta-button" href="data-collection.html">回到 UMI 数据采集专栏</a>
+          <a class="cta-button secondary" href="../index.html">回到首页</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

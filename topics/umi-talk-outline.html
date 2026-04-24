@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMI 技术分享 60 分钟讲者手册：从 Stanford 原版论文到国内千万小时级数据产线</title>
+  <meta name="description" content="一份可以直接拿去讲的 60 分钟 UMI 技术分享大纲：覆盖 UMI 原版论文、2024-2026 年 23 篇 arXiv 论文家族裂变、国内外商业化全景、戴盟/鹿明/灵心巧手/觅蜂/BeingBeyond/灵生/简智/灵初/智元等主要玩家、五个关键趋势，以及针对每一段预备的观众提问答复。">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="article-shell">
+    <div class="topbar">
+      <div class="topbar-title">UMI 60 分钟讲者手册</div>
+      <div class="topbar-links">
+        <a href="../index.html">首页</a>
+        <a href="data-collection.html">UMI 数据采集专栏</a>
+        <a href="data-collection-landscape.html">数据采集全景篇</a>
+        <a href="low-latency.html">低延时专题</a>
+      </div>
+    </div>
+
+    <header class="article-hero">
+      <a class="back-link" href="../index.html">返回首页</a>
+      <div class="eyebrow">Speaker's Playbook · 60 min</div>
+      <h1>UMI 技术分享 60 分钟讲者手册：从 Stanford 原版到国内千万小时级数据产线</h1>
+      <p class="article-lead">
+        如果下周一让我去讲 UMI 论文 + 商业化全景，我会按下面这份剧本讲。目标明确：
+        <strong>让观众在 60 分钟之内搞清楚三件事</strong>——UMI 到底是什么；它在 2024-2026 年怎样裂变成 23 篇 arXiv 论文家族；
+        以及为什么今天讨论具身智能数据问题，你绕不开戴盟、鹿明、灵心巧手、觅蜂、BeingBeyond、灵生、简智、灵初、智元这批公司。
+      </p>
+      <p class="article-lead">
+        这份手册不是 slide deck，是 <strong>slide 内容 + 口述话术 + 预判提问答复</strong>的三合一剧本。
+        每个小节都标注了<strong>时间点 · 核心讯息 · 建议 slide · 口述要点 · 可能提问</strong>，可以直接拷去 Keynote / 飞书 / Notion 做 slide。
+      </p>
+      <div class="article-meta">
+        <span>时长：60 分钟（含 8-10 分钟 Q&amp;A 缓冲）</span>
+        <span>目标观众：对具身智能感兴趣的算法 / 产品 / 投资 / BD 同学</span>
+        <span>前置阅读：<a class="inline-link" href="../papers/umi.html">UMI 原版笔记</a> · <a class="inline-link" href="data-collection.html">UMI 专栏</a> · <a class="inline-link" href="data-collection-landscape.html">全景篇</a></span>
+      </div>
+    </header>
+
+    <div class="article-stack">
+
+      <!-- ============ 0. 核心讯息 ============ -->
+      <section class="article-section">
+        <h2>0 · 这次分享的 "一句话总论"</h2>
+        <div class="summary-box">
+          <strong>如果只给观众记一句话：</strong>
+          <br>UMI 在 2024 年还只是 Stanford 一篇会议论文；到 2026 年 Q2 它已经裂变成 <strong>23 篇 arXiv 论文 + 至少 8 家走商业化路线的国内公司 + 千万小时级年数据产能规划</strong>的完整产业范式。
+          理解 UMI <em>这个家族</em>今天的样子，就等于理解了具身智能数据基础设施正在怎么被建立。
+        </div>
+        <p>
+          整场分享要服务这一句话，所以结构上<strong>重心前 1/3 在论文、后 2/3 在商业化</strong>——因为 UMI 这件事的新闻价值、2026 年的竞争价值，
+          主要在"学术范式 → 产业标准"这个跃迁上，而不是在某一篇新论文的技术细节上。
+        </p>
+      </section>
+
+      <!-- ============ 1. 时间轴 ============ -->
+      <section class="article-section">
+        <h2>1 · 60 分钟时间轴</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th style="width:10%;">时间</th>
+                <th style="width:20%;">段落</th>
+                <th>核心任务</th>
+                <th style="width:15%;">节奏感</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>00:00 – 03:00</td>
+                <td>开场 · 3 min</td>
+                <td>一个具体问题把大家拉进来："为什么 VLA 模型那么多，但能真正 zero-shot 跑 20 个任务的几乎只有几家？"</td>
+                <td>高能量、节奏快</td>
+              </tr>
+              <tr>
+                <td>03:00 – 10:00</td>
+                <td>Part 1 · UMI 是什么 · 7 min</td>
+                <td>一张图讲清 UMI 硬件 + 软件 + 动作表示 + latency matching 四件事。</td>
+                <td>慢而清楚</td>
+              </tr>
+              <tr>
+                <td>10:00 – 22:00</td>
+                <td>Part 2 · UMI 家族六大扩展 · 12 min</td>
+                <td>23 篇论文不是一篇一篇讲，而是按<strong>六个扩展轴</strong>合并讲：触觉 / 多视角 / 3D / 移动 / 跨本体 / 工程化。</td>
+                <td>每个轴 2 分钟，稳步推进</td>
+              </tr>
+              <tr>
+                <td>22:00 – 32:00</td>
+                <td>Part 3 · 数据规模跃迁 · 10 min</td>
+                <td>FastUMI-100K → RDT2 10,000h → 觅蜂 1,000 万 h 规划，让数字冲击观众。</td>
+                <td>数据流，让 slide 里的数字说话</td>
+              </tr>
+              <tr>
+                <td>32:00 – 47:00</td>
+                <td>Part 4 · 国内商业化全景 · 15 min</td>
+                <td>全场重头戏。按<strong>"设备厂 / 整机厂 / 国家队"</strong>三层讲，每家只讲 30-60 秒的一段话。</td>
+                <td>高密度，列表式</td>
+              </tr>
+              <tr>
+                <td>47:00 – 52:00</td>
+                <td>Part 5 · 国外对照 · 5 min</td>
+                <td>π0 / Figure Go-Big / Tesla / Skild 四家参照，讲清楚"国内和国外谁在走同一条路、谁在走不同的路"。</td>
+                <td>简短、不展开</td>
+              </tr>
+              <tr>
+                <td>52:00 – 56:00</td>
+                <td>Part 6 · 五个趋势 · 4 min</td>
+                <td>封装式判断，每个趋势一句话 + 一个佐证。</td>
+                <td>强判断、不铺陈</td>
+              </tr>
+              <tr>
+                <td>56:00 – 60:00</td>
+                <td>收尾 + Q&amp;A 引导 · 4 min</td>
+                <td>抛出一个有争议的观点（例如"<em>UMI 是今年的 ImageNet 时刻</em>"）引观众接话。</td>
+                <td>放松、开放</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="warning-box">
+          <strong>关于 Q&amp;A 缓冲：</strong>
+          Part 4 和 Part 5 我会控制得比计划紧 1-2 分钟，为 Q&amp;A 留出 8-10 分钟。<strong>不要试图在分享里把 23 篇论文每一篇都讲完</strong>——那是下一篇深度专题的任务，分享的任务是<strong>建立地图</strong>。
+        </div>
+      </section>
+
+      <!-- ============ 2. 开场 ============ -->
+      <section class="article-section">
+        <h2>2 · 开场（00:00 – 03:00）</h2>
+        <h3>核心讯息</h3>
+        <p>把听众从"又一篇 VLA 论文分享"的预期里拉出来——今天讲的<strong>不是模型，是数据</strong>。</p>
+
+        <h3>建议 slide（1 张）</h3>
+        <div class="detail-card">
+          <p><strong>Slide 标题：</strong>《一个你可能没注意的事实》</p>
+          <p><strong>正文三行：</strong></p>
+          <ul>
+            <li>2024 年，UMI 只是 Stanford 一篇 RSS 论文（<a class="inline-link" href="https://arxiv.org/abs/2402.10329" target="_blank" rel="noopener noreferrer">2402.10329</a>）。</li>
+            <li>2025-2026 年，它裂变成 <strong>23 篇 arXiv 论文</strong>。</li>
+            <li>背后跑出来 <strong>8+ 家</strong>走商业化的国内公司、<strong>千万小时级</strong>年数据产能规划。</li>
+          </ul>
+          <p><strong>底部小字：</strong>今天用 60 分钟，把这张版图讲清楚。</p>
+        </div>
+
+        <h3>我会这样说</h3>
+        <blockquote>
+          "在开始前先扔一个数字：过去一年具身智能领域的投入，<strong>大部分钱其实没砸在模型上，砸在了"怎么采集到模型训得动的数据"这件事上</strong>。
+          如果你只看 arXiv，可能会觉得 UMI 已经是 2024 年的老工作；但如果你看公司、看产线、看展会，会发现它正在变成所有人都绕不开的接口标准。
+          今天这 60 分钟就是为了让大家看清楚：<strong>UMI 这件事，是怎么从一篇论文变成一个产业范式的。</strong>"
+        </blockquote>
+      </section>
+
+      <!-- ============ 3. Part 1: UMI 是什么 ============ -->
+      <section class="article-section">
+        <h2>3 · Part 1：UMI 是什么（03:00 – 10:00，7 min）</h2>
+        <h3>核心讯息</h3>
+        <p>UMI 的真正创新不在硬件，而在<strong>它第一次把"数据质量 + 时间对齐 + 部署一致性"绑在一起讨论</strong>——这才是它能被后来者不断扩展的原因。</p>
+
+        <h3>建议 slide（2-3 张）</h3>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>Slide 1：UMI 的四件事，一张图讲完</h3>
+            <ul>
+              <li><strong>手持 gripper + GoPro</strong>——硬件无关于任何机器人。</li>
+              <li><strong>inference-time latency matching</strong>——训练数据延迟 = 部署延迟。</li>
+              <li><strong>relative-trajectory action representation</strong>——动作是相对轨迹，不是绝对关节角。</li>
+              <li><strong>hardware-agnostic policy</strong>——同一策略能跑到 UR5、xArm、Franka。</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h3>Slide 2：为什么这几件事放在一起突然就 work 了</h3>
+            <p>
+              单独拿出任一件都不稀奇，但<strong>四件事同时成立</strong>意味着第一次出现了一条"采集 → 训练 → 部署"跨本体可迁移的完整链路。
+              这就是为什么 UMI 后面能被各种方向扩展——因为它定义的是"<strong>接口</strong>"，不是"<strong>方法</strong>"。
+            </p>
+          </div>
+          <div class="detail-card">
+            <h3>Slide 3：作者线（可选）</h3>
+            <p>
+              <a class="inline-link" href="https://cheng-chi.github.io/" target="_blank" rel="noopener noreferrer">Cheng Chi</a> · Zhenjia Xu · Chuer Pan · Eric Cousineau · Benjamin Burchfiel · Siyuan Feng · Russ Tedrake · Shuran Song
+              ——大量 TRI / Stanford / Columbia 跨机构合作，这条线后面几乎每一篇 UMI 后续论文都能追到 <strong>Shuran Song</strong> 实验室。
+            </p>
+          </div>
+        </div>
+
+        <h3>我会这样说</h3>
+        <blockquote>
+          "我特别想强调一点：UMI 最被低估的贡献不是那个 3D 打印夹爪，而是<strong>把"latency matching"和"relative-trajectory"这两件事绑在一起</strong>。
+          因为这意味着你训练时用的人类数据，和你部署时用的机器人观测，<strong>在时间轴和坐标系上是对齐的</strong>——这是 UMI 能够 zero-shot 到多种机器人的根本原因。
+          后面我们会看到，UMI 家族里<strong>所有的扩展，本质上都是在不改这两件事的前提下，替换硬件或加新模态</strong>。"
+        </blockquote>
+
+        <h3>可能被问到的问题</h3>
+        <div class="insight-list">
+          <article>
+            <h3>Q：UMI 和 ALOHA / GELLO 的本质区别是什么？</h3>
+            <p>A：ALOHA / GELLO 是<strong>leader-follower 遥操作</strong>，数据里有一个真实机器人；UMI 是<strong>robot-free</strong>，手持设备直接采人手数据，训练时才投射到机器人上。成本、可扩展性、可部署性三件事都不一样。</p>
+          </article>
+          <article>
+            <h3>Q：人手和机器人夹爪差那么远，怎么 zero-shot？</h3>
+            <p>A：秘诀就是<strong>腕戴相机 + 相对轨迹</strong>。视角和动作都以夹爪末端为中心，所以当部署时换成机器人夹爪，视角和动作空间依然一致，模型看到的分布差异远比想象的小。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 4. Part 2: 六大扩展 ============ -->
+      <section class="article-section">
+        <h2>4 · Part 2：UMI 家族的六个扩展维度（10:00 – 22:00，12 min）</h2>
+        <h3>核心讯息</h3>
+        <p>
+          23 篇论文如果一篇一篇讲会讲到观众睡着。正确的讲法是：<strong>把它们按六个扩展维度聚合</strong>，让观众看到"UMI 被同时从六个方向往外长"。每个维度 2 分钟。
+        </p>
+
+        <h3>建议 slide：一张 2×3 矩阵图</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>维度</th>
+                <th>代表论文</th>
+                <th>一句话讲清</th>
+                <th>时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>① 触觉 / 力</strong></td>
+                <td><a class="inline-link" href="https://arxiv.org/abs/2509.14688" target="_blank" rel="noopener noreferrer">exUMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2601.14550" target="_blank" rel="noopener noreferrer">TacUMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2601.09988" target="_blank" rel="noopener noreferrer">UMI-FT</a> · <a class="inline-link" href="https://arxiv.org/abs/2604.10647" target="_blank" rel="noopener noreferrer">OmniUMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2510.13324" target="_blank" rel="noopener noreferrer">FARM</a> · <a class="inline-link" href="https://arxiv.org/abs/2512.09851" target="_blank" rel="noopener noreferrer">TacThru-UMI</a></td>
+                <td>RGB 不够用，开始加视触 / 力矩 / 双向力反馈——<strong>contact-rich 任务是 UMI 的下一个前沿</strong>。</td>
+                <td>2 min</td>
+              </tr>
+              <tr>
+                <td><strong>② 多视角 / 3D</strong></td>
+                <td><a class="inline-link" href="https://arxiv.org/abs/2509.18757" target="_blank" rel="noopener noreferrer">MV-UMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2604.14089" target="_blank" rel="noopener noreferrer">UMI-3D</a> · <a class="inline-link" href="https://arxiv.org/abs/2511.09302" target="_blank" rel="noopener noreferrer">UMIGen</a></td>
+                <td>腕戴相机的盲点、SLAM 的脆弱性、点云的缺失——这三个痛点催生了 <strong>第三人称视角 + LiDAR + 点云</strong>三条补丁。</td>
+                <td>2 min</td>
+              </tr>
+              <tr>
+                <td><strong>③ 移动 / 空中 / 水下</strong></td>
+                <td><a class="inline-link" href="https://arxiv.org/abs/2407.10353" target="_blank" rel="noopener noreferrer">UMI-on-Legs</a> · <a class="inline-link" href="https://arxiv.org/abs/2603.03243" target="_blank" rel="noopener noreferrer">HoMMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2510.02614" target="_blank" rel="noopener noreferrer">UMI-on-Air</a> · <a class="inline-link" href="https://arxiv.org/abs/2603.27012" target="_blank" rel="noopener noreferrer">UMI-Underwater</a></td>
+                <td>UMI 策略被直接迁移到四足 / 无人机 / 水下机器人——"<strong>UMI 的本体无关性是真的</strong>"。</td>
+                <td>2 min</td>
+              </tr>
+              <tr>
+                <td><strong>④ 跨本体 foundation model</strong></td>
+                <td><a class="inline-link" href="https://arxiv.org/abs/2602.03310" target="_blank" rel="noopener noreferrer">RDT2</a> · <a class="inline-link" href="https://arxiv.org/abs/2602.11885" target="_blank" rel="noopener noreferrer">Label-UMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2507.03930" target="_blank" rel="noopener noreferrer">RwoR</a></td>
+                <td>不再是单策略，而是用 10,000+ 小时 UMI 数据训 <strong>7B VLA 基础模型</strong>——真正开始走 "foundation" 这条线。</td>
+                <td>2 min</td>
+              </tr>
+              <tr>
+                <td><strong>⑤ 灵巧手化</strong></td>
+                <td>DexUMI（Stanford Real-Stanford）· <a class="inline-link" href="https://arxiv.org/abs/2604.13001" target="_blank" rel="noopener noreferrer">XRZero-G0</a> · UMI-Dex（灵心巧手）· BeingBeyond U1</td>
+                <td>从两指夹爪升级到多指灵巧手——<strong>从抓握时代走向操作时代</strong>。</td>
+                <td>2 min</td>
+              </tr>
+              <tr>
+                <td><strong>⑥ 工程化 / 数据规模</strong></td>
+                <td><a class="inline-link" href="https://arxiv.org/abs/2409.19499" target="_blank" rel="noopener noreferrer">FastUMI</a> · <a class="inline-link" href="https://arxiv.org/abs/2510.08022" target="_blank" rel="noopener noreferrer">FastUMI-100K</a> · <a class="inline-link" href="https://arxiv.org/abs/2512.04884" target="_blank" rel="noopener noreferrer">Hoi! Dataset</a> · <a class="inline-link" href="https://arxiv.org/abs/2506.09494" target="_blank" rel="noopener noreferrer">Agricultural UMI</a></td>
+                <td>UMI 从实验室系统→标准化数据产线。这是<strong>通往 Part 3 的桥</strong>。</td>
+                <td>2 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>我会这样说（口述 bridge）</h3>
+        <blockquote>
+          "我把它们按六个方向排好——大家会发现一个很有趣的事情：<strong>这六个方向的论文在时间上是交织出来的</strong>。
+          比如 2025 年 9 月 exUMI 还在做触觉的时候，MV-UMI 在做第三人称视角；2026 年 1 月 TacUMI / UMI-FT 还在触觉里打磨的时候，RDT2 已经在用 10,000 小时 UMI 数据训 VLA 基础模型了。
+          <strong>这不是一个按顺序演化的研究线，而是一个在六个方向同时并行推进的研究群。</strong>"
+        </blockquote>
+        <p>
+          如果时间允许，在讲第⑥维度时直接过渡到 Part 3——这两段在内容上是连续的。
+        </p>
+
+        <h3>可能被问到的问题</h3>
+        <div class="insight-list">
+          <article>
+            <h3>Q：这六个维度哪个最应该先关注？</h3>
+            <p>A：<strong>触觉 + 跨本体 foundation model</strong>。触觉是目前 UMI 没解决好的任务瓶颈；foundation model 决定了这些数据最终能不能被放大成 ImageNet 级别的资产。</p>
+          </article>
+          <article>
+            <h3>Q：有没有哪一个维度已经"收敛"了？</h3>
+            <p>A：<strong>移动 / 四足 / 空中这条线基本已经证明可行</strong>，但问题变成"代价 vs 收益"——在什么任务上值得把 UMI 搬到一个 quadruped 上，这是个产品问题不是算法问题。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 5. Part 3: 数据规模跃迁 ============ -->
+      <section class="article-section">
+        <h2>5 · Part 3：数据规模从千小时跃迁到千万小时（22:00 – 32:00，10 min）</h2>
+        <h3>核心讯息</h3>
+        <p>
+          <strong>让 slide 上的数字冲击观众</strong>。过去两年具身数据的增长速率比模型层面的任何进步都快——而这个数据跃迁正是 UMI 能从论文走到产业的真正理由。
+        </p>
+
+        <h3>建议 slide：一张增长曲线</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>数据节点</th>
+                <th>谁</th>
+                <th>数据量</th>
+                <th>信号</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2024-02</td>
+                <td>UMI 原版</td>
+                <td>Stanford</td>
+                <td>~百小时</td>
+                <td>起点</td>
+              </tr>
+              <tr>
+                <td>2024-09</td>
+                <td>FastUMI</td>
+                <td>上海 AI Lab + 鹿明</td>
+                <td>10,000 轨迹 / 22 任务</td>
+                <td>学术界第一次拉到万轨迹级</td>
+              </tr>
+              <tr>
+                <td>2025-10</td>
+                <td>FastUMI-100K</td>
+                <td>上海 AI Lab + 鹿明</td>
+                <td>100k+ 轨迹 / 54 任务 / ~600h</td>
+                <td>逼近 foundation-model 级</td>
+              </tr>
+              <tr>
+                <td>2025-12</td>
+                <td>Psi-SynEngine 发布 · Psi-SynNet-v0</td>
+                <td>灵初智能</td>
+                <td>发布时 ~10 万小时</td>
+                <td>第一次把外骨骼手套数据拉到 10⁵ h</td>
+              </tr>
+              <tr>
+                <td>2026-01</td>
+                <td>Hoi! Dataset</td>
+                <td>ETH + Freiburg + MSR</td>
+                <td>3,048 序列 / 381 铰接物体 / 4 种 embodiment</td>
+                <td>引入"跨 embodiment 对齐"评测基准</td>
+              </tr>
+              <tr>
+                <td>2026-02</td>
+                <td>RDT2</td>
+                <td>清华朱军组</td>
+                <td><strong>10,000+ 小时 UMI 数据</strong> · 7B VLM</td>
+                <td>UMI 数据第一次被喂给 VLA foundation model</td>
+              </tr>
+              <tr>
+                <td>2026 Q1</td>
+                <td>FastUMI 全家桶 · 数据超市</td>
+                <td>鹿明机器人</td>
+                <td>已交付 100 万条 · 目标百万小时</td>
+                <td>数据从"训练资产"转为"数据商品"</td>
+              </tr>
+              <tr>
+                <td>2026-04</td>
+                <td>MEgo 系列发布</td>
+                <td>觅蜂科技（智元孵化）</td>
+                <td><strong>2026 目标 1,000 万小时 / 2030 目标 100 亿小时</strong></td>
+                <td>"采集即训练"的工业化命题被首次提出</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>我会这样说</h3>
+        <blockquote>
+          "两年时间，具身数据做了一件非常反直觉的事情——<strong>从百小时到千万小时，跨了 5 个数量级</strong>。
+          对比一下大模型：GPT-2 到 GPT-4 数据是 10³-10⁴ token 到 10¹² token，花了 5 年才跨 8 个数量级。<strong>具身数据的增长斜率是同等速度的两倍</strong>。
+          这背后真正的推动力是什么？不是学术界，是<strong>产业界发现 UMI 的硬件接口可以被量产</strong>——2024 年 FastUMI 做到 10,000 轨迹，是第一次学术界发出信号说"这件事可以上规模"；
+          到 2026 年觅蜂说要做 1,000 万小时，是产业界反过来告诉学术界"这件事应该上规模"。<strong>论文和产线，第一次在时间轴上同步了</strong>。"
+        </blockquote>
+
+        <h3>可能被问到的问题</h3>
+        <div class="insight-list">
+          <article>
+            <h3>Q：1,000 万小时和 Psi-SynEngine 10 万小时之间差 100 倍，质量怎么保证？</h3>
+            <p>A：这是所有产业数据方案都要回答的问题。觅蜂走的是<strong>毫米级 + 亚毫秒级同步 + 300° 全景</strong>的硬件规格；鹿明走的是"8 道工业级数据评估，95% 有效率"。但<strong>质量和规模的 tradeoff 仍是今年最大的不确定性之一</strong>，这也是我在 Part 6 会点出的一个风险。</p>
+          </article>
+          <article>
+            <h3>Q：RDT2 训了 10,000 小时 UMI 数据，它比 π0 强吗？</h3>
+            <p>A：不同 benchmark 上互有优劣，但 RDT2 的<strong>独特贡献是 zero-shot 跨本体</strong>——同一个模型直接换机器人，这是 π0 还没完全做到的。<strong>这件事的战略意义比 benchmark 分数更重要</strong>。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 6. Part 4: 国内商业化 ============ -->
+      <section class="article-section">
+        <h2>6 · Part 4：国内商业化全景（32:00 – 47:00，15 min）· 全场重头戏</h2>
+        <h3>核心讯息</h3>
+        <p>
+          把国内玩家按<strong>"设备厂 / 整机厂 / 国家队"</strong>三层摆开，让观众看到今天这个赛道<strong>不是一两家独占，而是三条产业线并行</strong>。
+          每家公司我会只讲 30-60 秒，一句话讲清"它是谁、它做了什么、它和其他家的差异点"。
+        </p>
+
+        <h3>三层结构图（一张大 slide）</h3>
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>第一层：设备厂 · "卖铲人" · 7 家</h3>
+            <p>不做整机，专做采集硬件 / 手套 / 数据商品。</p>
+            <ul>
+              <li><strong>戴盟 Daimon Robotics</strong></li>
+              <li><strong>简智 Jianzhi Robotics</strong></li>
+              <li><strong>鹿明 Lumos Robotics</strong></li>
+              <li><strong>觅蜂 Mifeng（智元孵化）</strong></li>
+              <li><strong>灵心巧手 LinkerBot</strong></li>
+              <li><strong>灵生 LivSyn Robotics</strong></li>
+              <li><strong>BeingBeyond 智在无界</strong></li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h3>第二层：整机厂 + 自建数据 · 4 家</h3>
+            <p>做人形 / 双臂本体，同时自建数采管线与数据集。</p>
+            <ul>
+              <li><strong>智元机器人 AgiBot</strong> · AgiBot World 100 万轨迹</li>
+              <li><strong>千寻智能</strong> · 目标 100 万小时</li>
+              <li><strong>灵初智能 PsiBot</strong> · Psi-SynEngine 10 万小时</li>
+              <li><strong>银河通用 Galbot</strong> · 星坊合成金字塔</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h3>第三层：国家队 / 平台级 · 3+ 个</h3>
+            <p>不是单一公司，是基础设施级项目。</p>
+            <ul>
+              <li><strong>AgiBot World</strong>（智元 + 上海 AI Lab 联合发布）</li>
+              <li><strong>RoboMIND</strong>（北大 + 北京人形中心）</li>
+              <li><strong>白虎-VTouch</strong>（国地中心 · 专做触觉）</li>
+              <li><strong>傅利叶 ActionNet</strong>（3 万+ 真机轨迹）</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>每家公司的 30-60 秒讲稿（准备好逐字稿，临场只需要看关键词）</h3>
+
+        <h4 style="margin-top:20px;">▼ 第一层：设备厂</h4>
+        <div class="insight-list">
+          <article>
+            <h3>戴盟 Daimon Robotics（<a class="inline-link" href="https://www.dmrobot.com/" target="_blank" rel="noopener noreferrer">dmrobot.com</a>）· 30 秒</h3>
+            <p>"深圳宝安的公司，DM-Tac 系列视触传感器是国内最像 GelSight 的一条线；Sparky 外骨骼 + DM-EXton2 遥操采集是面向工厂场景的一整套数采方案。重点：<strong>触觉是他们真正的壁垒</strong>。商务邮箱 <a class="inline-link" href="mailto:info@dmrobot.com">info@dmrobot.com</a>。"</p>
+          </article>
+          <article>
+            <h3>简智 Jianzhi Robotics · 40 秒</h3>
+            <p>"北京中关村智造大街的数采专精公司，产品三件套：<strong>Gen DAS 采集 + Gen Matrix 训练平台 + Gen Controller 部署</strong>。Gen DAS Ego 第一视角设备 270° 视野、轻量化。4 个月完成三轮融资、超 2 亿，服务 30+ 公司、订单破万。<strong>他们走的是"产品 + 产线"双轨</strong>，和纯卖设备的厂家不一样。"</p>
+          </article>
+          <article>
+            <h3>鹿明 Lumos Robotics（<a class="inline-link" href="https://fastumi.com/" target="_blank" rel="noopener noreferrer">fastumi.com</a>）· 60 秒</h3>
+            <p>"深圳宝安的 UMI 系第一名。产品是 <strong>FastUMI 全家桶</strong>——Pro（量产适配 90% 机械臂）、Ego（第一人称 3mm 定位）、Go（背包形态）、Touch（6 轴协作臂）；已交付 100 万条数据，2026 目标全国投放 1 万台背包。<strong>关键</strong>：他们还上线了"FastUMI Pro 数据超市"——标准化、明码标价的数据商品。这是全球第一个真正做到'数据作为商品在市场里交易'的玩家。商务邮箱 <a class="inline-link" href="mailto:bd@lumosbot.tech">bd@lumosbot.tech</a>。"</p>
+          </article>
+          <article>
+            <h3>觅蜂 Mifeng（智元孵化）· 60 秒</h3>
+            <p>"这是全场最有野心的一家。2026 年 2 月才注册，4 月发布 MEgo 系列——<strong>MEgo Gripper（采集夹爪）+ MEgo View（头戴 300° 全景）+ MEgo Engine（数据治理平台）</strong>。CEO 姚卯青提出"数据与算力一样成为 AI 基础设施"。<strong>产能目标：2026 年 1,000 万小时、2030 年百亿小时</strong>。轻资产模式（加盟 + 众包 + 代工）。他们目前没有独立官网，但背后站的是智元——这是这一家公司的战略分量。"</p>
+          </article>
+          <article>
+            <h3>灵心巧手 LinkerBot（<a class="inline-link" href="https://linkerbot.cn" target="_blank" rel="noopener noreferrer">linkerbot.cn</a>）· 45 秒</h3>
+            <p>"北京中嘉大厦。2026 年 3 月发布<strong>业内首个开源灵巧手 UMI</strong>——UMI-Dex，采集器结构与自研 LinkerHand L6 完全同构，关节数据直接用于训练。他们的打法和 Stanford DexUMI / BeingBeyond U1 形成了"学术开源 vs 商业闭源"的对比组。商务 <a class="inline-link" href="mailto:business@linkerbot.cn">business@linkerbot.cn</a>。"</p>
+          </article>
+          <article>
+            <h3>灵生 LivSyn Robotics（<a class="inline-link" href="https://www.livsynrobotics.com/" target="_blank" rel="noopener noreferrer">livsynrobotics.com</a>）· 45 秒</h3>
+            <p>"北京海淀的一家<strong>双线玩家</strong>——既做 L0 / L1 人形机器人本体，也做 LivUMI 万元级数采方案。官网首页主 CTA 就是"探索 LivUMI"；自研具身模型 S0 覆盖教育科研 / 巡检导览 / 智能制造等场景。<strong>把本体和采集一起做</strong>，是除了智元 + 觅蜂之外最明确的一条竖直整合路线。"</p>
+          </article>
+          <article>
+            <h3>BeingBeyond 智在无界（<a class="inline-link" href="https://beingbeyond.com/" target="_blank" rel="noopener noreferrer">beingbeyond.com</a>）· 60 秒</h3>
+            <p>"北京鼎好大厦。产品线：<strong>Being-H 家族大模型 + UniCraftor 数据 + U1 全球首款 Real DexUMI</strong>。U1 是 11 关节灵巧手（6 主动 5 被动），动态追踪精度 &lt; 1mm，配套掌心遥操手套——把 DexUMI 从学术原型变成可量产产品。<strong>Being-H0.5 + UniCraftor 是国内第一家 "human-video 预训练 + 跨本体迁移"真正跑通的</strong>。采购：<a class="inline-link" href="mailto:sales@beingbeyond.com">sales@beingbeyond.com</a>。"</p>
+          </article>
+        </div>
+
+        <h4 style="margin-top:20px;">▼ 第二层：整机厂 + 自建数据</h4>
+        <div class="insight-list">
+          <article>
+            <h3>智元 AgiBot · 45 秒</h3>
+            <p>"上海发家。智元的价值不只是本体，而是<strong>自建 + 开放并存的双模数据战略</strong>——一方面发布 AgiBot World（100 万轨迹级开源数据集），另一方面孵化觅蜂做外部采集。<strong>国内唯一一家同时能做"我自己训 + 我还给别人卖数据"两件事的公司</strong>。"</p>
+          </article>
+          <article>
+            <h3>千寻智能 · 30 秒</h3>
+            <p>"已积累 20 万小时，目标 100 万小时。走的是"先建数据再训模型"的大模型路线。公开资料相对少，但数据规模是国内第一梯队。"</p>
+          </article>
+          <article>
+            <h3>灵初 PsiBot · Psi-SynEngine · 45 秒</h3>
+            <p>"<strong>全球首个灵巧手真实世界具身数采引擎</strong>（2025-12 发布）。硬件：62+ 自由度外骨骼触觉手套，21 关节 + 全手触觉；数据集：Psi-SynNet-v0 ~10 万小时，目标百万小时；成本：仅是真机遥操的 1/10。完成 20 亿融资。"</p>
+          </article>
+          <article>
+            <h3>银河通用 Galbot · 30 秒</h3>
+            <p>"走的是仿真为主的路线——<strong>星坊合成数据金字塔</strong>，仿真打底 + 少量真机微调。是这个名单里合成数据占比最重的玩家，技术路线上和 NVIDIA GR00T 更接近。"</p>
+          </article>
+        </div>
+
+        <h4 style="margin-top:20px;">▼ 第三层：国家队 / 平台级数据</h4>
+        <div class="insight-list">
+          <article>
+            <h3>AgiBot World · RoboMIND · 白虎-VTouch · 傅利叶 ActionNet · 40 秒</h3>
+            <p>"这些不是公司在做，是国家机构或开源联盟在做：<strong>AgiBot World 100 万轨迹</strong>、<strong>RoboMIND 107k+ 轨迹</strong>（北大 + 北京人形中心）、<strong>白虎-VTouch 60k+ 分钟触觉</strong>（国地中心）、<strong>傅利叶 ActionNet 3 万+ 真机轨迹</strong>。它们共同构成了国内这个赛道的"公共数据底座"，任何创业公司都可以在上面起步。"</p>
+          </article>
+        </div>
+
+        <h3>我会这样说（Part 4 的转场）</h3>
+        <blockquote>
+          "我不打算在今天就把这 14 家每一家的细节都讲透——每一家都可以单独做一个小时分享。
+          今天我想让大家记住的只是<strong>这张三层结构图</strong>：
+          第一层卖铲子、第二层自建、第三层做底座。<strong>任何具身智能创业公司今天去融资、去 BD、去找客户，都绕不开这张图里的节点。</strong>"
+        </blockquote>
+      </section>
+
+      <!-- ============ 7. Part 5: 国外对照 ============ -->
+      <section class="article-section">
+        <h2>7 · Part 5：国外参考系（47:00 – 52:00，5 min）</h2>
+        <h3>核心讯息</h3>
+        <p>
+          不展开、不比较谁强谁弱，<strong>只回答一个问题：国外这条线上，哪些做法和国内同步、哪些明显不同？</strong>
+        </p>
+
+        <h3>建议 slide：2×2 矩阵</h3>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>玩家</th>
+                <th>定位</th>
+                <th>数据规模</th>
+                <th>和国内谁对标</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Physical Intelligence π0 / π0.5</strong></td>
+                <td>机器人基础模型 + 自建数据管线</td>
+                <td>~10,000h</td>
+                <td>类似<strong>灵初 + RDT2</strong>的组合</td>
+              </tr>
+              <tr>
+                <td><strong>Figure · Project Go-Big</strong></td>
+                <td>人形 + 纯人类视频 + VLM 预训练</td>
+                <td>百万小时级人类视频</td>
+                <td>类似<strong>BeingBeyond Being-H</strong>思路</td>
+              </tr>
+              <tr>
+                <td><strong>Tesla Optimus</strong></td>
+                <td>垂直整合：动捕服 + 数据中心 + 自研本体</td>
+                <td>内部规模未公开，产线级</td>
+                <td>类似<strong>觅蜂 MEgo + 智元 AgiBot</strong>的组合</td>
+              </tr>
+              <tr>
+                <td><strong>Skild AI</strong></td>
+                <td>brain-only 公司：不做本体，只做通用模型</td>
+                <td>多源 + 人类视频</td>
+                <td>国内<strong>没有完全对标者</strong>——这是值得警惕的空白</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>我会这样说</h3>
+        <blockquote>
+          "对比下来很有意思：<strong>国内这条线在"设备 + 数据 + 整机"的横向覆盖度上反而比国外丰富</strong>——
+          美国这边 π0 基本是一家独大的 foundation model 路线，Figure 走的是整机 + 数据管线垂直整合，没有谁像国内这样出现了 7 家专做"卖铲子"的公司。
+          但在<strong>"brain-only 通用模型公司"这一层，国内今天还没有对标 Skild 的玩家</strong>——这是一个潜在的结构空白，值得后面密切观察。"
+        </blockquote>
+      </section>
+
+      <!-- ============ 8. Part 6: 五个趋势 ============ -->
+      <section class="article-section">
+        <h2>8 · Part 6：五个我相信会继续发生的趋势（52:00 – 56:00，4 min）</h2>
+        <h3>核心讯息</h3>
+        <p>
+          封装式判断，<strong>每条 40 秒</strong>，不展开论证，让 slide 上的关键词说话。
+        </p>
+
+        <div class="insight-list">
+          <article>
+            <h3>趋势 1：数据规模的斜率会继续超过模型规模的斜率</h3>
+            <p>"百小时 → 千万小时"的 5 个数量级跃迁不会停。<strong>未来 12 个月的关注点是谁先碰到第一个真实的 scaling law 拐点</strong>——RDT2 已经是一个信号。</p>
+          </article>
+          <article>
+            <h3>趋势 2：触觉会从可选项变成必选项</h3>
+            <p>TacUMI / UMI-FT / OmniUMI / FARM / exUMI 在短短半年内集中出现不是偶然。<strong>纯视觉 + 轨迹的 UMI 时代正在过去</strong>，下一轮 UMI 的标准接口会至少包含 RGB + 深度 + 触觉 + 力。</p>
+          </article>
+          <article>
+            <h3>趋势 3：灵巧手成为下一个竞争焦点</h3>
+            <p>DexUMI（Stanford 学术）· UMI-Dex（灵心巧手开源）· BeingBeyond U1（商用）· 灵初外骨骼手套——四家在 2025-2026 几乎同时发动。<strong>两指夹爪时代结束，多指操作时代开始</strong>。</p>
+          </article>
+          <article>
+            <h3>趋势 4：数据商品化正式开始</h3>
+            <p>鹿明 FastUMI Pro 数据超市 + 觅蜂轻资产加盟 + 灵初 Psi-SynEngine 的 1/10 成本——<strong>"数据"第一次在中文语境里被当作明码标价的商品来买卖</strong>。</p>
+          </article>
+          <article>
+            <h3>趋势 5：开源与闭源的分叉会比今天更明显</h3>
+            <p>学术侧（UMI-Dex / U-Arm / FastUMI / exUMI）继续走开源；产业侧（觅蜂 / BeingBeyond U1 / Tesla）会越来越闭源。<strong>"谁拥有高质量、可商用、可审计的数据"将成为下一阶段最硬的壁垒</strong>——比拥有模型还硬。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 9. 收尾 + Q&A ============ -->
+      <section class="article-section">
+        <h2>9 · 收尾 + Q&amp;A 引导（56:00 – 60:00，4 min）</h2>
+
+        <h3>收尾话术（30 秒）</h3>
+        <blockquote>
+          "如果今天这一小时只能带走一件事，我希望是这句话——<strong>UMI 已经不是一篇论文，而是一个正在成为标准的数据接口</strong>。
+          学 UMI 今天 ≈ 2012 年学 ImageNet、2017 年学 Transformer——不是学它的具体实现，而是学它所定义的那套数据范式。
+          接下来 12 个月，最有意思的事情会发生在今天这张图里的三层结构之间：<strong>学术家族里哪个维度会收敛、产业里哪家会先做出千万小时、哪家"brain-only 公司"会从空白里长出来</strong>。"
+        </blockquote>
+
+        <h3>主动抛出的有争议观点（引 Q&amp;A）</h3>
+        <div class="summary-box">
+          <strong>挑衅问题：</strong>"UMI 是今年的 ImageNet 时刻吗？"
+          <br>这句话足够有争议——支持方会说"数据规模 + 接口标准化已经满足"；反对方会说"UMI 只覆盖 manipulation 一条窄线"。<strong>不管观众怎么接话都能顺着走下去。</strong>
+        </div>
+
+        <h3>预备好的 Q&amp;A 答卷（被问到时不要现场想）</h3>
+        <div class="insight-list">
+          <article>
+            <h3>Q：这些公司哪家最值得 follow / 投资？</h3>
+            <p>A：<strong>不回答具体一家</strong>。可以说"如果要看学术趋势 follow 鹿明 + 灵心巧手（开源）+ BeingBeyond（商用）；如果看产能 follow 觅蜂；如果看整机竖直整合 follow 智元 + 灵生"。把选择权还给观众。</p>
+          </article>
+          <article>
+            <h3>Q：国内和美国差距到底有多大？</h3>
+            <p>A：<strong>在数据采集和设备工业化这一层国内领先，在 foundation model + brain-only 公司这一层美国领先</strong>。是一个结构性分工，不是简单的差距。</p>
+          </article>
+          <article>
+            <h3>Q：UMI 这种"人手 → 机器人"真的能 zero-shot 吗？</h3>
+            <p>A：技术上可以，但<strong>只有在"视角一致 + 动作空间相对化"的前提下</strong>。这是 Part 1 里讲过的，latency matching + relative-trajectory 是前提；没有这两件事，所谓的 zero-shot 就是运气。</p>
+          </article>
+          <article>
+            <h3>Q：合成数据和 UMI 数据是替代关系还是互补？</h3>
+            <p>A：<strong>互补</strong>。NVIDIA GR00T / RoboTwin / 银河通用星坊做的是 long tail 稀疏分布，UMI 做的是 head distribution 高质量。哪家最终赢，取决于谁能先做出"合成 + UMI"混合训练的最佳配比——RDT2 和 XRZero-G0（10:1 真 : 合）已经给出了第一批答案。</p>
+          </article>
+          <article>
+            <h3>Q：如果我是创业者，要做 UMI 方向，哪个切入点最有机会？</h3>
+            <p>A：<strong>避开已经拥挤的四个方向</strong>——两指夹爪、标准手持、触觉传感器、整机。<strong>仍有机会的三个方向</strong>：跨 embodiment 的数据评测标准、数据质量审计工具链、brain-only 跨本体模型。</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============ 10. Backup / 备用素材 ============ -->
+      <section class="article-section">
+        <h2>10 · Backup Slides：被深挖时用</h2>
+        <p>准备这些是为了<strong>被问到"能不能讲讲某某论文的细节"时，随手切进来</strong>，不打乱主节奏。</p>
+
+        <div class="definition-grid">
+          <div class="detail-card">
+            <h3>Backup A · UMI 原版硬件规格</h3>
+            <p>手持 gripper 尺寸 · GoPro Hero 9 · Sony 蓝牙夹爪 · ~$500 BOM。演示视频：<a class="inline-link" href="https://umi-gripper.github.io" target="_blank" rel="noopener noreferrer">umi-gripper.github.io</a>。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Backup B · RDT2 三阶段训练</h3>
+            <p>Stage 1：RVQ 把连续动作离散化 → Stage 2：flow-matching 融合视觉语言 → Stage 3：distillation 做实时推理。项目页：<a class="inline-link" href="https://rdt-robotics.github.io/rdt2/" target="_blank" rel="noopener noreferrer">rdt-robotics.github.io/rdt2</a>。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Backup C · FastUMI 全家桶对比</h3>
+            <p>Pro（量产型）vs Ego（即插即用 3mm）vs Go（背包）vs Touch（6 轴）——四款的适用场景和价格段。引用 <a class="inline-link" href="https://news.qq.com/rain/a/20260314A06Y3F00" target="_blank" rel="noopener noreferrer">腾讯新闻 AWE 2026 深度</a>。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Backup D · BeingBeyond U1 对比 DexUMI / 灵心巧手</h3>
+            <p>U1（11 关节 / 掌心遥操 / &lt;1mm） vs DexUMI（Stanford 学术开源）vs UMI-Dex（L6 同构开源）。三者分别是<strong>"商用量产 / 学术鼻祖 / 开源民主化"</strong>。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Backup E · 觅蜂 MEgo 产能目标的分解</h3>
+            <p>2026 目标 1,000 万小时 = 1 万台终端 × 1,000 小时 / 台 / 年。分解背后的假设：一台终端一年工作 200 天 × 5 小时，是"轻量众包"模式。</p>
+          </div>
+          <div class="detail-card">
+            <h3>Backup F · 全球 UMI 论文 23 篇清单</h3>
+            <p>直接带出 <a class="inline-link" href="data-collection.html">UMI 数据采集专栏</a>末尾的<a class="inline-link" href="data-collection.html#arxiv-index">arXiv 全索引章节</a>——这是我整理好的 Ctrl-F 级工具表。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 11. 讲者自查清单 ============ -->
+      <section class="article-section">
+        <h2>11 · 分享前的自查清单</h2>
+        <ol>
+          <li>每张 slide 的文字数 ≤ 30 字，不要把讲稿打到 slide 上。</li>
+          <li>23 篇论文的 arXiv ID 至少背下 <strong>UMI (2402.10329) / RDT2 (2602.03310) / FastUMI-100K (2510.08022) / UMI-3D (2604.14089)</strong> 这 4 个——被现场问链接时直接说。</li>
+          <li>8 家国内公司的 <strong>官网域名 + 一句话定位</strong>必须脱稿；地址和邮箱可以留到 Q&amp;A 或分享后发资料。</li>
+          <li>数据规模跃迁那张表的关键数字 <strong>10,000 / 100,000 / 10,000,000 / 10,000,000,000</strong>（10 万 / 10 万 / 千万 / 百亿小时）背下——这是全场最容易记、也最容易被引用的一段。</li>
+          <li>观众提问时<strong>不要假装全知</strong>，没读过的论文直接说"这篇我还没细读，听完咱们交换一下"。</li>
+          <li>控场：Part 4（国内商业化）最容易超时，提前在 slide 上打好每家 30 秒的 timer。</li>
+          <li>留 Q&amp;A 至少 8 分钟——这是观众记忆最深的一段。</li>
+        </ol>
+      </section>
+
+      <!-- ============ 12. 延伸资料 ============ -->
+      <section class="article-section">
+        <h2>12 · 分享结束后发给观众的 4 个链接</h2>
+        <p>一张总结 slide，把下面 4 个链接做成二维码贴上去：</p>
+        <div class="definition-grid">
+          <article class="nav-card">
+            <div class="kicker">延伸</div>
+            <h3><a class="paper-link" href="../papers/umi.html">UMI 原版论文笔记</a></h3>
+            <p>想深挖 UMI 本身的读这份。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">延伸</div>
+            <h3><a class="paper-link" href="data-collection.html">UMI 数据采集专栏</a></h3>
+            <p>含 UMI 家族 23 篇 arXiv 全索引 + 开源数据导航 + 方向对比。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">延伸</div>
+            <h3><a class="paper-link" href="data-collection-landscape.html">数据采集全景篇</a></h3>
+            <p>国内外 30+ 家玩家完整版 + 商务联系与采购渠道附录。</p>
+          </article>
+          <article class="nav-card">
+            <div class="kicker">延伸</div>
+            <h3><a class="paper-link" href="low-latency.html">低延时专题</a></h3>
+            <p>UMI 的 latency matching 在推理阶段如何延续——给硬核观众。</p>
+          </article>
+        </div>
+        <div class="cta-row">
+          <a class="cta-button" href="../index.html">回到首页</a>
+          <a class="cta-button secondary" href="data-collection.html">打开 UMI 专栏</a>
+          <a class="cta-button secondary" href="data-collection-landscape.html">打开全景篇</a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</body>
+</html>
